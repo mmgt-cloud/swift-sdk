@@ -1,6 +1,6 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-09 21:24 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-09 22:08 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
@@ -25,10 +25,11 @@ sources. The five server DTO suites, all five TypeScript client suites (84 tests
 and six Swift shared-fixture tests use the same 11 synthetic JSON files.
 
 Source compatibility was checked with the official Swift 6.2 toolchain and the
-Xcode 26.6 / iOS 26.5 SDK. This does not verify execution on iOS 26.0. The installed
+Xcode 26.6 / iOS 26.5 SDK. All 52 tests also passed on the official minimum
+iOS 26.0 runtime (23A343), with zero skips, at `bde34ce` on 21:42 UTC. The installed
 Xcode's Swift Testing framework requires the newer compiler, so minimum-compiler
-source builds and simulator test results are reported separately. A compatible
-minimum-runtime test environment remains required.
+source builds and minimum-runtime execution are separate evidence. The minimum
+runtime report is `.artifacts/tests-20260909T214229Z/report.json`.
 
 All 52 synthetic tests also passed on the signed physical iPhone running iOS 27,
 using Xcode 27 beta and the application-hosted target (21:22 UTC), with zero
@@ -48,9 +49,10 @@ archives were generated with warnings as errors. Reports are under local
 `.artifacts/compiler-20260909T211904Z` and `.artifacts/docs-20260909T212010Z`;
 physical evidence is `.artifacts/device-trusted-20260909T2122-report.json`.
 
-The full platform local gate passed at `314eb55`: required Go integrations,
-race/vet, TS, builds, 123 browser tests, audits, documentation and HA. A new gate
-is required for the subsequent trusted-device policy correction. The live iOS
+The full platform local gate passed at `7e0fa44`, including the trusted-device
+policy correction: required Go integrations,
+race/vet, TS, builds, 123 browser tests, audits, documentation and HA. A subsequent correction binds migration evidence to the selected Jobs and rejects
+a mismatched SDK before provider work; its fresh full gate is running. The live iOS
 suite compiles separately and fails if its explicit fixture is missing; it has
 not yet run against stage or production. An anonymous public consumer at
 `605fa3e` built all eight products and an Auth-only app without linking GRDB/SQLite.
@@ -63,3 +65,16 @@ complete live native device scenarios,
 release locally through stage then production, verify actual Panel ZIPs, publish
 immutable tags and GitHub Release, submit to Swift Package Index, verify hosted
 DocC and install the public package anonymously in a clean consumer.
+
+The separate `MMGTNative` device target now compiles for iPhone. It checks public
+AASA, native passkey registration/sign-in/reauthentication, system-browser HTTPS
+OIDC callback and subsequent refresh/profile. Its runner verifies signed domains
+and build hashes, records attempt ownership before starting, and requires stage
+acceptance before production. Real native execution remains pending. It does not
+replace MFA/provider/account-lifecycle or five-service tests. Public SDK library
+sources are unchanged by this acceptance-harness addition.
+
+The preceding full platform remediation completed both final environment gates
+at 21:43 UTC, including recovery, rotation, backups, retention, cleanup and final
+30-minute observation. That establishes the platform baseline; native changes
+have not been deployed or accepted yet.

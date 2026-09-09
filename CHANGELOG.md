@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add a separate signed-iPhone passkey and HTTPS OIDC acceptance target with
+  explicit Associated Domains, artifact checks and durable no-retry test intent.
+
 - Add opt-in account-bound trusted-device transport for password/MFA login,
   secure Keychain persistence and explicit forget. Plain transports reject
   `rememberDevice: true` instead of silently discarding the server cookie.

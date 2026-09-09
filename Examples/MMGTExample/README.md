@@ -62,3 +62,9 @@ sources and fixtures. Run it on a physical device with the SDK's
 This signs and installs the example/test host on that device. Its synthetic tests
 do not perform provider, domain-association or live passkey acceptance. Those
 scenarios require the configured example and a deployed native backend.
+
+The separate [native acceptance target](NativeTests/README.md) verifies actual
+passkeys and the system-browser HTTPS callback on a signed iPhone. Its runner
+sets `MMGT_EXAMPLE_ENTITLEMENTS` for the example host only and checks the signed
+domains. Ordinary builds leave that setting empty. Native acceptance requires
+explicit fixture ownership, operator-reviewed AASA and interaction on the phone.
