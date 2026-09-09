@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": "2026-09-09.native-1",
+  "source": "https://github.com/mmgt-cloud/swift-sdk",
+  "synthetic": true,
+  "fixtures": [
+    {
+      "file": "auth-enrollment.json",
+      "service": "auth",
+      "goType": "LoginResponse",
+      "swiftType": "LoginResult",
+      "sha256": "4630d34a5a1c526365ad04057e6dc1eb14d86a6b4aea7092c925c2cf7b2c0d70"
+    },
+    {
+      "file": "auth-mfa.json",
+      "service": "auth",
+      "goType": "TwoFARequiredResponse",
+      "swiftType": "LoginResult",
+      "sha256": "e5f3472e1563d6f8da562f35a687bba20dde865acaef688635eb988aae674756"
+    },
+    {
+      "file": "sync-pull.json",
+      "service": "sync",
+      "goType": "pullResponse",
+      "swiftType": "SyncPullResponse",
+      "sha256": "6ec3c1ac229b436e0fff5cf51c14772816f59fb18ad51285950a265bcd34421e"
+    },
+    {
+      "file": "sync-push.json",
+      "service": "sync",
+      "goType": "pushResponse",
+      "swiftType": "SyncPushResponse",
+      "sha256": "7aa674735ada4cf7797b08aa18529c621684e3344650451fd79edab45f7138e4"
+    },
+    {
+      "file": "sync-snapshot.json",
+      "service": "sync",
+      "goType": "snapshotResponse",
+      "swiftType": "SyncSnapshotResponse",
+      "sha256": "e622180382564fc4d33df63017a4d7b05adde58709f943ef8d46d638a4deb9d5"
+    },
+    {
+      "file": "billing-access.json",
+      "service": "billing",
+      "goType": "accessResponse",
+      "swiftType": "BillingAccessResponse",
+      "sha256": "0b57eb973c109ec001164b75ce707e67611ae3a81013914bd1440bdbf58c4baa"
+    },
+    {
+      "file": "billing-checkout.json",
+      "service": "billing",
+      "goType": "checkoutResponse",
+      "swiftType": "CheckoutResponse",
+      "sha256": "5f38f118c3faa0fff7d7b629f40da9c3afbe2904b4545e174b65f9780f701cbf"
+    },
+    {
+      "file": "ai-response.json",
+      "service": "ai",
+      "goType": "Response",
+      "swiftType": "AIResponse",
+      "sha256": "99ba957a7a46457e4f84cc79c18dceda2f3ddc406f149fe9ad014389929eec25"
+    },
+    {
+      "file": "ai-error.json",
+      "service": "ai",
+      "goType": "StreamEvent",
+      "swiftType": "AIStreamEvent",
+      "sha256": "389bbde7535c959e5eea276406de25b89899952d7dfeab00057fb7808dbd7a10"
+    },
+    {
+      "file": "realtime-event.json",
+      "service": "realtime",
+      "goType": "event",
+      "swiftType": "RealtimeEvent",
+      "sha256": "08b5f61fb40bf1ceda60b7410a01447095fd1636b2e7c6233a71384f53a73553"
+    },
+    {
+      "file": "realtime-ack.json",
+      "service": "realtime",
+      "goType": "ackConfirmedMessage",
+      "swiftType": "RealtimeMessage",
+      "sha256": "7af8c081dc247e2aaf62e406f85cc530a6d807fddd444683a984e5742fecd869"
+    }
+  ]
+}

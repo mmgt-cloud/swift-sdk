@@ -10,6 +10,8 @@ actor TestSocket: WebSocketConnection {
   var incoming: [JSONValue]
   var receivers: [CheckedContinuation<JSONValue, any Error>] = []
   var observers: [(Int, CheckedContinuation<Void, Never>)] = []
+  var receiveCalls = 0
+  var receiveObservers: [(Int, CheckedContinuation<Void, Never>)] = []
   var isClosed = false
   init(_ incoming: [JSONValue] = []) { self.incoming = incoming }
   func send(_ value: JSONValue) throws {
@@ -20,6 +22,10 @@ actor TestSocket: WebSocketConnection {
     for (_, observer) in ready { observer.resume() }
   }
   func receive() async throws -> JSONValue {
+    receiveCalls += 1
+    let ready = receiveObservers.filter { $0.0 <= receiveCalls }
+    receiveObservers.removeAll { $0.0 <= receiveCalls }
+    for (_, observer) in ready { observer.resume() }
     if !incoming.isEmpty { return incoming.removeFirst() }
     if isClosed { throw MMGTError.streamInterrupted }
     return try await withCheckedThrowingContinuation { receivers.append($0) }
@@ -34,6 +40,10 @@ actor TestSocket: WebSocketConnection {
   func waitForSend(_ index: Int) async {
     if sent.count > index { return }
     await withCheckedContinuation { observers.append((index, $0)) }
+  }
+  func waitForReceiveCall(_ count: Int) async {
+    if receiveCalls >= count { return }
+    await withCheckedContinuation { receiveObservers.append((count, $0)) }
   }
   func close() {
     isClosed = true

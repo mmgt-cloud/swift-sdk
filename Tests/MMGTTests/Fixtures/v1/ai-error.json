@@ -1,0 +1,9 @@
+{
+  "type": "response.error",
+  "requestId": "synthetic-request",
+  "error": {
+    "code": "provider_unavailable",
+    "message": "Synthetic provider failure",
+    "retryable": true
+  }
+}

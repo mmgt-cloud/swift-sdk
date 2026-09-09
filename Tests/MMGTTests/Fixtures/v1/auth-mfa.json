@@ -1,0 +1,6 @@
+{
+  "requires_2fa": true,
+  "message": "Verify your sign-in",
+  "temp_token": "synthetic-temp",
+  "method": "passkey"
+}

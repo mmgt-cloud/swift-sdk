@@ -85,8 +85,9 @@ public struct NativeOIDCConfiguration: Sendable {
           {
             result = .success(.authenticated(.init(accessToken: access, refreshToken: refresh)))
           } else {
-            result = .failure(
-              error ?? MMGTError.invalidResponse("OIDC did not return access and refresh tokens"))
+            let failure =
+              error ?? MMGTError.invalidResponse("OIDC did not return access and refresh tokens")
+            result = .failure(Self.isCancellation(failure) ? CancellationError() : failure)
           }
           Task { @MainActor in self?.complete(result, expected: expected) }
         }
@@ -94,6 +95,27 @@ public struct NativeOIDCConfiguration: Sendable {
     } onCancel: {
       Task { @MainActor in self.cancel() }
     }
+  }
+  nonisolated static func isCancellation(_ error: any Error, depth: Int = 0) -> Bool {
+    if error is CancellationError { return true }
+    let value = error as NSError
+    if value.domain == ASWebAuthenticationSessionError.errorDomain,
+      value.code == ASWebAuthenticationSessionError.canceledLogin.rawValue
+    {
+      return true
+    }
+    if value.domain == OIDGeneralErrorDomain,
+      [
+        OIDErrorCode.userCanceledAuthorizationFlow.rawValue,
+        OIDErrorCode.programCanceledAuthorizationFlow.rawValue,
+      ].contains(value.code)
+    {
+      return true
+    }
+    if depth < 3, let underlying = value.userInfo[NSUnderlyingErrorKey] as? any Error {
+      return isCancellation(underlying, depth: depth + 1)
+    }
+    return false
   }
   nonisolated static func validateDiscovery(
     _ metadata: JSONValue, configuration: ServiceConfiguration

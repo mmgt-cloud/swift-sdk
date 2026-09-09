@@ -54,10 +54,22 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
     return try await client.finishPasswordlessLogin(
       sessionID: begin.sessionId, credential: credential)
   }
+  /// Register a credential first, then verify it before activating passkey MFA.
+  /// Save the returned recovery codes and complete a fresh MFA sign-in afterwards.
+  public func enableTwoFactor(client: AuthClient) async throws -> TwoFAEnableResponse {
+    let options = try await client.beginPasskeyEnrollment()
+    let credential = try await getCredential(options: options)
+    return try await client.finishPasskeyEnrollment(credential: credential)
+  }
   public func verifyTwoFactor(tempToken: String, client: AuthClient) async throws -> LoginResult {
     let options = try await client.beginPasskey2FA(tempToken: tempToken)
     let credential = try await getCredential(options: options)
     return try await client.finishPasskey2FA(tempToken: tempToken, credential: credential)
+  }
+  public func reauthenticate(client: AuthClient) async throws -> ReauthenticationProof {
+    let options = try await client.beginPasskeyReauthentication()
+    let credential = try await getCredential(options: options)
+    return try await client.finishPasskeyReauthentication(credential: credential)
   }
   public func createCredential(options: JSONValue) async throws -> JSONValue {
     guard let key = options["publicKey"], key["rp"]?["id"]?.string == relyingPartyID,

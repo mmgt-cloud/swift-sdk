@@ -1,0 +1,5 @@
+{
+  "requires_2fa_setup": true,
+  "access_token": "synthetic-enrollment-access",
+  "refresh_token": "synthetic-enrollment-refresh"
+}

@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "mutation_id": "synthetic-one",
+      "collection": "synthetic_notes",
+      "record_id": "one",
+      "status": "applied",
+      "version": "9007199254740993"
+    },
+    {
+      "mutation_id": "synthetic-two",
+      "collection": "synthetic_notes",
+      "record_id": "two",
+      "status": "conflict",
+      "conflict_id": "synthetic-conflict"
+    },
+    {
+      "mutation_id": "synthetic-three",
+      "collection": "synthetic_notes",
+      "record_id": "three",
+      "status": "rejected",
+      "error": "schema_validation_failed"
+    }
+  ]
+}

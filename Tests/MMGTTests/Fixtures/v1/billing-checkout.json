@@ -1,0 +1,5 @@
+{
+  "checkout_session_id": "synthetic-checkout",
+  "url": "https://checkout.example.invalid/synthetic",
+  "status": "pending"
+}

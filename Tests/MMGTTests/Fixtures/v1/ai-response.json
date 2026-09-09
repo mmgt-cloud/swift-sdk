@@ -1,0 +1,22 @@
+{
+  "id": "synthetic-request",
+  "status": "requires_action",
+  "provider": "codex",
+  "model": "synthetic-model",
+  "text": "Synthetic partial text",
+  "toolCalls": [
+    {
+      "id": "synthetic-call",
+      "name": "synthetic_tool",
+      "arguments": {
+        "enabled": false,
+        "clear": null
+      }
+    }
+  ],
+  "usage": {
+    "inputTokens": 1,
+    "outputTokens": 2,
+    "totalTokens": 3
+  }
+}

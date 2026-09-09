@@ -31,7 +31,7 @@ public enum RealtimeMessage: Sendable, Equatable {
   case replayGap(channel: String, fromEventID: String)
   case acknowledged(channel: String, eventID: String, ackedAt: String)
   case presenceSnapshot(channel: String, users: [RealtimePresenceUser])
-  case presenceJoined(channel: String, userID: String)
+  case presenceJoined(channel: String, userID: String, connectionCount: Int?)
   case presenceLeft(channel: String, userID: String)
   case error(code: String, message: String)
   case unknown(JSONValue)
@@ -61,7 +61,10 @@ public enum RealtimeMessage: Sendable, Equatable {
       }
       self = .presenceSnapshot(channel: try string("channel"), users: try users.decode())
     case "presence_joined":
-      self = .presenceJoined(channel: try string("channel"), userID: try string("user_id"))
+      let count: Int? = try wire["connection_count"].map { try $0.decode() }
+      if let count, count < 1 { throw MMGTError.invalidResponse("Invalid presence count") }
+      self = .presenceJoined(
+        channel: try string("channel"), userID: try string("user_id"), connectionCount: count)
     case "presence_left":
       self = .presenceLeft(channel: try string("channel"), userID: try string("user_id"))
     case "error": self = .error(code: try string("code"), message: try string("message"))

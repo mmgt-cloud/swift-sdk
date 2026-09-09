@@ -52,18 +52,36 @@ active; iOS background execution is not guaranteed.
 Billing exposes the platform's existing Stripe contract. StoreKit and App Store
 purchase verification are outside the first release.
 
+See [privacy declarations](docs/privacy.md) for bundled manifests, transmitted
+data and the integrating application's responsibilities.
+
 ## Development
 
 All release checks run locally. GitHub Actions is not a release dependency.
 
 ```sh
 python3 scripts/test.py --destination 'platform=iOS Simulator,id=YOUR-SIMULATOR-ID'
+python3 scripts/docs.py
+python3 scripts/example.py
 ```
 
 The runner writes logs and result bundles under the ignored `.artifacts/`
 directory. Contract provenance and the operation mapping are in
 [`Contracts/platform.json`](Contracts/platform.json). Entries without service
 verification or test evidence are not considered accepted.
+
+Use `python3 scripts/check-compiler.py --swiftc /absolute/path/to/swiftc` to
+compile all eight products with a specific compiler. This is source compatibility
+against the selected Xcode SDK; it does not replace tests on the minimum runtime.
+The [SwiftUI example](Examples/MMGTExample/README.md) needs only public application
+configuration. Shared synthetic wire fixtures are bundled with the test target.
+
+For an unlocked physical device, use
+`python3 scripts/test-device.py --device-id YOUR-DEVICE-ID --team-id YOUR-TEAM-ID`.
+The runner generates an application-hosted test target and retains its xcresult.
+Use `--developer-dir` to select another installed Xcode for that run. The simulator
+and DocC runners also require `check-snippets.py` to pass, keeping all eight
+quickstarts identical to compiled example sources.
 
 ## License
 

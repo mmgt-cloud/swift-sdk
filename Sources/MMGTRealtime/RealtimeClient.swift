@@ -26,6 +26,8 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
   private var waiters: [UUID: CheckedContinuation<Void, any Error>] = [:]
   private var listeners: [UUID: AsyncThrowingStream<RealtimeMessage, any Error>.Continuation] = [:]
   private var subscriptions: [String: RealtimeSubscription] = [:]
+  private var subscriptionRevisions: [String: UUID] = [:]
+  private var presence: [String: [String: RealtimePresenceUser]] = [:]
   private var cursorState: [String: RealtimeCursor] = [:]
   private var ackOrder: [String: [String: UInt64]] = [:]
   private var confirmedOrder: [String: UInt64] = [:]
@@ -61,6 +63,13 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
     return stream
   }
   private func removeStateObserver(_ id: UUID) { stateObservers[id] = nil }
+  public func getSubscriptions() -> [RealtimeSubscription] {
+    subscriptions.values.sorted { $0.channel < $1.channel }
+  }
+  /// Observed presence for the current connection. Empty after disconnect until a new snapshot arrives.
+  public func getPresence(channel: String) -> [RealtimePresenceUser] {
+    Array((presence[channel] ?? [:]).values).sorted { $0.userID < $1.userID }
+  }
   public func messages() -> AsyncThrowingStream<RealtimeMessage, any Error> {
     let id = UUID()
     let (stream, continuation) = AsyncThrowingStream<RealtimeMessage, any Error>.makeStream(
@@ -163,7 +172,7 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
       for waiter in waiting { waiter.resume() }
       emit(message)
       for channel in subscriptions.keys.sorted() {
-        try await sendSubscription(channel, expected: expected)
+        _ = try await sendSubscription(channel, expected: expected)
       }
       return
     case .error(let code, let message):
@@ -175,6 +184,23 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
           APIError(status: 401, code: code, message: message), expected: expected, retry: false)
         return
       }
+    case .presenceSnapshot(let channel, let users):
+      guard subscriptions[channel]?.presence == true,
+        users.allSatisfy({ !$0.userID.isEmpty && $0.connectionCount > 0 }),
+        Set(users.map(\.userID)).count == users.count
+      else { throw MMGTError.invalidResponse("Invalid presence snapshot or subscription") }
+      presence[channel] = Dictionary(uniqueKeysWithValues: users.map { ($0.userID, $0) })
+    case .presenceJoined(let channel, let userID, let count):
+      guard subscriptions[channel]?.presence == true, !userID.isEmpty else {
+        throw MMGTError.invalidResponse("Presence arrived for an unsubscribed channel")
+      }
+      presence[channel, default: [:]][userID] = RealtimePresenceUser(
+        userID: userID, connectionCount: count ?? presence[channel]?[userID]?.connectionCount ?? 1)
+    case .presenceLeft(let channel, let userID):
+      guard subscriptions[channel]?.presence == true else {
+        throw MMGTError.invalidResponse("Presence arrived for an unsubscribed channel")
+      }
+      presence[channel]?[userID] = nil
     case .event(let event):
       guard subscriptions[event.channel] != nil else {
         throw MMGTError.invalidResponse("Event arrived for an unsubscribed channel")
@@ -227,6 +253,7 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
     let connection = socket
     socket = nil
     connectionID = nil
+    presence.removeAll()
     state = .closed
     let waiting = Array(waiters.values)
     waiters.removeAll()
@@ -253,15 +280,24 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
     await connection?.close()
   }
   public func subscribe(_ subscription: RealtimeSubscription) async throws {
+    try Task.checkCancellation()
     guard !permanent else { throw MMGTError.sessionChanged }
     subscriptions[subscription.channel] = subscription
-    if state == .open { try await sendSubscription(subscription.channel, expected: attempt) }
+    subscriptionRevisions[subscription.channel] = UUID()
+    presence[subscription.channel] = nil
+    if state == .open {
+      let sent = try await sendSubscription(subscription.channel, expected: attempt)
+      if !sent { throw CancellationError() }
+    }
   }
-  private func sendSubscription(_ channel: String, expected: UUID) async throws {
-    guard let subscription = subscriptions[channel] else { return }
+  private func sendSubscription(_ channel: String, expected: UUID) async throws -> Bool {
+    guard let subscription = subscriptions[channel], let revision = subscriptionRevisions[channel]
+    else { return false }
     let cursor = try await cursors.load(identity: identity, channel: channel)
     let grant = try await subscription.grantProvider?(channel)
-    guard attempt == expected, subscriptions[channel] != nil else { throw MMGTError.sessionChanged }
+    try Task.checkCancellation()
+    guard attempt == expected else { throw MMGTError.sessionChanged }
+    guard subscriptionRevisions[channel] == revision else { return false }
     var body: [String: JSONValue] = [
       "type": "subscribe", "channel": .string(channel), "presence": .bool(subscription.presence),
       "ack_mode": "manual",
@@ -272,9 +308,12 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
     ackOrder[channel] = [:]
     confirmedOrder[channel] = 0
     try await send(.object(body))
+    return true
   }
   public func unsubscribe(_ channel: String) async throws {
     subscriptions[channel] = nil
+    subscriptionRevisions[channel] = nil
+    presence[channel] = nil
     cursorState[channel] = nil
     ackOrder[channel] = nil
     confirmedOrder[channel] = nil

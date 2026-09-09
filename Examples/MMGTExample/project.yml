@@ -1,0 +1,65 @@
+name: MMGTExample
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: '26.0'
+packages:
+  MMGT:
+    path: ../..
+targets:
+  MMGTDeviceTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ../../Tests/MMGTTests
+        excludes: [Fixtures]
+      - path: ../../Tests/MMGTTests/Fixtures
+        type: folder
+        buildPhase: resources
+      - DeviceTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cloud.mmgt.sdkexample.tests
+        SWIFT_VERSION: '6.0'
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/MMGTExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MMGTExample
+        BUNDLE_LOADER: $(TEST_HOST)
+    dependencies:
+      - target: MMGTExample
+      - package: MMGT
+        products: [MMGTCore, MMGTAuth, MMGTBilling, MMGTRealtime, MMGTSync, MMGTSyncSQLite, MMGTAI, MMGTSwiftUI]
+  MMGTExample:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+      - ../../Tests/MMGTTests/CompiledQuickstarts.swift
+      - path: Configuration.sample.json
+        buildPhase: resources
+      - path: Configuration.json
+        optional: true
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cloud.mmgt.sdkexample
+        SWIFT_VERSION: '6.0'
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: '1,2'
+    dependencies:
+      - package: MMGT
+        products: [MMGTCore, MMGTAuth, MMGTBilling, MMGTRealtime, MMGTSync, MMGTSyncSQLite, MMGTAI, MMGTSwiftUI]
+schemes:
+  MMGTExample:
+    build:
+      targets:
+        MMGTExample: all
+        MMGTDeviceTests: [test]
+    test:
+      targets: [MMGTDeviceTests]

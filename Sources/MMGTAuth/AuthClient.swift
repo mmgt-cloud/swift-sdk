@@ -11,19 +11,30 @@ public struct AuthTokens: Codable, Sendable, Equatable, CustomStringConvertible 
   public var description: String { "AuthTokens(<redacted>)" }
 }
 
-public enum LoginResult: Sendable, Equatable {
+public enum LoginResult: Sendable, Equatable, CustomStringConvertible {
   case authenticated(AuthTokens)
   case requiresTwoFactor(tempToken: String, method: String, message: String?)
   case requiresTwoFactorSetup(AuthTokens, message: String?)
   case passwordExpired
+
+  public var description: String {
+    switch self {
+    case .authenticated: "LoginResult.authenticated(<redacted>)"
+    case .requiresTwoFactor: "LoginResult.requiresTwoFactor(<redacted>)"
+    case .requiresTwoFactorSetup: "LoginResult.requiresTwoFactorSetup(<redacted>)"
+    case .passwordExpired: "LoginResult.passwordExpired"
+    }
+  }
 
   static func parse(_ response: JSONValue, setupMessage: Bool = false) throws -> Self {
     if let access = response["access_token"]?.string, !access.isEmpty,
       let refresh = response["refresh_token"]?.string, !refresh.isEmpty
     {
       let tokens = AuthTokens(accessToken: access, refreshToken: refresh)
-      if setupMessage, let message = response["message"]?.string, response["requires_2fa"] == nil {
-        return .requiresTwoFactorSetup(tokens, message: message)
+      if response["requires_2fa_setup"]?.bool == true
+        || (setupMessage && response["message"]?.string != nil && response["requires_2fa"] == nil)
+      {
+        return .requiresTwoFactorSetup(tokens, message: response["message"]?.string)
       }
       return .authenticated(tokens)
     }
@@ -61,21 +72,22 @@ public struct AuthClient: Sendable {
         authenticated: false), setupMessage: true)
   }
   public func verifyMagicLink(input: MagicLinkVerifyRequest) async throws -> LoginResult {
-    try LoginResult.parse(
+    if let appID = input.appId, appID != configuration.appID { throw MMGTError.sessionChanged }
+    return try LoginResult.parse(
       await http.request(
         JSONValue.self, path: ["magic-link", "verify"], method: "POST", body: .encoding(input),
-        authenticated: false))
+        authenticated: false), setupMessage: true)
   }
   public func confirmMerge(input: MergeAccountRequest) async throws -> LoginResult {
     try LoginResult.parse(
       await http.request(
-        JSONValue.self, path: ["auth", "merge", "confirm"], method: "POST", body: .encoding(input),
+        JSONValue.self, path: ["merge", "confirm"], method: "POST", body: .encoding(input),
         authenticated: false))
   }
   public func verify2FALogin(input: TwoFALoginRequest) async throws -> LoginResult {
     try LoginResult.parse(
       await http.request(
-        JSONValue.self, path: ["2fa", "login"], method: "POST", body: .encoding(input),
+        JSONValue.self, path: ["2fa", "login-verify"], method: "POST", body: .encoding(input),
         authenticated: false))
   }
   public func refreshToken(_ token: String) async throws -> AuthTokens {

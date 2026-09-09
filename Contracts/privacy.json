@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "source": "https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests",
+  "modules": {
+    "MMGTCore": [],
+    "MMGTAuth": [
+      "Name",
+      "EmailAddress",
+      "PhoneNumber",
+      "UserID",
+      "OtherDataTypes"
+    ],
+    "MMGTBilling": [
+      "UserID",
+      "PurchaseHistory",
+      "OtherUserContent",
+      "EmailAddress"
+    ],
+    "MMGTRealtime": [
+      "UserID",
+      "OtherUserContent"
+    ],
+    "MMGTSync": [
+      "UserID",
+      "OtherUserContent"
+    ],
+    "MMGTSyncSQLite": [],
+    "MMGTAI": [
+      "UserID",
+      "OtherUserContent",
+      "PhotosorVideos"
+    ],
+    "MMGTSwiftUI": []
+  },
+  "scope": "Optional supported operations; app-specific JSON/file content and provider handling require application review. No tracking or independent telemetry."
+}

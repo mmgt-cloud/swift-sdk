@@ -1,0 +1,13 @@
+version: 1
+builder:
+  configs:
+    - platform: ios
+      documentation_targets:
+        - MMGTCore
+        - MMGTAuth
+        - MMGTBilling
+        - MMGTRealtime
+        - MMGTSync
+        - MMGTSyncSQLite
+        - MMGTAI
+        - MMGTSwiftUI

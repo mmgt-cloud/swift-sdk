@@ -61,7 +61,7 @@ extension AuthClient {
   }
 
   public func validateToken() async throws -> ValidateTokenResponse {
-    try await http.request(path: ["auth", "validate"], authenticated: true)
+    try await http.request(path: ["validate"], authenticated: true)
   }
 
   public func listSocialAccounts() async throws -> SocialAccountListResponse {
@@ -198,6 +198,12 @@ extension AuthClient {
       path: ["passkey", "register", "finish"], method: "POST",
       body: ["name": try .encoding(name), "credential": try .encoding(credential)],
       authenticated: true)
+  }
+
+  public func finishPasskeyEnrollment(credential: JSONValue) async throws -> TwoFAEnableResponse {
+    try await http.request(
+      path: ["2fa", "passkey", "setup", "finish"], method: "POST",
+      body: ["credential": try .encoding(credential)], authenticated: true)
   }
 
   public func beginPasswordlessLogin() async throws -> PasskeyLoginBeginResponse {

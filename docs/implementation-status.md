@@ -1,27 +1,42 @@
 # Implementation and acceptance
 
-Development started on 2026-09-09. This file reports work in progress, not a
-release or a statement of environment readiness.
+Checkpoint: 2026-09-09 19:15 UTC. Development evidence, not a release or a
+statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
-| Core transport and wire values | Implemented; further hardening in progress | Initial simulator tests passed | Pending | Pending |
-| Auth HTTP, session and Keychain | HTTP/session/Keychain and native OIDC/passkey adapters implemented; device acceptance pending | Logout/refresh fencing, shared refresh, expired restore and native payload tests passed | Pending | Pending |
-| Billing | User endpoint client implemented | DTO checks passed; endpoint matrix pending | Pending | Pending |
-| Realtime | Initial implementation complete | Ready deadline, identity, ACK/dedupe and cursor CAS tests passed | Pending | Pending |
-| Sync and SQLite | Initial implementation complete | Six store/recovery tests passed | Pending | Pending |
-| AI | Initial implementation complete | Sticky tool loop and interrupted-stream tests passed | Pending | Pending |
-| SwiftUI | Lifecycle adapter and observable state for five services implemented | Simulator build passed | Pending | Pending |
-| Example application and DocC | Pending | Pending | Pending | Pending |
-| Platform native Auth and ZIP | In progress in platform repository | Public-client, code-consumption and consent-context PostgreSQL/Redis/race tests passed | Pending | Pending |
+| Eight package products | Implemented; operation review continues | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Pending | Pending |
+| Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Session/refresh/logout races, storage failures, restricted MFA, callback proofs and cancellation pass | Pending | Pending |
+| Billing | User endpoint client | Shared catalog/access/checkout DTO and request checks; full endpoint acceptance pending | Pending | Pending |
+| Realtime | WebSocket, deadlines, reconnect, ACK/cursors, deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full failure matrix pending | Pending | Pending |
+| Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery tests pass | Pending | Pending |
+| AI | HTTP, WebSocket, tools, files and cancellation | Shared response/error fixtures, one-socket tool loop, no duplicate execution and interrupted output tests pass | Pending | Pending |
+| SwiftUI and example | Observable state, lifecycle, five service tabs and account actions | Example and eight byte-checked DocC quickstarts build with Swift 6.2 on both simulator architectures | Pending | Pending |
+| Privacy | Eight SDK manifests and app integration guidance | Actual built app contains the eight manifests plus AppAuth, AppAuthCore and GRDB manifests | App disclosures require review | App disclosures require review |
+| DocC | Eight catalogs and local generator | Eight updated archives and compiled quickstarts generated with warnings treated as errors | Not applicable | Public hosting pending |
+| Platform native Auth, Panel and ZIP | Implemented in separate platform worktree | Auth PostgreSQL/Redis and race tests; 15 hosted-browser tests in three engines; Panel guards/audits/typecheck; 103 ZIP tests including 64 environment/resource combinations | Pending | Pending |
 
-Local evidence so far: Xcode 26.6 / Swift 6.3.3; 25 Swift tests on iOS Simulator.
-Latest simulator test run: 2026-09-09 15:52 UTC, iOS 26.5.
-Minimum compiler/runtime, physical-device, public-package installation and
-full environment checks have not yet passed. No stable tag is available.
+Latest SDK test report: 44 tests, iOS 26.5 Simulator, Xcode 26.6 / Swift 6.3.3,
+2026-09-09 18:58 UTC. Reports are local ignored artifacts and identify development
+sources. The five server DTO suites, all five TypeScript client suites (84 tests)
+and six Swift shared-fixture tests use the same 11 synthetic JSON files.
 
-Remaining release gates include complete user-operation coverage, deterministic
-WebSocket failures/cancellation, native OIDC/MFA/provider continuity, passkeys
-and AASA, Panel configuration, ZIP examples, a sample iOS app, and local
-stage-to-production acceptance. All limitations must be resolved or explicitly
-reported before a stable release.
+Source compatibility was checked with the official Swift 6.2 toolchain and the
+Xcode 26.6 / iOS 26.5 SDK. This does not verify execution on iOS 26.0. The installed
+Xcode's Swift Testing framework requires the newer compiler, so minimum-compiler
+source builds and simulator test results are reported separately. A compatible
+minimum-runtime test environment remains required.
+
+All 44 synthetic tests also pass on a signed physical iPhone running iOS 27,
+using the application-hosted test target and Xcode 27 beta (19:05 UTC). Plain SPM
+tool-hosted tests cannot run on a device; the example provides the required host.
+Actual passkey, Universal Link and provider scenarios remain pending. Browser
+fixtures and simulator builds cannot substitute for that acceptance. Platform
+native changes have not been deployed; the preceding platform release has its
+own production recovery and cleanup gates before this candidate may roll out.
+
+Remaining gates: complete the operation matrix and deterministic failure cases,
+run the full platform local gate, complete live native device scenarios,
+release locally through stage then production, verify actual Panel ZIPs, publish
+immutable tags and GitHub Release, submit to Swift Package Index, verify hosted
+DocC and install the public package anonymously in a clean consumer.

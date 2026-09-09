@@ -1,10 +1,11 @@
 {
-  "version": 1,
-  "platformCommit": "11fe8e92a1dfa8f39228cdaf0eebbb9328e87914",
+  "version": 2,
+  "scope": "Operation mappings describe implementation, not completed environment or provider acceptance. Tests are explicit evidence references, not inferred from code generation.",
+  "platformCommit": "21e69a02856719b1605892dd1c7497be113ce657",
   "files": [
     {
       "path": "packages/auth-client/src/types.ts",
-      "sha256": "8517eb179b363f60553e7daa718b2e9a5d95190f4171a74cb922465d4f6e83e1"
+      "sha256": "62fe6cefa924a765af764437077316e1deeae508b45bee1fdb2d7ec616879783"
     },
     {
       "path": "packages/billing-client/src/types.ts",
@@ -20,7 +21,7 @@
     },
     {
       "path": "packages/auth-client/src/client.ts",
-      "sha256": "b26714a3200acbdb0aec665bfea5c8e38322ea081256a5fa4f290b1799b27184"
+      "sha256": "914f57e0d279ab5cc76fa7397b285abc3b3fdcfb9f20b13f1dc702aaea8c58d0"
     },
     {
       "path": "packages/billing-client/src/client.ts",
@@ -44,33 +45,70 @@
       "service": "auth",
       "typescript": "getTokens",
       "paths": [],
-      "swift": null,
+      "swift": "AuthSession.snapshot",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Session ownership; raw tokens are deliberately not UI state.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "setTokens",
       "paths": [],
-      "swift": null,
+      "swift": "AuthSession.authenticate / restore",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "The session confirms account identity before persistence; no unchecked global token setter.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "clearTokens",
       "paths": [],
-      "swift": null,
+      "swift": "AuthSession.logout",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Cancels attached clients and invalidates durable activation before deleting credentials.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "getAppConfig",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/app-config/${encodeURIComponent(appId)}"
+      ],
+      "swift": "AuthClient.getAppConfig",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -80,7 +118,123 @@
       ],
       "swift": "AuthClient.register",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "requestLoginCode",
+      "paths": [
+        "/login/otp/start"
+      ],
+      "swift": "AuthClient.requestLoginCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "resendLoginCode",
+      "paths": [
+        "/login/otp/resend"
+      ],
+      "swift": "AuthClient.resendLoginCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyLoginCode",
+      "paths": [
+        "/login/otp/verify"
+      ],
+      "swift": "AuthClient.verifyLoginCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "startRegistrationWithCode",
+      "paths": [
+        "/register/otp/start"
+      ],
+      "swift": "AuthClient.startRegistrationWithCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "resendRegistrationCode",
+      "paths": [
+        "/register/otp/resend"
+      ],
+      "swift": "AuthClient.resendRegistrationCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyRegistrationCode",
+      "paths": [
+        "/register/otp/verify"
+      ],
+      "swift": "AuthClient.verifyRegistrationCode",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -88,9 +242,17 @@
       "paths": [
         "/login"
       ],
-      "swift": null,
+      "swift": "AuthClient.login",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -98,9 +260,17 @@
       "paths": [
         "/refresh-token"
       ],
-      "swift": null,
+      "swift": "AuthClient.refreshToken",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -108,9 +278,17 @@
       "paths": [
         "/logout"
       ],
-      "swift": null,
+      "swift": "AuthClient.logout",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -120,7 +298,15 @@
       ],
       "swift": "AuthClient.forgotPassword",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -130,7 +316,15 @@
       ],
       "swift": "AuthClient.resetPassword",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -140,7 +334,15 @@
       ],
       "swift": "AuthClient.verifyEmail",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -150,7 +352,15 @@
       ],
       "swift": "AuthClient.resendVerification",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -160,7 +370,15 @@
       ],
       "swift": "AuthClient.requestMagicLink",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -168,9 +386,17 @@
       "paths": [
         "/magic-link/verify"
       ],
-      "swift": null,
+      "swift": "AuthClient.verifyMagicLink",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -180,7 +406,15 @@
       ],
       "swift": "AuthClient.getProfile",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -190,7 +424,15 @@
       ],
       "swift": "AuthClient.updateProfile",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -200,7 +442,15 @@
       ],
       "swift": "AuthClient.updateEmail",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -210,7 +460,15 @@
       ],
       "swift": "AuthClient.updatePassword",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -220,7 +478,15 @@
       ],
       "swift": "AuthClient.setPassword",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -228,53 +494,108 @@
       "paths": [
         "/profile"
       ],
-      "swift": null,
+      "swift": "AuthClient.deleteAccount",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "validateToken",
       "paths": [
-        "/auth/validate"
+        "/validate"
       ],
       "swift": "AuthClient.validateToken",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "confirmMerge",
       "paths": [
-        "/auth/merge/confirm"
+        "/merge/confirm"
       ],
-      "swift": null,
+      "swift": "AuthClient.confirmMerge",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "socialLoginUrl",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/${provider}/login"
+      ],
+      "swift": "OIDCAuthorizer.signIn",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Native public-client PKCE flow replaces legacy browser token redirects.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "redirectToSocialLogin",
       "paths": [],
-      "swift": null,
+      "swift": "OIDCAuthorizer.signIn",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "System authentication browser; callback state/nonce/PKCE are mandatory.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "createSocialLinkRequest",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/${provider}/link"
+      ],
+      "swift": "NativeAccountAuthorizer.link",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Authenticated, session-bound PKCE provider-account flow.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -284,15 +605,33 @@
       ],
       "swift": "AuthClient.listSocialAccounts",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "unlinkSocialAccount",
-      "paths": [],
+      "paths": [
+        "/profile/social-accounts/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.unlinkSocialAccount",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -302,7 +641,15 @@
       ],
       "swift": "AuthClient.generate2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -312,7 +659,15 @@
       ],
       "swift": "AuthClient.verify2FASetup",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -322,7 +677,15 @@
       ],
       "swift": "AuthClient.enable2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -332,7 +695,15 @@
       ],
       "swift": "AuthClient.disable2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -340,9 +711,17 @@
       "paths": [
         "/2fa/login-verify"
       ],
-      "swift": null,
+      "swift": "AuthClient.verify2FALogin",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -352,7 +731,15 @@
       ],
       "swift": "AuthClient.generateRecoveryCodes",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -362,7 +749,15 @@
       ],
       "swift": "AuthClient.enableEmail2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -372,7 +767,15 @@
       ],
       "swift": "AuthClient.resendEmail2FACode",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -382,7 +785,15 @@
       ],
       "swift": "AuthClient.enableSMS2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -392,7 +803,15 @@
       ],
       "swift": "AuthClient.resendSMS2FACode",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -402,7 +821,15 @@
       ],
       "swift": "AuthClient.enableBackupEmail2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -412,7 +839,15 @@
       ],
       "swift": "AuthClient.disableBackupEmail2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -422,7 +857,15 @@
       ],
       "swift": "AuthClient.resendBackupEmail2FACode",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -432,7 +875,15 @@
       ],
       "swift": "AuthClient.get2FAMethods",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -442,7 +893,15 @@
       ],
       "swift": "AuthClient.addBackupEmail",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -452,7 +911,15 @@
       ],
       "swift": "AuthClient.removeBackupEmail",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -462,7 +929,15 @@
       ],
       "swift": "AuthClient.getBackupEmailStatus",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -472,7 +947,15 @@
       ],
       "swift": "AuthClient.verifyBackupEmail",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -482,7 +965,15 @@
       ],
       "swift": "AuthClient.addPhone",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -492,7 +983,15 @@
       ],
       "swift": "AuthClient.verifyPhone",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -502,7 +1001,15 @@
       ],
       "swift": "AuthClient.removePhone",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -512,7 +1019,15 @@
       ],
       "swift": "AuthClient.getPhoneStatus",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -522,15 +1037,33 @@
       ],
       "swift": "AuthClient.listTrustedDevices",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "revokeTrustedDevice",
-      "paths": [],
+      "paths": [
+        "/2fa/trusted-devices/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.revokeTrustedDevice",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -540,7 +1073,15 @@
       ],
       "swift": "AuthClient.revokeAllTrustedDevices",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -548,9 +1089,17 @@
       "paths": [
         "/passkey/register/begin"
       ],
-      "swift": null,
+      "swift": "AuthClient.beginPasskeyRegistration",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -560,15 +1109,32 @@
       ],
       "swift": "AuthClient.finishPasskeyRegistration",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "registerPasskey",
       "paths": [],
-      "swift": null,
+      "swift": "NativePasskeys.register",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "AuthenticationServices user interaction; actual device acceptance required.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -576,9 +1142,53 @@
       "paths": [
         "/2fa/passkey/begin"
       ],
-      "swift": null,
+      "swift": "AuthClient.beginPasskey2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "beginPasskeyEnrollment",
+      "paths": [
+        "/2fa/passkey/setup/begin"
+      ],
+      "swift": "AuthClient.beginPasskeyEnrollment",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "finishPasskeyEnrollment",
+      "paths": [
+        "/2fa/passkey/setup/finish"
+      ],
+      "swift": "AuthClient.finishPasskeyEnrollment",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -586,17 +1196,34 @@
       "paths": [
         "/2fa/passkey/finish"
       ],
-      "swift": null,
+      "swift": "AuthClient.finishPasskey2FA",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "verifyPasskey2FA",
       "paths": [],
-      "swift": null,
+      "swift": "NativePasskeys.verifyTwoFactor",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "AuthenticationServices assertion; no WebAuthn browser globals.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -606,7 +1233,15 @@
       ],
       "swift": "AuthClient.beginPasswordlessLogin",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -614,17 +1249,34 @@
       "paths": [
         "/passkey/login/finish"
       ],
-      "swift": null,
+      "swift": "AuthClient.finishPasswordlessLogin",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "passwordlessLogin",
       "paths": [],
-      "swift": null,
+      "swift": "NativePasskeys.signIn",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "AuthenticationServices assertion bound to existing RP ID.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -634,23 +1286,51 @@
       ],
       "swift": "AuthClient.listPasskeys",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "renamePasskey",
-      "paths": [],
+      "paths": [
+        "/passkeys/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.renamePasskey",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "deletePasskey",
-      "paths": [],
+      "paths": [
+        "/passkeys/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.deletePasskey",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -660,15 +1340,33 @@
       ],
       "swift": "AuthClient.listSessions",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "revokeSession",
-      "paths": [],
+      "paths": [
+        "/sessions/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.revokeSession",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -678,7 +1376,15 @@
       ],
       "swift": "AuthClient.revokeOtherSessions",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -686,17 +1392,35 @@
       "paths": [
         "/activity-logs"
       ],
-      "swift": null,
+      "swift": "AuthClient.listActivityLogs",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "getActivityLog",
-      "paths": [],
+      "paths": [
+        "/activity-logs/${encodeURIComponent(id)}"
+      ],
       "swift": "AuthClient.getActivityLog",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -706,7 +1430,15 @@
       ],
       "swift": "AuthClient.getActivityEventTypes",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
@@ -714,33 +1446,70 @@
       "paths": [
         "/activity-logs/export"
       ],
-      "swift": null,
+      "swift": "AuthClient.exportActivityLogs",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "request",
       "paths": [],
-      "swift": null,
+      "swift": "MMGTCore.HTTPClient",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "transport-extension",
+      "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "parseAuthRedirect",
       "paths": [],
-      "swift": null,
+      "swift": "OIDCAuthorizer.signIn",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Native authorization consumes only exact registered callbacks; legacy token-fragment redirects are not accepted.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "auth",
       "typescript": "handleAuthRedirect",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/oauth/callback/exchange"
+      ],
+      "swift": "OIDCAuthorizer.signIn",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "System session owns callback lifecycle and cancellation.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     },
     {
       "service": "billing",
@@ -748,9 +1517,17 @@
       "paths": [
         "/catalog"
       ],
-      "swift": null,
+      "swift": "BillingClient.getCatalog",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -758,9 +1535,17 @@
       "paths": [
         "/access"
       ],
-      "swift": null,
+      "swift": "BillingClient.getAccess",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -768,9 +1553,17 @@
       "paths": [
         "/plan"
       ],
-      "swift": null,
+      "swift": "BillingClient.getPlan",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -778,9 +1571,17 @@
       "paths": [
         "/checkout/personal"
       ],
-      "swift": null,
+      "swift": "BillingClient.startPersonalCheckout",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -788,9 +1589,17 @@
       "paths": [
         "/checkout/workspace"
       ],
-      "swift": null,
+      "swift": "BillingClient.startWorkspaceCheckout",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -798,9 +1607,17 @@
       "paths": [
         "/checkout/addon"
       ],
-      "swift": null,
+      "swift": "BillingClient.startOneTimeCheckout",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -808,9 +1625,17 @@
       "paths": [
         "/subscription/change"
       ],
-      "swift": null,
+      "swift": "BillingClient.changeSubscription",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -818,9 +1643,17 @@
       "paths": [
         "/portal"
       ],
-      "swift": null,
+      "swift": "BillingClient.createPortalSession",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -828,73 +1661,161 @@
       "paths": [
         "/workspaces"
       ],
-      "swift": null,
+      "swift": "BillingClient.listWorkspaces",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "getWorkspace",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}"
+      ],
+      "swift": "BillingClient.getWorkspace",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "listMembers",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/members"
+      ],
+      "swift": "BillingClient.listMembers",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "removeMember",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/members/${encodeURIComponent(memberUserId)}"
+      ],
+      "swift": "BillingClient.removeMember",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "addSeats",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/seats"
+      ],
+      "swift": "BillingClient.addSeats",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "listInvites",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/invites"
+      ],
+      "swift": "BillingClient.listInvites",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "createInvites",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/invites"
+      ],
+      "swift": "BillingClient.createInvites",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "cancelInvite",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/invites/${encodeURIComponent(inviteId)}"
+      ],
+      "swift": "BillingClient.cancelInvite",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "resendInvite",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/workspaces/${encodeURIComponent(workspaceId)}/invites/${encodeURIComponent(inviteId)}/resend"
+      ],
+      "swift": "BillingClient.resendInvite",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
@@ -902,41 +1823,83 @@
       "paths": [
         "/invites/accept"
       ],
-      "swift": null,
+      "swift": "BillingClient.acceptInvite",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "billing",
       "typescript": "request",
       "paths": [],
-      "swift": null,
+      "swift": "MMGTCore.HTTPClient",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "transport-extension",
+      "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "setTokenProvider",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.init(tokenProvider:)",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Use the shared AuthSession token provider; replace client after account change.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "close",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.close",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "cancelPending",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.cancelPending",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
@@ -944,9 +1907,17 @@
       "paths": [
         "/bootstrap"
       ],
-      "swift": null,
+      "swift": "SyncClient.bootstrap",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
@@ -954,9 +1925,17 @@
       "paths": [
         "/push"
       ],
-      "swift": null,
+      "swift": "SyncClient.push",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
@@ -964,9 +1943,17 @@
       "paths": [
         "/pull"
       ],
-      "swift": null,
+      "swift": "SyncClient.pull",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
@@ -974,265 +1961,500 @@
       "paths": [
         "/snapshot"
       ],
-      "swift": null,
+      "swift": "SyncClient.snapshot",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "write",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.write",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "writeBatch",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.writeBatch",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "replaceLocalMutation",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.replaceLocalMutation",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "rebuild",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.rebuild",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "sync",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.sync",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "listLocalRecords",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.listLocalRecords",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "getLocalRecord",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.getLocalRecord",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "listLocalOutbox",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.listLocalOutbox",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "removeLocalOutbox",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.removeLocalOutbox",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "listLocalConflicts",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.listLocalConflicts",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "clearLocalConflicts",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.clearLocalConflicts",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "resolveLocalConflict",
       "paths": [],
-      "swift": null,
+      "swift": "SyncClient.resolveLocalConflict",
       "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "sync",
-      "typescript": "store",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "sync",
-      "typescript": "signal",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "sync",
-      "typescript": "validateChange",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "sync",
       "typescript": "request",
       "paths": [],
-      "swift": null,
+      "swift": "MMGTCore.HTTPClient",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "transport-extension",
+      "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getState",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.state / connectionStates",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Actor snapshot and AsyncSequence.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getConnectionId",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.connectionID",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Actor-owned connection identity.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getUserId",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.identity.userID",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Immutable expected account identity.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getSubscriptions",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.getSubscriptions",
       "serverVerified": false,
-      "tests": []
+      "tests": [
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift"
+      ],
+      "kind": "native-adaptation",
+      "notes": "Desired subscriptions are preserved for reconnect; a late grant cannot restore a replaced subscription.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "partial",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getPresence",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.getPresence",
       "serverVerified": false,
-      "tests": []
+      "tests": [
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift"
+      ],
+      "kind": "native-adaptation",
+      "notes": "Actor snapshot. Presence is connection-local and is cleared on disconnect.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "partial",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "getLastAck",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeCursorStore.load",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Only confirmed transport ACK advances the persisted cursor.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "connect",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.connect",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "disconnect",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.disconnect",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "subscribe",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.subscribe",
       "serverVerified": false,
-      "tests": []
+      "tests": [
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift",
+        "Tests/MMGTTests/WebSocketTests.swift"
+      ],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "partial",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "unsubscribe",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.unsubscribe",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "publish",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.publish",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "ack",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.acknowledge",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Call after applying the event; not a domain read receipt.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "on",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.messages / connectionStates",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "AsyncSequence replaces named callbacks.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "off",
       "paths": [],
-      "swift": null,
+      "swift": "Task.cancel",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Cancel the observing task; stream termination removes its observer.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "onEvent",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.messages",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Match the event case of the typed sequence.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "realtime",
       "typescript": "onPresence",
       "paths": [],
-      "swift": null,
+      "swift": "RealtimeClient.messages",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "native-adaptation",
+      "notes": "Match the presence case of the typed sequence.",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
@@ -1240,9 +2462,17 @@
       "paths": [
         "/catalog"
       ],
-      "swift": null,
+      "swift": "AIClient.catalog",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
@@ -1250,17 +2480,35 @@
       "paths": [
         "/files"
       ],
-      "swift": null,
+      "swift": "AIClient.upload",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
       "typescript": "deleteFile",
-      "paths": [],
-      "swift": null,
+      "paths": [
+        "/files/${encodeURIComponent(fileId)}"
+      ],
+      "swift": "AIClient.deleteFile",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
@@ -1268,89 +2516,50 @@
       "paths": [
         "/responses"
       ],
-      "swift": null,
+      "swift": "AIClient.generate",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "service-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
       "typescript": "stream",
       "paths": [],
-      "swift": null,
+      "swift": "AIClient.stream",
       "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     },
     {
       "service": "ai",
       "typescript": "runTools",
       "paths": [],
-      "swift": null,
+      "swift": "AIClient.runTools",
       "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "request",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "createWebSocket",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "push",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "end",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "fail",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "[Symbol.asyncIterator]",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "next",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
-    },
-    {
-      "service": "ai",
-      "typescript": "flush",
-      "paths": [],
-      "swift": null,
-      "serverVerified": false,
-      "tests": []
+      "tests": [],
+      "kind": "client-operation",
+      "implementation": "mapped",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "not-applicable"
+      }
     }
-  ]
+  ],
+  "platformDirty": false
 }

@@ -14,18 +14,25 @@ let package = Package(
     .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.11.1"),
   ],
   targets: [
-    .target(name: "MMGTCore"),
+    .target(name: "MMGTCore", resources: [.copy("PrivacyInfo.xcprivacy")]),
     .target(
       name: "MMGTAuth",
-      dependencies: ["MMGTCore", .product(name: "AppAuth", package: "AppAuth-iOS")]),
-    .target(name: "MMGTBilling", dependencies: ["MMGTCore"]),
-    .target(name: "MMGTRealtime", dependencies: ["MMGTCore"]),
-    .target(name: "MMGTSync", dependencies: ["MMGTCore"]),
+      dependencies: ["MMGTCore", .product(name: "AppAuth", package: "AppAuth-iOS")],
+      resources: [.copy("PrivacyInfo.xcprivacy")]),
+    .target(
+      name: "MMGTBilling", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
+    .target(
+      name: "MMGTRealtime", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
+    .target(
+      name: "MMGTSync", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
     .target(
       name: "MMGTSyncSQLite",
-      dependencies: ["MMGTSync", .product(name: "GRDB", package: "GRDB.swift")]),
-    .target(name: "MMGTAI", dependencies: ["MMGTCore"]),
-    .target(name: "MMGTSwiftUI", dependencies: ["MMGTCore"]),
+      dependencies: ["MMGTSync", .product(name: "GRDB", package: "GRDB.swift")],
+      resources: [.copy("PrivacyInfo.xcprivacy")]),
+    .target(
+      name: "MMGTAI", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
+    .target(
+      name: "MMGTSwiftUI", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
     .testTarget(
       name: "MMGTTests", dependencies: modules.map { .byName(name: $0) },
       resources: [.copy("Fixtures")]),

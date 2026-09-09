@@ -1,0 +1,11 @@
+{
+  "type": "event",
+  "id": "1725883200000-0",
+  "channel": "user:22222222-2222-4222-8222-222222222222",
+  "event_type": "synthetic.changed",
+  "payload": {
+    "domain_event_id": "synthetic-event",
+    "enabled": false
+  },
+  "sent_at": "2026-09-09T12:00:00.123456789Z"
+}

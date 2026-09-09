@@ -18,6 +18,7 @@ public actor AuthSession: ApplicationLifecycleParticipant {
   private var login: (id: UUID, task: Task<LoginOperation, any Error>)?
   private var restoration: (id: UUID, task: Task<RestoreOperation, any Error>)?
   private var participants: [any ApplicationLifecycleParticipant] = []
+  private var accountOperations: [UUID: @Sendable () -> Void] = [:]
   private var observers: [UUID: AsyncStream<AuthSessionSnapshot>.Continuation] = [:]
   private var deletionFailed = false
   public private(set) var user: UserResponse?
@@ -67,6 +68,28 @@ public actor AuthSession: ApplicationLifecycleParticipant {
     let value = Self.expiresSoon(token) ? try await refreshToken().accessToken : token
     try Task.checkCancellation()
     return value
+  }
+  /// Binds an account operation to this session and cancels it on logout/account change.
+  /// A late transport or browser result is rejected even if it ignored cancellation.
+  public func performAccountOperation<Result: Sendable>(
+    _ operation: @escaping @Sendable (AuthClient) async throws -> Result
+  ) async throws -> Result {
+    let expected = generation
+    let token = try await accessToken()
+    guard expected == generation else { throw MMGTError.sessionChanged }
+    let bound = client(token: token)
+    let id = UUID()
+    let task = Task { try await operation(bound) }
+    accountOperations[id] = { task.cancel() }
+    defer { accountOperations[id] = nil }
+    return try await withTaskCancellationHandler {
+      let result = try await task.value
+      guard expected == generation else { throw MMGTError.sessionChanged }
+      try Task.checkCancellation()
+      return result
+    } onCancel: {
+      task.cancel()
+    }
   }
   private nonisolated static func expiresSoon(_ token: String) -> Bool {
     let parts = token.split(separator: ".", omittingEmptySubsequences: false)
@@ -179,8 +202,13 @@ public actor AuthSession: ApplicationLifecycleParticipant {
     switch output.result {
     case .authenticated(let value): tokens = value
     case .requiresTwoFactorSetup(let value, _):
-      tokens = value
+      // Setup credentials are restricted and expire after ten minutes. Return
+      // them to the enrollment UI without persisting or exposing a service session.
+      _ = value
       requiresTwoFactorSetup = true
+      user = output.profile
+      publish()
+      return output.result
     default: return output.result
     }
     guard let profile = output.profile else {
@@ -245,6 +273,8 @@ public actor AuthSession: ApplicationLifecycleParticipant {
     UUID, Result<Void, any Error>, [any ApplicationLifecycleParticipant]
   ) {
     generation = UUID()
+    for cancel in accountOperations.values { cancel() }
+    accountOperations.removeAll()
     refresh?.task.cancel()
     refresh = nil
     login?.task.cancel()

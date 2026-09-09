@@ -6,7 +6,7 @@ import MMGTSync
 
 /// A WAL database with transactionally fenced feeds, staged snapshots and a durable per-account outbox.
 public final class SQLiteSyncStore: SyncLocalStore, Sendable {
-  private let database: DatabasePool
+  private let database: DatabaseQueue
   public init(fileURL: URL) throws {
     guard fileURL.isFileURL else {
       throw MMGTError.invalidConfiguration("SQLite requires a local file URL")
@@ -15,7 +15,10 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
       at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     var config = Configuration()
     config.busyMode = .timeout(5)
-    database = try DatabasePool(path: fileURL.path, configuration: config)
+    // One async queue matches the store's atomic operations and avoids a pool
+    // semaphore between foreground reads. Separate store instances use WAL/CAS.
+    config.prepareDatabase { db in try db.execute(sql: "PRAGMA journal_mode = WAL") }
+    database = try DatabaseQueue(path: fileURL.path, configuration: config)
     var migrations = DatabaseMigrator()
     migrations.registerMigration("v1") { db in
       try db.execute(

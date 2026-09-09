@@ -1,0 +1,13 @@
+{
+  "appID": "YOUR_APP_ID",
+  "authURL": "https://api.example.invalid/auth",
+  "billingURL": "https://billing.example.invalid",
+  "realtimeURL": "https://realtime.example.invalid",
+  "syncURL": "https://sync.example.invalid",
+  "aiURL": "https://ai.example.invalid",
+  "oidcClientID": "YOUR_PUBLIC_CLIENT_ID",
+  "redirectURL": "https://example.invalid/native/callback",
+  "relyingPartyID": "example.invalid",
+  "syncCollection": "notes",
+  "developmentScheme": false
+}

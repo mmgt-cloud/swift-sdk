@@ -39,6 +39,27 @@ private let profileFixture =
   #"{"id":"user-a","email":"a@example.invalid","email_verified":true,"two_fa_enabled":false,"has_password":true,"created_at":"2026-09-09T12:00:00.123456Z","updated_at":"2026-09-09T12:00:00Z"}"#
 
 @Suite(.timeLimit(.minutes(1))) struct SessionTests {
+  @Test func enrollmentCredentialsCannotBecomeAPersistedServiceSession() async throws {
+    let (session, store, transport) = try fixture()
+    let login = Task {
+      try await session.authenticate { _ in
+        .requiresTwoFactorSetup(
+          .init(accessToken: "synthetic-setup", refreshToken: "synthetic-setup-refresh"),
+          message: nil)
+      }
+    }
+    await transport.waitForRequest(0)
+    await transport.reply(0, profileFixture)
+    guard case .requiresTwoFactorSetup = try await login.value else {
+      Issue.record("Enrollment result lost")
+      return
+    }
+    #expect(store.load() == nil)
+    #expect(await session.identity == nil)
+    #expect(await session.snapshot.requiresTwoFactorSetup)
+    await #expect(throws: MMGTError.unauthenticated) { try await session.accessToken() }
+    await #expect(throws: MMGTError.unauthenticated) { try await session.refreshToken() }
+  }
   func fixture() throws -> (AuthSession, TestSessionStore, ControlledTransport) {
     let configuration = try ServiceConfiguration(
       baseURL: URL(string: "https://auth.example.invalid/auth")!, appID: "app-a")

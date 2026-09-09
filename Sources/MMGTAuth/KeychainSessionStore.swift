@@ -21,16 +21,16 @@ public protocol SessionStore: Sendable {
 
 public struct KeychainError: Error, Sendable, Equatable { public let status: OSStatus }
 
-public final class KeychainSessionStore: SessionStore, Sendable {
-  private let configuration: ServiceConfiguration
-  private let key: String
-  public init(configuration: ServiceConfiguration) {
-    self.configuration = configuration
-    key = SHA256.hash(data: Data(configuration.storagePartition.utf8)).map {
-      String(format: "%02x", $0)
-    }.joined()
-  }
-  private var query: [String: Any] {
+// Internal seam keeps Security types out of public API and permits deterministic
+// locked-Keychain and interrupted-write tests.
+protocol KeychainDataAccess: Sendable {
+  func load(key: String) throws -> Data?
+  func save(_ data: Data, key: String) throws
+  func clear(key: String) throws
+}
+
+private struct SystemKeychainDataAccess: KeychainDataAccess {
+  private func query(_ key: String) -> [String: Any] {
     [
       kSecClass as String: kSecClassGenericPassword,
       kSecAttrService as String: "com.mmgt-cloud.sdk.auth",
@@ -38,8 +38,8 @@ public final class KeychainSessionStore: SessionStore, Sendable {
       kSecAttrSynchronizable as String: false,
     ]
   }
-  public func load() throws -> PersistedSession? {
-    var request = query
+  func load(key: String) throws -> Data? {
+    var request = query(key)
     request[kSecReturnData as String] = true
     request[kSecMatchLimit as String] = kSecMatchLimitOne
     var result: CFTypeRef?
@@ -49,31 +49,112 @@ public final class KeychainSessionStore: SessionStore, Sendable {
     guard let data = result as? Data else {
       throw MMGTError.invalidResponse("Invalid stored session")
     }
-    let value = try JSONDecoder().decode(PersistedSession.self, from: data)
-    guard value.identity.environment == configuration.storagePartition,
-      value.identity.appID == configuration.appID
-    else { throw MMGTError.sessionChanged }
-    return value
+    return data
   }
-  public func save(_ session: PersistedSession) throws {
-    guard session.identity.environment == configuration.storagePartition,
-      session.identity.appID == configuration.appID
-    else { throw MMGTError.sessionChanged }
+  func save(_ data: Data, key: String) throws {
     let update: [String: Any] = [
-      kSecValueData as String: try JSONEncoder().encode(session),
+      kSecValueData as String: data,
       kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
     ]
-    var status = SecItemUpdate(query as CFDictionary, update as CFDictionary)
+    var status = SecItemUpdate(query(key) as CFDictionary, update as CFDictionary)
     if status == errSecItemNotFound {
       status = SecItemAdd(
-        query.merging(update, uniquingKeysWith: { _, value in value }) as CFDictionary, nil)
+        query(key).merging(update, uniquingKeysWith: { _, value in value }) as CFDictionary, nil)
     }
     guard status == errSecSuccess else { throw KeychainError(status: status) }
   }
-  public func clear() throws {
-    let status = SecItemDelete(query as CFDictionary)
+  func clear(key: String) throws {
+    let status = SecItemDelete(query(key) as CFDictionary)
     guard status == errSecSuccess || status == errSecItemNotFound else {
       throw KeychainError(status: status)
+    }
+  }
+}
+
+/// Keychain credentials require a matching local, backup-excluded activation fence.
+/// Logout invalidates that fence before attempting a potentially unavailable Keychain.
+/// Share one AuthSession owner for each application/environment partition.
+public final class KeychainSessionStore: SessionStore, Sendable {
+  private static let lock = NSLock()
+  private let configuration: ServiceConfiguration
+  private let key: String
+  private let keychain: any KeychainDataAccess
+  private let directory: URL?
+  private struct Fence: Codable {
+    let generation: UUID
+    let active: Bool
+  }
+  private struct Envelope: Codable {
+    let generation: UUID
+    let session: PersistedSession
+  }
+
+  public convenience init(configuration: ServiceConfiguration) {
+    self.init(
+      configuration: configuration, keychain: SystemKeychainDataAccess(),
+      directory: FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+        .first?.appendingPathComponent("MMGT/AuthSessionFences", isDirectory: true))
+  }
+  init(configuration: ServiceConfiguration, keychain: any KeychainDataAccess, directory: URL?) {
+    self.configuration = configuration
+    self.keychain = keychain
+    self.directory = directory
+    key = SHA256.hash(data: Data(configuration.storagePartition.utf8)).map {
+      String(format: "%02x", $0)
+    }.joined()
+  }
+  private func fenceURL() throws -> URL {
+    guard let directory, directory.isFileURL else {
+      throw MMGTError.invalidConfiguration("Session fence directory unavailable")
+    }
+    return directory.appendingPathComponent(key + ".json")
+  }
+  private func writeFence(_ fence: Fence) throws {
+    let url = try fenceURL()
+    var parent = url.deletingLastPathComponent()
+    try FileManager.default.createDirectory(
+      at: parent, withIntermediateDirectories: true,
+      attributes: [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication])
+    var values = URLResourceValues()
+    values.isExcludedFromBackup = true
+    try parent.setResourceValues(values)
+    try JSONEncoder().encode(fence).write(
+      to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+  }
+  public func load() throws -> PersistedSession? {
+    try Self.lock.withLock {
+      let data: Data
+      do { data = try Data(contentsOf: fenceURL()) } catch let error as CocoaError
+        where error.code == .fileReadNoSuchFile
+      { return nil }
+      let fence = try JSONDecoder().decode(Fence.self, from: data)
+      guard fence.active else { return nil }
+      guard let data = try keychain.load(key: key) else { return nil }
+      let value = try JSONDecoder().decode(Envelope.self, from: data)
+      guard value.generation == fence.generation else { return nil }
+      guard value.session.identity.environment == configuration.storagePartition,
+        value.session.identity.appID == configuration.appID
+      else { throw MMGTError.sessionChanged }
+      return value.session
+    }
+  }
+  public func save(_ session: PersistedSession) throws {
+    try Self.lock.withLock {
+      guard session.identity.environment == configuration.storagePartition,
+        session.identity.appID == configuration.appID
+      else { throw MMGTError.sessionChanged }
+      let generation = UUID()
+      // Any interruption or failed write leaves the old credentials ineligible.
+      try writeFence(Fence(generation: generation, active: false))
+      try keychain.save(
+        try JSONEncoder().encode(Envelope(generation: generation, session: session)), key: key)
+      try writeFence(Fence(generation: generation, active: true))
+    }
+  }
+  public func clear() throws {
+    try Self.lock.withLock {
+      try writeFence(Fence(generation: UUID(), active: false))
+      try keychain.clear(key: key)
     }
   }
 }

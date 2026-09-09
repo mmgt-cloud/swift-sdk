@@ -33,15 +33,18 @@ public struct ValidateTokenResponse: Codable, Sendable, Equatable {
   public var valid: Bool
   public var userID: String
   public var email: String
-  public init(valid: Bool, userID: String, email: String) {
+  public var appId: String
+  public init(valid: Bool, userID: String, email: String, appId: String) {
     self.valid = valid
     self.userID = userID
     self.email = email
+    self.appId = appId
   }
   enum CodingKeys: String, CodingKey {
     case valid = "valid"
     case userID = "userID"
     case email = "email"
+    case appId = "app_id"
   }
 }
 
@@ -80,6 +83,19 @@ public struct RegisterRequest: Codable, Sendable, Equatable {
   enum CodingKeys: String, CodingKey {
     case email = "email"
     case password = "password"
+  }
+}
+
+public struct EmailCodeRequest: Codable, Sendable, Equatable {
+  public var email: String
+  public var code: String
+  public init(email: String, code: String) {
+    self.email = email
+    self.code = code
+  }
+  enum CodingKeys: String, CodingKey {
+    case email = "email"
+    case code = "code"
   }
 }
 
@@ -169,12 +185,27 @@ public struct TwoFARecoveryCodesResponse: Codable, Sendable, Equatable {
 }
 
 public struct TwoFAMethodsResponse: Codable, Sendable, Equatable {
-  public var methods: [String]
-  public init(methods: [String]) {
-    self.methods = methods
+  public var availableMethods: [String]
+  public var email2faEnabled: Bool
+  public var totpEnabled: Bool
+  public var passkeyEnabled: Bool
+  public var smsEnabled: Bool
+  public init(
+    availableMethods: [String], email2faEnabled: Bool, totpEnabled: Bool, passkeyEnabled: Bool,
+    smsEnabled: Bool
+  ) {
+    self.availableMethods = availableMethods
+    self.email2faEnabled = email2faEnabled
+    self.totpEnabled = totpEnabled
+    self.passkeyEnabled = passkeyEnabled
+    self.smsEnabled = smsEnabled
   }
   enum CodingKeys: String, CodingKey {
-    case methods = "methods"
+    case availableMethods = "available_methods"
+    case email2faEnabled = "email_2fa_enabled"
+    case totpEnabled = "totp_enabled"
+    case passkeyEnabled = "passkey_enabled"
+    case smsEnabled = "sms_enabled"
   }
 }
 
@@ -545,7 +576,7 @@ public struct AppLoginConfigResponse: Codable, Sendable, Equatable {
   public var passkeyLoginEnabled: Bool
   public var twoFaEnabled: Bool
   public var twoFaRequired: Bool
-  public var sms_2faEnabled: Bool
+  public var sms2FAEnabled: Bool
   public var trustedDeviceEnabled: Bool
   public var loginLogoUrl: String?
   public var loginPrimaryColor: String?
@@ -561,7 +592,7 @@ public struct AppLoginConfigResponse: Codable, Sendable, Equatable {
   public init(
     appId: String, enabledSocialProviders: [String], oidcEnabled: Bool, hasOidcClients: Bool,
     magicLinkEnabled: Bool, emailCodeLoginEnabled: Bool, passkeyLoginEnabled: Bool,
-    twoFaEnabled: Bool, twoFaRequired: Bool, sms_2faEnabled: Bool, trustedDeviceEnabled: Bool,
+    twoFaEnabled: Bool, twoFaRequired: Bool, sms2FAEnabled: Bool, trustedDeviceEnabled: Bool,
     loginLogoUrl: String? = nil, loginPrimaryColor: String? = nil,
     loginSecondaryColor: String? = nil, loginDisplayName: String? = nil,
     oidcClientLoginTheme: String? = nil, pwMinLength: Int, pwMaxLength: Int, pwRequireUpper: Bool,
@@ -576,7 +607,7 @@ public struct AppLoginConfigResponse: Codable, Sendable, Equatable {
     self.passkeyLoginEnabled = passkeyLoginEnabled
     self.twoFaEnabled = twoFaEnabled
     self.twoFaRequired = twoFaRequired
-    self.sms_2faEnabled = sms_2faEnabled
+    self.sms2FAEnabled = sms2FAEnabled
     self.trustedDeviceEnabled = trustedDeviceEnabled
     self.loginLogoUrl = loginLogoUrl
     self.loginPrimaryColor = loginPrimaryColor
@@ -600,7 +631,7 @@ public struct AppLoginConfigResponse: Codable, Sendable, Equatable {
     case passkeyLoginEnabled = "passkey_login_enabled"
     case twoFaEnabled = "two_fa_enabled"
     case twoFaRequired = "two_fa_required"
-    case sms_2faEnabled = "sms_2fa_enabled"
+    case sms2FAEnabled = "sms_2fa_enabled"
     case trustedDeviceEnabled = "trusted_device_enabled"
     case loginLogoUrl = "login_logo_url"
     case loginPrimaryColor = "login_primary_color"
