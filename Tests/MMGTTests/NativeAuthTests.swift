@@ -52,6 +52,8 @@ import Testing
     for bad in [
       "https://attacker.example.invalid/oidc/app-a/token",
       "https://api.example.invalid/oidc/app-b/token",
+      "https://api.example.invalid/foreign/oidc/app-a/token",
+      "https://api.example.invalid/oidc/app-a/token",
     ] {
       var fields: [String: JSONValue] = [
         "issuer": metadata["issuer"]!,
@@ -63,5 +65,30 @@ import Testing
       }
       fields.removeAll()
     }
+  }
+  @Test func openIDLoginRequiresIDTokenAndRejectsAnErroredExchange() throws {
+    for absent in [nil, ""] as [String?] {
+      #expect(throws: MMGTError.self) {
+        try OIDCAuthorizer.loginResult(
+          access: "synthetic-access", refresh: "synthetic-refresh", idToken: absent,
+          error: nil
+        ).get()
+      }
+    }
+    #expect(throws: CancellationError.self) {
+      try OIDCAuthorizer.loginResult(
+        access: "synthetic-access", refresh: "synthetic-refresh", idToken: "synthetic-id",
+        error: CancellationError()
+      ).get()
+    }
+    let result = try OIDCAuthorizer.loginResult(
+      access: "synthetic-access", refresh: "synthetic-refresh", idToken: "synthetic-id",
+      error: nil
+    ).get()
+    guard case .authenticated(let tokens) = result else {
+      Issue.record("Validated OpenID exchange did not produce a session")
+      return
+    }
+    #expect(tokens.accessToken == "synthetic-access")
   }
 }

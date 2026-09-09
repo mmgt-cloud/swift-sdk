@@ -122,7 +122,7 @@ def main():
         command += ["test-without-building", "-project", "Examples/MMGTExample/MMGTExample.xcodeproj",
                     "-scheme", "MMGTLive", "-destination", prior["destination"],
                     "-derivedDataPath", prior["derivedData"], "-resultBundlePath", str(directory / "tests.xcresult"),
-                    "-parallel-testing-enabled", "NO", "-test-iterations", "1"]
+                    "-parallel-testing-enabled", "NO"]
     with (directory / "xcodebuild.log").open("w") as log:
         try:
             result = subprocess.run(command, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT,

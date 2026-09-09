@@ -79,22 +79,32 @@ public struct NativeOIDCConfiguration: Sendable {
         flow = OIDAuthState.authState(byPresenting: request, externalUserAgent: browser) {
           [weak self] state, error in
           // Convert Objective-C state to immutable Sendable values before crossing actors.
-          let result: Result<LoginResult, any Error>
-          if let token = state?.lastTokenResponse, let access = token.accessToken,
-            let refresh = token.refreshToken, !access.isEmpty, !refresh.isEmpty
-          {
-            result = .success(.authenticated(.init(accessToken: access, refreshToken: refresh)))
-          } else {
-            let failure =
-              error ?? MMGTError.invalidResponse("OIDC did not return access and refresh tokens")
-            result = .failure(Self.isCancellation(failure) ? CancellationError() : failure)
-          }
+          let token = state?.lastTokenResponse
+          let result = Self.loginResult(
+            access: token?.accessToken, refresh: token?.refreshToken,
+            idToken: token?.idToken, error: error)
           Task { @MainActor in self?.complete(result, expected: expected) }
         }
       }
     } onCancel: {
       Task { @MainActor in self.cancel() }
     }
+  }
+  // AppAuth validates issuer, audience, dates and nonce when an ID token is
+  // present. Our openid flow requires it, so an OAuth-only response cannot
+  // silently bypass those checks. Call only after AppAuth's code exchange.
+  nonisolated static func loginResult(
+    access: String?, refresh: String?, idToken: String?, error: (any Error)?
+  ) -> Result<LoginResult, any Error> {
+    if let error {
+      return .failure(isCancellation(error) ? CancellationError() : error)
+    }
+    guard let access, !access.isEmpty, let refresh, !refresh.isEmpty,
+      let idToken, !idToken.isEmpty
+    else {
+      return .failure(MMGTError.invalidResponse("OIDC did not return all required tokens"))
+    }
+    return .success(.authenticated(.init(accessToken: access, refreshToken: refresh)))
   }
   nonisolated static func isCancellation(_ error: any Error, depth: Int = 0) -> Bool {
     if error is CancellationError { return true }
@@ -127,7 +137,9 @@ public struct NativeOIDCConfiguration: Sendable {
       else { throw MMGTError.invalidResponse("OIDC discovery returned an untrusted endpoint") }
       let parts = url.path.split(separator: "/").map(String.init)
       let required = ["oidc", configuration.appID] + (suffix.map { [$0] } ?? [])
-      guard Array(parts.suffix(required.count)) == required else {
+      let base = configuration.baseURL.path.split(separator: "/").map(String.init)
+      let paths = suffix == nil ? [required, base + required] : [base + required]
+      guard paths.contains(parts) else {
         throw MMGTError.invalidResponse("OIDC endpoint belongs to a different application")
       }
       return url
