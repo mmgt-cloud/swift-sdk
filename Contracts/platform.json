@@ -1,0 +1,1356 @@
+{
+  "version": 1,
+  "platformCommit": "11fe8e92a1dfa8f39228cdaf0eebbb9328e87914",
+  "files": [
+    {
+      "path": "packages/auth-client/src/types.ts",
+      "sha256": "8517eb179b363f60553e7daa718b2e9a5d95190f4171a74cb922465d4f6e83e1"
+    },
+    {
+      "path": "packages/billing-client/src/types.ts",
+      "sha256": "138772279d6a8ad239f44163d14d68080f56b1094dbfe61a8b4d7ac5853fbb61"
+    },
+    {
+      "path": "packages/sync-client/src/types.ts",
+      "sha256": "1f5fb48e27c5359f00689aad86e14eaef7a3b7f7651277f8ae98128244a5b1e0"
+    },
+    {
+      "path": "packages/ai-client/src/types.ts",
+      "sha256": "a50b5970ad2ee8c2bd437a092a3d93d067d67f9c1246f35288a76cb2555f4fc3"
+    },
+    {
+      "path": "packages/auth-client/src/client.ts",
+      "sha256": "b26714a3200acbdb0aec665bfea5c8e38322ea081256a5fa4f290b1799b27184"
+    },
+    {
+      "path": "packages/billing-client/src/client.ts",
+      "sha256": "96e3efad1de83f412b3a528d2831d13fc048adc337fd5c7d79eb848d7fb60f32"
+    },
+    {
+      "path": "packages/sync-client/src/client.ts",
+      "sha256": "66a74cb84720bafe5e8d9925910a17f7219b5bdc085496faa0c860bfbeadb06b"
+    },
+    {
+      "path": "packages/realtime-client/src/client.ts",
+      "sha256": "413ac46081709da929cd6b583422f43a760450d7ad2c61b9ffc7c46101788b4e"
+    },
+    {
+      "path": "packages/ai-client/src/client.ts",
+      "sha256": "a1a5e6c77d43fd3e7a90243b86e538fe6316b2c3b8e3793516d1aa62d8683048"
+    }
+  ],
+  "operations": [
+    {
+      "service": "auth",
+      "typescript": "getTokens",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "setTokens",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "clearTokens",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getAppConfig",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "register",
+      "paths": [
+        "/register"
+      ],
+      "swift": "AuthClient.register",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "login",
+      "paths": [
+        "/login"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "refreshToken",
+      "paths": [
+        "/refresh-token"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "logout",
+      "paths": [
+        "/logout"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "forgotPassword",
+      "paths": [
+        "/forgot-password"
+      ],
+      "swift": "AuthClient.forgotPassword",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "resetPassword",
+      "paths": [
+        "/reset-password"
+      ],
+      "swift": "AuthClient.resetPassword",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyEmail",
+      "paths": [
+        "/verify-email"
+      ],
+      "swift": "AuthClient.verifyEmail",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "resendVerification",
+      "paths": [
+        "/resend-verification"
+      ],
+      "swift": "AuthClient.resendVerification",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "requestMagicLink",
+      "paths": [
+        "/magic-link/request"
+      ],
+      "swift": "AuthClient.requestMagicLink",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyMagicLink",
+      "paths": [
+        "/magic-link/verify"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getProfile",
+      "paths": [
+        "/profile"
+      ],
+      "swift": "AuthClient.getProfile",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "updateProfile",
+      "paths": [
+        "/profile"
+      ],
+      "swift": "AuthClient.updateProfile",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "updateEmail",
+      "paths": [
+        "/profile/email"
+      ],
+      "swift": "AuthClient.updateEmail",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "updatePassword",
+      "paths": [
+        "/profile/password"
+      ],
+      "swift": "AuthClient.updatePassword",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "setPassword",
+      "paths": [
+        "/profile/set-password"
+      ],
+      "swift": "AuthClient.setPassword",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "deleteAccount",
+      "paths": [
+        "/profile"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "validateToken",
+      "paths": [
+        "/auth/validate"
+      ],
+      "swift": "AuthClient.validateToken",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "confirmMerge",
+      "paths": [
+        "/auth/merge/confirm"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "socialLoginUrl",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "redirectToSocialLogin",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "createSocialLinkRequest",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "listSocialAccounts",
+      "paths": [
+        "/profile/social-accounts"
+      ],
+      "swift": "AuthClient.listSocialAccounts",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "unlinkSocialAccount",
+      "paths": [],
+      "swift": "AuthClient.unlinkSocialAccount",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "generate2FA",
+      "paths": [
+        "/2fa/generate"
+      ],
+      "swift": "AuthClient.generate2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verify2FASetup",
+      "paths": [
+        "/2fa/verify-setup"
+      ],
+      "swift": "AuthClient.verify2FASetup",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "enable2FA",
+      "paths": [
+        "/2fa/enable"
+      ],
+      "swift": "AuthClient.enable2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "disable2FA",
+      "paths": [
+        "/2fa/disable"
+      ],
+      "swift": "AuthClient.disable2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verify2FALogin",
+      "paths": [
+        "/2fa/login-verify"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "generateRecoveryCodes",
+      "paths": [
+        "/2fa/recovery-codes"
+      ],
+      "swift": "AuthClient.generateRecoveryCodes",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "enableEmail2FA",
+      "paths": [
+        "/2fa/email/enable"
+      ],
+      "swift": "AuthClient.enableEmail2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "resendEmail2FACode",
+      "paths": [
+        "/2fa/email/resend"
+      ],
+      "swift": "AuthClient.resendEmail2FACode",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "enableSMS2FA",
+      "paths": [
+        "/2fa/sms/enable"
+      ],
+      "swift": "AuthClient.enableSMS2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "resendSMS2FACode",
+      "paths": [
+        "/2fa/sms/resend"
+      ],
+      "swift": "AuthClient.resendSMS2FACode",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "enableBackupEmail2FA",
+      "paths": [
+        "/2fa/backup-email/enable"
+      ],
+      "swift": "AuthClient.enableBackupEmail2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "disableBackupEmail2FA",
+      "paths": [
+        "/2fa/backup-email/disable"
+      ],
+      "swift": "AuthClient.disableBackupEmail2FA",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "resendBackupEmail2FACode",
+      "paths": [
+        "/2fa/backup-email/resend"
+      ],
+      "swift": "AuthClient.resendBackupEmail2FACode",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "get2FAMethods",
+      "paths": [
+        "/2fa/methods"
+      ],
+      "swift": "AuthClient.get2FAMethods",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "addBackupEmail",
+      "paths": [
+        "/2fa/backup-email"
+      ],
+      "swift": "AuthClient.addBackupEmail",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "removeBackupEmail",
+      "paths": [
+        "/2fa/backup-email"
+      ],
+      "swift": "AuthClient.removeBackupEmail",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getBackupEmailStatus",
+      "paths": [
+        "/2fa/backup-email/status"
+      ],
+      "swift": "AuthClient.getBackupEmailStatus",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyBackupEmail",
+      "paths": [
+        "/2fa/backup-email/verify"
+      ],
+      "swift": "AuthClient.verifyBackupEmail",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "addPhone",
+      "paths": [
+        "/phone"
+      ],
+      "swift": "AuthClient.addPhone",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyPhone",
+      "paths": [
+        "/phone/verify"
+      ],
+      "swift": "AuthClient.verifyPhone",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "removePhone",
+      "paths": [
+        "/phone"
+      ],
+      "swift": "AuthClient.removePhone",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getPhoneStatus",
+      "paths": [
+        "/phone/status"
+      ],
+      "swift": "AuthClient.getPhoneStatus",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "listTrustedDevices",
+      "paths": [
+        "/2fa/trusted-devices"
+      ],
+      "swift": "AuthClient.listTrustedDevices",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "revokeTrustedDevice",
+      "paths": [],
+      "swift": "AuthClient.revokeTrustedDevice",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "revokeAllTrustedDevices",
+      "paths": [
+        "/2fa/trusted-devices"
+      ],
+      "swift": "AuthClient.revokeAllTrustedDevices",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "beginPasskeyRegistration",
+      "paths": [
+        "/passkey/register/begin"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "finishPasskeyRegistration",
+      "paths": [
+        "/passkey/register/finish"
+      ],
+      "swift": "AuthClient.finishPasskeyRegistration",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "registerPasskey",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "beginPasskey2FA",
+      "paths": [
+        "/2fa/passkey/begin"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "finishPasskey2FA",
+      "paths": [
+        "/2fa/passkey/finish"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "verifyPasskey2FA",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "beginPasswordlessLogin",
+      "paths": [
+        "/passkey/login/begin"
+      ],
+      "swift": "AuthClient.beginPasswordlessLogin",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "finishPasswordlessLogin",
+      "paths": [
+        "/passkey/login/finish"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "passwordlessLogin",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "listPasskeys",
+      "paths": [
+        "/passkeys"
+      ],
+      "swift": "AuthClient.listPasskeys",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "renamePasskey",
+      "paths": [],
+      "swift": "AuthClient.renamePasskey",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "deletePasskey",
+      "paths": [],
+      "swift": "AuthClient.deletePasskey",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "listSessions",
+      "paths": [
+        "/sessions"
+      ],
+      "swift": "AuthClient.listSessions",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "revokeSession",
+      "paths": [],
+      "swift": "AuthClient.revokeSession",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "revokeOtherSessions",
+      "paths": [
+        "/sessions"
+      ],
+      "swift": "AuthClient.revokeOtherSessions",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "listActivityLogs",
+      "paths": [
+        "/activity-logs"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getActivityLog",
+      "paths": [],
+      "swift": "AuthClient.getActivityLog",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "getActivityEventTypes",
+      "paths": [
+        "/activity-logs/event-types"
+      ],
+      "swift": "AuthClient.getActivityEventTypes",
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "exportActivityLogs",
+      "paths": [
+        "/activity-logs/export"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "request",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "parseAuthRedirect",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "auth",
+      "typescript": "handleAuthRedirect",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "getCatalog",
+      "paths": [
+        "/catalog"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "getAccess",
+      "paths": [
+        "/access"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "getPlan",
+      "paths": [
+        "/plan"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "startPersonalCheckout",
+      "paths": [
+        "/checkout/personal"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "startWorkspaceCheckout",
+      "paths": [
+        "/checkout/workspace"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "startOneTimeCheckout",
+      "paths": [
+        "/checkout/addon"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "changeSubscription",
+      "paths": [
+        "/subscription/change"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "createPortalSession",
+      "paths": [
+        "/portal"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "listWorkspaces",
+      "paths": [
+        "/workspaces"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "getWorkspace",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "listMembers",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "removeMember",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "addSeats",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "listInvites",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "createInvites",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "cancelInvite",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "resendInvite",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "acceptInvite",
+      "paths": [
+        "/invites/accept"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "billing",
+      "typescript": "request",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "setTokenProvider",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "close",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "cancelPending",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "bootstrap",
+      "paths": [
+        "/bootstrap"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "push",
+      "paths": [
+        "/push"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "pull",
+      "paths": [
+        "/pull"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "snapshot",
+      "paths": [
+        "/snapshot"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "write",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "writeBatch",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "replaceLocalMutation",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "rebuild",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "sync",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "listLocalRecords",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "getLocalRecord",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "listLocalOutbox",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "removeLocalOutbox",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "listLocalConflicts",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "clearLocalConflicts",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "resolveLocalConflict",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "store",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "signal",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "validateChange",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "sync",
+      "typescript": "request",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getState",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getConnectionId",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getUserId",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getSubscriptions",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getPresence",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "getLastAck",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "connect",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "disconnect",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "subscribe",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "unsubscribe",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "publish",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "ack",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "on",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "off",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "onEvent",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "realtime",
+      "typescript": "onPresence",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "catalog",
+      "paths": [
+        "/catalog"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "upload",
+      "paths": [
+        "/files"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "deleteFile",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "generate",
+      "paths": [
+        "/responses"
+      ],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "stream",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "runTools",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "request",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "createWebSocket",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "push",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "end",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "fail",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "[Symbol.asyncIterator]",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "next",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    },
+    {
+      "service": "ai",
+      "typescript": "flush",
+      "paths": [],
+      "swift": null,
+      "serverVerified": false,
+      "tests": []
+    }
+  ]
+}
