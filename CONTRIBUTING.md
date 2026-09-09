@@ -13,6 +13,8 @@ Run the local test, compiler, example and DocC commands in the README. For a
 physical device, generate the example project and use its application-hosted
 `MMGTDeviceTests` target. Plain SPM tool-hosted tests cannot run on an iPhone.
 Select your own signing team, registered Bundle ID and explicit device destination.
+The separate [live-service suite](Examples/MMGTExample/LiveTests/README.md) uses
+dedicated stage/prod fixtures and a build-then-run procedure for fresh grants.
 
 Update the operation matrix, DocC, privacy inventory and changelog when behavior
 changes. Generated declarations are not proof of endpoint correctness. A required

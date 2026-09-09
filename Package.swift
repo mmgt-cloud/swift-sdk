@@ -27,7 +27,7 @@ let package = Package(
       name: "MMGTSync", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
     .target(
       name: "MMGTSyncSQLite",
-      dependencies: ["MMGTSync", .product(name: "GRDB", package: "GRDB.swift")],
+      dependencies: ["MMGTCore", "MMGTSync", .product(name: "GRDB", package: "GRDB.swift")],
       resources: [.copy("PrivacyInfo.xcprivacy")]),
     .target(
       name: "MMGTAI", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
