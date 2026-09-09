@@ -25,6 +25,10 @@ Never move or replace a published tag. A correction receives a new version.
 6. Install the exact tag anonymously from a clean SPM/Xcode consumer with no local
    path dependency, GitHub token or private checkout. Build the example against
    that public tag. Verify the actual hosted DocC URLs, not merely local archives.
+   `python3 scripts/check-public-install.py --reference VERSION` builds independent
+   all-product and Auth-only consumers, checks the resolved commit/version and
+   rejects SQLite linkage in Auth-only. A full commit SHA is also accepted for
+   development evidence, explicitly distinct from a versioned installation.
 7. Update the platform's Swift release record to the available version, regenerate
    and compile ZIP examples, then download and verify fresh Panel exports in both
    environments. Preserve dated evidence and source/digest identities.
