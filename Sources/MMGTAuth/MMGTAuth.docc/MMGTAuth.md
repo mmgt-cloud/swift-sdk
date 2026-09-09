@@ -36,6 +36,38 @@ Verification belongs to the exact generated secret and activation is single-use.
 A storage failure during activation requires a new setup. Always present recovery
 codes privately and let the user store them before dismissing setup.
 
+### Remembering a device
+
+Password/MFA device trust is opt-in. Create a `TrustedDeviceTransport` with the
+Auth configuration and account email, and pass it as the `transport` of the
+`AuthSession`. Use that same transport for password login and verification of its
+MFA challenge. Only set `TwoFALoginRequest.rememberDevice` after the user chooses
+to remember the device. A plain transport rejects this option before sending,
+instead of silently discarding the server's cookie.
+
+The adapter accepts a secure, HttpOnly credential only after successful MFA and
+sends it only to password login for that account, app and Auth environment.
+Keychain entries use WhenUnlockedThisDeviceOnly, no iCloud synchronization, and a
+backup-excluded activation fence. It never enables a shared cookie jar. Create a
+new session and adapter when changing accounts; an adapter rejects another email.
+`isRemembered()` describes unexpired local state, not server authorization: app
+configuration, expiry or server revocation can still require MFA. If the server
+does not issue a cookie, login may succeed with `isRemembered()` remaining false.
+
+Remembered trust survives normal logout by design. Use `forget()` to delete it
+locally, and the authenticated trusted-device endpoints to revoke it on the
+server. Revoking all devices through the adapter also forgets local trust. A
+single-device revocation invalidates server access immediately; the local token
+can remain until explicitly forgotten or expired. Forget invalidates late MFA
+responses before attempting Keychain deletion. A Keychain failure is visible and
+must be retried when protected data becomes available; no request is retried
+automatically. Canceling the MFA task also prevents a late response being saved.
+
+Native browser authorization uses the system browser's own cookie context. It
+does not import or export this password-login credential. Email OTP and passkey
+sign-in retain their server MFA contracts; the adapter does not reinterpret them
+as password login or claim device trust was applied.
+
 <!-- compiled-quickstart -->
 ## Compiled quickstart
 
@@ -61,6 +93,7 @@ func signInWithPassword(session: AuthSession, email: String, password: String) a
 - ``AuthSessionSnapshot``
 - ``AuthState``
 - ``KeychainSessionStore``
+- ``TrustedDeviceTransport``
 ### Native authentication
 - ``NativeOIDCConfiguration``
 - ``OIDCAuthorizer``

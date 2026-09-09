@@ -29,9 +29,9 @@ actor ControlledTransport: HTTPTransport {
     if requests.count > index { return }
     await withCheckedContinuation { observers.append((index, $0)) }
   }
-  func reply(_ index: Int, _ body: String, status: Int = 200) {
+  func reply(_ index: Int, _ body: String, status: Int = 200, headers: [String: String] = [:]) {
     pending.removeValue(forKey: index)?.resume(
-      returning: .init(data: Data(body.utf8), status: status))
+      returning: .init(data: Data(body.utf8), status: status, headers: headers))
   }
 }
 

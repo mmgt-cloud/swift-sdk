@@ -6,7 +6,7 @@ import Testing
 
 @testable import MMGTAuth
 
-private final class FaultKeychain: KeychainDataAccess, Sendable {
+final class FaultKeychain: KeychainDataAccess, Sendable {
   struct State: Sendable {
     var values: [String: Data] = [:]
     var failDelete = false

@@ -29,7 +29,7 @@ protocol KeychainDataAccess: Sendable {
   func clear(key: String) throws
 }
 
-private struct SystemKeychainDataAccess: KeychainDataAccess {
+struct SystemKeychainDataAccess: KeychainDataAccess {
   private func query(_ key: String) -> [String: Any] {
     [
       kSecClass as String: kSecClassGenericPassword,

@@ -61,12 +61,14 @@ public enum LoginResult: Sendable, Equatable, CustomStringConvertible {
 /// Stateless endpoint client. Use AuthSession to persist tokens and own refresh/logout.
 public struct AuthClient: Sendable {
   let http: HTTPClient
+  private let supportsRememberedDevice: Bool
   public let configuration: ServiceConfiguration
   public init(
     configuration: ServiceConfiguration, tokenProvider: AccessTokenProvider? = nil,
     transport: any HTTPTransport = URLSessionTransport()
   ) {
     self.configuration = configuration
+    supportsRememberedDevice = transport is TrustedDeviceTransport
     http = HTTPClient(
       configuration: configuration, tokenProvider: tokenProvider, transport: transport)
   }
@@ -93,7 +95,10 @@ public struct AuthClient: Sendable {
         authenticated: false))
   }
   public func verify2FALogin(input: TwoFALoginRequest) async throws -> LoginResult {
-    try LoginResult.parse(
+    if input.rememberDevice == true && !supportsRememberedDevice {
+      throw MMGTError.invalidConfiguration("Remembering a device requires TrustedDeviceTransport")
+    }
+    return try LoginResult.parse(
       await http.request(
         JSONValue.self, path: ["2fa", "login-verify"], method: "POST", body: .encoding(input),
         authenticated: false))
