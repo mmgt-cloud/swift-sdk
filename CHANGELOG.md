@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Accept both canonical `/oidc/<app>` discovery endpoints and the `/auth/oidc/<app>`
+  alias on the configured origin. Preserve the issuer and reject other hosts,
+  applications, ports, query strings and credentials in endpoint URLs.
+
 - Add a separate signed-iPhone passkey and HTTPS OIDC acceptance target with
   explicit Associated Domains, artifact checks and durable no-retry test intent.
 

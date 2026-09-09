@@ -138,7 +138,9 @@ public struct NativeOIDCConfiguration: Sendable {
       let parts = url.path.split(separator: "/").map(String.init)
       let required = ["oidc", configuration.appID] + (suffix.map { [$0] } ?? [])
       let base = configuration.baseURL.path.split(separator: "/").map(String.init)
-      let paths = suffix == nil ? [required, base + required] : [base + required]
+      // Auth serves its canonical issuer routes and the app-facing /auth alias.
+      // Both must retain the configured origin and exact application identity.
+      let paths = [required, base + required]
       guard paths.contains(parts) else {
         throw MMGTError.invalidResponse("OIDC endpoint belongs to a different application")
       }

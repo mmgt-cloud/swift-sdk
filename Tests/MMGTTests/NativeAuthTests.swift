@@ -53,7 +53,11 @@ import Testing
       "https://attacker.example.invalid/oidc/app-a/token",
       "https://api.example.invalid/oidc/app-b/token",
       "https://api.example.invalid/foreign/oidc/app-a/token",
-      "https://api.example.invalid/oidc/app-a/token",
+      "https://api.example.invalid/oidc/app-a/token?forward=1",
+      "https://api.example.invalid/oidc/app-a/token#fragment",
+      "https://api.example.invalid:8443/oidc/app-a/token",
+      "https://user:password@api.example.invalid/oidc/app-a/token",
+      "http://api.example.invalid/oidc/app-a/token",
     ] {
       var fields: [String: JSONValue] = [
         "issuer": metadata["issuer"]!,
@@ -65,6 +69,24 @@ import Testing
       }
       fields.removeAll()
     }
+  }
+  @Test(arguments: ["/oidc/app-a", "/auth/oidc/app-a"])
+  func discoveryAcceptsCanonicalRoutesAndAppFacingAlias(path: String) throws {
+    // The deployed provider preserves its /oidc issuer and serves both route
+    // families. Discovery currently advertises the canonical /oidc endpoints.
+    let auth = try ServiceConfiguration(
+      baseURL: URL(string: "https://api.example.invalid/auth")!, appID: "app-a")
+    let authorization = "https://api.example.invalid" + path + "/authorize"
+    let token = "https://api.example.invalid" + path + "/token"
+    let metadata: JSONValue = [
+      "issuer": "https://api.example.invalid/oidc/app-a",
+      "authorization_endpoint": .string(authorization),
+      "token_endpoint": .string(token),
+    ]
+    let endpoints = try OIDCAuthorizer.validateDiscovery(metadata, configuration: auth)
+    #expect(endpoints.authorization.absoluteString == authorization)
+    #expect(endpoints.token.absoluteString == token)
+    #expect(endpoints.issuer.absoluteString == "https://api.example.invalid/oidc/app-a")
   }
   @Test func openIDLoginRequiresIDTokenAndRejectsAnErroredExchange() throws {
     for absent in [nil, ""] as [String?] {
