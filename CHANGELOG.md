@@ -5,9 +5,6 @@
 - Add opt-in account-bound trusted-device transport for password/MFA login,
   secure Keychain persistence and explicit forget. Plain transports reject
   `rememberDevice: true` instead of silently discarding the server cookie.
-
-## Unreleased
-
 - Eight Swift Package Manager products for iOS 26+, Swift tools 6.2 and Swift 6.
 - Auth session ownership, durable Keychain activation, system-browser OIDC and
   provider-account flows, native passkeys and explicit MFA/account operations.
