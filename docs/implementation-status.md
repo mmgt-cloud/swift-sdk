@@ -1,6 +1,6 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-09 19:15 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-09 20:01 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
@@ -16,8 +16,11 @@ statement of stage/production readiness. No version tag is available.
 | DocC | Eight catalogs and local generator | Eight updated archives and compiled quickstarts generated with warnings treated as errors | Not applicable | Public hosting pending |
 | Platform native Auth, Panel and ZIP | Implemented in separate platform worktree | Auth PostgreSQL/Redis and race tests; 15 hosted-browser tests in three engines; Panel guards/audits/typecheck; 103 ZIP tests including 64 environment/resource combinations | Pending | Pending |
 
-Latest SDK test report: 44 tests, iOS 26.5 Simulator, Xcode 26.6 / Swift 6.3.3,
-2026-09-09 18:58 UTC. Reports are local ignored artifacts and identify development
+Latest SDK test report: 47 tests at `10dfe90`, iOS 26.3.1 Simulator,
+Xcode 26.6 / Swift 6.3.3, 2026-09-09 19:58 UTC.
+Earlier notes incorrectly called the simulator runtime 26.5; that is the build
+SDK version. xcresult and CoreSimulator identify the runtime as 26.3.1.
+Reports are local ignored artifacts and identify development
 sources. The five server DTO suites, all five TypeScript client suites (84 tests)
 and six Swift shared-fixture tests use the same 11 synthetic JSON files.
 
@@ -27,16 +30,26 @@ Xcode's Swift Testing framework requires the newer compiler, so minimum-compiler
 source builds and simulator test results are reported separately. A compatible
 minimum-runtime test environment remains required.
 
-All 44 synthetic tests also pass on a signed physical iPhone running iOS 27,
+The preceding 44 synthetic tests also passed on a signed physical iPhone running iOS 27,
 using the application-hosted test target and Xcode 27 beta (19:05 UTC). Plain SPM
 tool-hosted tests cannot run on a device; the example provides the required host.
 Actual passkey, Universal Link and provider scenarios remain pending. Browser
 fixtures and simulator builds cannot substitute for that acceptance. Platform
 native changes have not been deployed; the preceding platform release has its
 own production recovery and cleanup gates before this candidate may roll out.
+The updated device run waits for another device unlock. The current suite adds
+mandatory OpenID token/discovery checks, rejection of contradictory MFA results,
+and session-generation binding of retained service token providers.
+
+The full platform local gate passed at `94b99d6` (19:41 UTC): required Go
+integrations/race/vet, TS, builds, 123 browser tests, audits, documentation and HA.
+The live iOS suite compiles separately and fails if its explicit fixture is
+missing; it has not yet run against stage or production. An anonymous clean
+public consumer at `3b415b0` built all eight products and an Auth-only app without
+linking GRDB/SQLite. That proves revision installation, not a versioned release.
 
 Remaining gates: complete the operation matrix and deterministic failure cases,
-run the full platform local gate, complete live native device scenarios,
+complete live native device scenarios,
 release locally through stage then production, verify actual Panel ZIPs, publish
 immutable tags and GitHub Release, submit to Swift Package Index, verify hosted
 DocC and install the public package anonymously in a clean consumer.
