@@ -69,9 +69,14 @@ public struct NativeOIDCConfiguration: Sendable {
       redirectURL: configuration.redirectURL, responseType: OIDResponseTypeCode,
       additionalParameters: forceLogin ? ["prompt": "login"] : nil)
     try Task.checkCancellation()
+    try await BrowserPresentationGate.wait(for: presentationAnchor) {
+      self.generation == expected
+    }
+    try Task.checkCancellation()
+    guard generation == expected else { throw CancellationError() }
     return try await withTaskCancellationHandler {
       try await withCheckedThrowingContinuation { continuation in
-        if Task.isCancelled {
+        if Task.isCancelled || generation != expected {
           continuation.resume(throwing: CancellationError())
           return
         }
@@ -87,7 +92,7 @@ public struct NativeOIDCConfiguration: Sendable {
         }
       }
     } onCancel: {
-      Task { @MainActor in self.cancel() }
+      Task { @MainActor in if self.generation == expected { self.cancel() } }
     }
   }
   // AppAuth validates issuer, audience, dates and nonce when an ID token is

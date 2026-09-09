@@ -143,9 +143,14 @@ public final class NativeAccountAuthorizer: NSObject,
     -> URL
   {
     guard operation == activeOperation else { throw CancellationError() }
+    try await BrowserPresentationGate.wait(for: anchor) {
+      self.activeOperation == operation
+    }
+    try Task.checkCancellation()
+    guard operation == activeOperation else { throw CancellationError() }
     return try await withTaskCancellationHandler {
       try await withCheckedThrowingContinuation { continuation in
-        guard !Task.isCancelled else {
+        guard !Task.isCancelled, operation == activeOperation else {
           continuation.resume(throwing: CancellationError())
           return
         }

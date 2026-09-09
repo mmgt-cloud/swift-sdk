@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Wait for the originating scene to become active before OIDC or account-provider
+  browser presentation after a system credential sheet. Bound the wait to ten
+  seconds, honor cancellation and reject detached windows. Fence delayed OIDC
+  cancellation to its own attempt so it cannot cancel a newer login.
+
 - Accept both canonical `/oidc/<app>` discovery endpoints and the `/auth/oidc/<app>`
   alias on the configured origin. Preserve the issuer and reject other hosts,
   applications, ports, query strings and credentials in endpoint URLs.

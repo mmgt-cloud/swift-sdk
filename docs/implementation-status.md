@@ -1,12 +1,12 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-09 22:48 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-09 23:48 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
 | Eight package products | Implemented; operation review continues | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Full acceptance pending | Pending |
-| Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Session races, persistence failures, restricted MFA and callback proofs pass; discovery correction under verification | iPhone passkey registration/sign-in/reauthentication passed; full native attempt failed at discovery | Pending |
+| Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Discovery, bounded scene readiness and cancellation tests pass | Corrected one-passkey → browser sequence passes on the iPhone; fresh complete native scenario and candidate gates remain required | Pending |
 | Billing | User endpoint client | Shared catalog/access/checkout DTO and request checks; full operation acceptance pending | Pending | Pending |
 | Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Pending | Pending |
 | Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery pass | Pending | Pending |
@@ -17,6 +17,17 @@ statement of stage/production readiness. No version tag is available.
 | Platform native Auth, Panel and ZIP | Implemented in the private platform repository | Complete 14-group gate passed at platform 9268171 | Two migrations/four rollouts, actual Panel configuration/AASA and downloaded ZIP checks passed; full native gate open | Pending |
 
 ## Exact local evidence
+
+SDK `145a481` passed 53 tests / 54 parameterized cases, with zero failures and
+skips, both on minimum iOS 26.0 and the signed physical iPhone. Reports:
+`.artifacts/tests-20260909T224942Z/report.json` and
+`.artifacts/device-20260909T225501Z/report.json`. Swift 6.2 compilation, eight DocC
+archives and anonymous all-product/Auth-only installation also passed at that
+revision. Reports: `.artifacts/compiler-20260909T225542Z/report.json`,
+`.artifacts/docs-20260909T225703Z/report.json` and
+`.artifacts/public-install-7b04052b9ec34fd8924239d97ea54cdc/report.json`.
+The scene-presentation correction below changes that revision and requires new
+exact-candidate evidence; earlier results cannot certify the changed source.
 
 At SDK `d25c7a4`, all 52 tests passed on official iOS 26.0 (23A343), with zero
 skips, at 22:14 UTC. Report: `.artifacts/tests-20260909T221409Z/report.json`.
@@ -61,12 +72,37 @@ validation now accepts exactly the two supported path families on the configured
 origin and application. Negative cases retain foreign host/app/path, port,
 embedded credentials, query and fragment checks. New SDK tests, a new candidate
 and fresh device/environment acceptance are still required. The failed run and
-its one owned server credential remain recorded for cleanup; its run ID is not
-reused. Private evidence: `.artifacts/native-run-9cc637db5e3f4de1b36e262619db7ef9`.
+its run ID is not reused. The superseded candidate's owned server fixtures and
+credential have since been removed, with an independent absence check. Device
+Passwords entries are separate from server cleanup. Private evidence:
+`.artifacts/native-run-9cc637db5e3f4de1b36e262619db7ef9`.
 
 The separate `MMGTNative` target checks signed Associated Domains and build
 hashes, records intent before starting, and requires stage before production.
 It does not replace MFA, provider/account-lifecycle or five-service tests.
+
+## Browser presentation after a credential sheet
+
+At `145a481`, the complete native stage scenario twice completed passkey creation,
+sign-in and reauthentication, then failed at OIDC browser presentation. A browser
+login alone passed on the same physical device and configured application. A
+controlled test with one existing passkey reproduced the sequence failure in the
+actual example host: the anchor scene was `foregroundInactive` (raw value 1),
+the window was key, and AppAuth returned `org.openid.appauth.general:-9` because
+the system browser did not start. This evidence does not establish a CDN problem.
+
+Both browser authorizers now wait for the originating visible scene to become
+active, with a ten-second bound and cancellation checks. Delayed OIDC task
+cancellation is fenced to its own attempt. Fifteen focused tests pass, including
+activation ordering, explicit/task cancellation, disconnection and timeout;
+`.artifacts/browser-presentation-fix-20260909T2345.xcresult` retains that development
+run. The corrected signed existing-account sequence passed at 23:47 UTC: passkey
+reauthentication, system-browser login, HTTPS callback, expected account and logout.
+Evidence: `.artifacts/oidc-sequence-fixed-20260909T2349/run.json` records exact source
+file hashes for this development run. No full native gate or production acceptance
+is claimed. Failed physical diagnostics remain under
+`.artifacts/oidc-sequence-diagnostic-20260909T2335`; successful browser-only
+evidence is under `.artifacts/oidc-diagnostic-20260909T2326`.
 
 ## Platform and service acceptance
 

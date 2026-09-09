@@ -16,6 +16,14 @@ Required enrollment is also an explicit result. Its restricted credentials last 
 
 `OIDCAuthorizer` uses the system authentication browser and AppAuth for authorization/code exchange with PKCE, state and nonce. Register a public client without a client secret. HTTPS callbacks require the matching Associated Domain, signed application identity and operator-approved AASA. A custom scheme requires an explicitly registered development callback. `NativePasskeys` supports registration, passwordless sign-in, MFA, reauthentication and `enableTwoFactor` after a registered credential is verified. Keep recovery codes for the user; do not log them. It uses AuthenticationServices and the existing RP ID; never change the RP ID to migrate existing passkeys.
 
+Pass a visible window belonging to the scene that initiates authorization. After
+Face ID or another system sheet, credential completion can precede the scene's
+return to foreground activity. Both browser authorizers wait up to ten seconds
+for that same scene to become active before starting the browser. Cancellation,
+a detached window or the timeout stops presentation; it does not retry login,
+code exchange or an account operation. Keep the app in the foreground for these
+interactive flows.
+
 `KeychainSessionStore` separates application/environment sessions and records the active account. Entries are not synchronized through iCloud and use WhenUnlockedThisDeviceOnly accessibility. A local activation fence is invalidated before token deletion and is excluded from backup. If Keychain deletion fails, a restarted app cannot restore those credentials; the deletion error remains visible and cleanup must be retried after protected data becomes available. A failed fence write also fails logout and requires explicit recovery. Legacy development entries without a matching fence require sign-in again. The fence contains only a random generation and an activation flag, never credentials.
 
 Logout closes attached account clients and rejects late profile/refresh responses. Pending Sync mutations stay under their old account identity. Recreate clients and observable state after an account change.

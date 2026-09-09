@@ -8,6 +8,32 @@ private struct NativeFailure: Error, CustomStringConvertible {
   let description: String
 }
 
+// Error descriptions/userInfo can contain authorization URLs, tokens or user data.
+// Keep only fixed categories and codes from known system authentication domains.
+private func safeFailureCode(_ error: any Error, depth: Int = 0) -> String {
+  if error is CancellationError { return "cancelled" }
+  if let api = error as? APIError { return "HTTP " + String(api.status) }
+  if let error = error as? MMGTError {
+    switch error {
+    case .invalidConfiguration: return "invalid-configuration"
+    case .invalidResponse: return "invalid-response"
+    case .sessionChanged: return "session-changed"
+    default: return "sdk-error"
+    }
+  }
+  let value = error as NSError
+  let domains = [
+    "org.openid.appauth.general", "com.apple.AuthenticationServices.WebAuthenticationSession",
+    "com.apple.AuthenticationServices.AuthorizationError", "NSURLErrorDomain",
+  ]
+  var result =
+    domains.contains(value.domain) ? value.domain + ":" + String(value.code) : "other-error"
+  if depth < 3, let underlying = value.userInfo[NSUnderlyingErrorKey] as? any Error {
+    result += " underlying=" + safeFailureCode(underlying, depth: depth + 1)
+  }
+  return result
+}
+
 private struct NativeConfiguration: Decodable, Sendable {
   let environment, appID, userID, email, password, runID: String
   let teamID, bundleID, relyingPartyID, clientID: String
@@ -127,6 +153,10 @@ struct NativeAuthenticationTests {
 
         phase = "oidc-system-browser"
         print(
+          "MMGT native acceptance: browser anchor scene="
+            + String(window.windowScene?.activationState.rawValue ?? -1)
+            + "; key=" + String(window.isKeyWindow))
+        print(
           "MMGT native acceptance: select passkey sign-in in the system browser and complete consent"
         )
         let authorizer = OIDCAuthorizer()
@@ -159,11 +189,8 @@ struct NativeAuthenticationTests {
         )
       } catch {
         try? await session.signOutLocally()
-        // Raw browser/provider error text may include an authorization URL.
-        // Preserve phase and HTTP status, never tokens, codes or credentials.
-        let status = (error as? APIError).map { " HTTP " + String($0.status) } ?? ""
         throw NativeFailure(
-          description: "Native acceptance failed at " + phase + status
+          description: "Native acceptance failed at " + phase + " [" + safeFailureCode(error) + "]"
             + "; no retry; reconcile the owned fixture")
       }
     #endif
