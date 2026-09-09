@@ -6,16 +6,17 @@ release or a statement of environment readiness.
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
 | Core transport and wire values | Implemented; further hardening in progress | Initial simulator tests passed | Pending | Pending |
-| Auth HTTP, session and Keychain | Implemented; native OIDC/passkeys pending | Logout/refresh response fencing tests passed | Pending | Pending |
+| Auth HTTP, session and Keychain | HTTP/session/Keychain and native OIDC/passkey adapters implemented; device acceptance pending | Logout/refresh fencing, shared refresh, expired restore and native payload tests passed | Pending | Pending |
 | Billing | User endpoint client implemented | DTO checks passed; endpoint matrix pending | Pending | Pending |
 | Realtime | Initial implementation complete | Ready deadline, identity, ACK/dedupe and cursor CAS tests passed | Pending | Pending |
 | Sync and SQLite | Initial implementation complete | Six store/recovery tests passed | Pending | Pending |
 | AI | Initial implementation complete | Sticky tool loop and interrupted-stream tests passed | Pending | Pending |
-| SwiftUI | Lifecycle adapter implemented; state integration pending | Simulator build passed | Pending | Pending |
+| SwiftUI | Lifecycle adapter and observable state for five services implemented | Simulator build passed | Pending | Pending |
 | Example application and DocC | Pending | Pending | Pending | Pending |
-| Platform native Auth and ZIP | In progress in platform repository | OIDC code-consumption and public-client PostgreSQL/race tests passed | Pending | Pending |
+| Platform native Auth and ZIP | In progress in platform repository | Public-client, code-consumption and consent-context PostgreSQL/Redis/race tests passed | Pending | Pending |
 
-Local evidence so far: Xcode 26.6 / Swift 6.3.3; 19 Swift tests on iOS Simulator.
+Local evidence so far: Xcode 26.6 / Swift 6.3.3; 25 Swift tests on iOS Simulator.
+Latest simulator test run: 2026-09-09 15:52 UTC, iOS 26.5.
 Minimum compiler/runtime, physical-device, public-package installation and
 full environment checks have not yet passed. No stable tag is available.
 

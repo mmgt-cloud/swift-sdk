@@ -1,6 +1,7 @@
 # MMGT Cloud SDK for iOS
 
-Native Swift clients for MMGT Cloud Auth, Billing, Realtime, Sync and AI.
+Native Swift clients for MMGT Cloud Auth, Billing, Realtime, Sync and AI. Actors own sessions and connections;
+observable state models integrate with SwiftUI without supplying screens.
 
 **Under development. No stable release has been published.** The first stable
 release requires the completed native authorization flow, device testing and
