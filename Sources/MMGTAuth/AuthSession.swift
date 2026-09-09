@@ -40,7 +40,19 @@ public actor AuthSession: ApplicationLifecycleParticipant {
     self.store = store ?? KeychainSessionStore(configuration: configuration)
     self.transport = transport
   }
-  public nonisolated var tokenProvider: AccessTokenProvider { { try await self.accessToken() } }
+  /// Create after authentication. The provider survives token refresh, but is
+  /// permanently retired by logout or a new authentication attempt. Retaining
+  /// an old client must never send another account's token with its old outbox.
+  public var tokenProvider: AccessTokenProvider {
+    let expected = generation
+    return { try await self.accessToken(generation: expected) }
+  }
+  private func accessToken(generation expected: UUID) async throws -> String {
+    guard generation == expected else { throw MMGTError.sessionChanged }
+    let token = try await accessToken()
+    guard generation == expected else { throw MMGTError.sessionChanged }
+    return token
+  }
   public var identity: AccountIdentity? { current?.identity }
   public var snapshot: AuthSessionSnapshot {
     .init(identity: current?.identity, user: user, requiresTwoFactorSetup: requiresTwoFactorSetup)

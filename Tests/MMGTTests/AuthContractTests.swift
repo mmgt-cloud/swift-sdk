@@ -4,6 +4,24 @@ import MMGTCore
 import Testing
 
 @Suite struct AuthContractTests {
+  @Test func incompleteOrContradictoryLoginCannotBecomeASession() async throws {
+    let responses = [
+      #"{"requires_2fa":true,"temp_token":"synthetic-temp"}"#,
+      #"{"requires_2fa":true,"temp_token":"synthetic-temp","method":""}"#,
+      #"{"requires_2fa":true,"method":"totp","temp_token":"synthetic-temp","access_token":"synthetic-access","refresh_token":"synthetic-refresh"}"#,
+      #"{"password_expired":true,"access_token":"synthetic-access","refresh_token":"synthetic-refresh"}"#,
+    ]
+    let transport = RecordingTransport(responses.map { .init(data: Data($0.utf8), status: 202) })
+    let configuration = try ServiceConfiguration(
+      baseURL: URL(string: "https://api.example.invalid/auth")!, appID: "synthetic-app")
+    let client = AuthClient(configuration: configuration, transport: transport)
+    for _ in responses {
+      await #expect(throws: MMGTError.self) {
+        try await client.login(input: .init(email: "test@example.invalid", password: "synthetic"))
+      }
+    }
+    #expect(await transport.requests.count == responses.count)
+  }
   @Test func emailCredentialsPreserveMFAAndReauthenticationProof() async throws {
     let transport = RecordingTransport([
       .init(

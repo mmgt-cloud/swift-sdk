@@ -19,7 +19,8 @@ import MMGTBilling
 func reloadAccessAfterCheckout(configuration: ServiceConfiguration, session: AuthSession)
   async throws -> BillingAccessResponse
 {
-  let client = BillingClient(configuration: configuration, tokenProvider: session.tokenProvider)
+  let client = BillingClient(
+    configuration: configuration, tokenProvider: await session.tokenProvider)
   return try await client.getAccess()
 }
 ```

@@ -32,7 +32,8 @@ func signInWithPassword(session: AuthSession, email: String, password: String) a
 func reloadAccessAfterCheckout(configuration: ServiceConfiguration, session: AuthSession)
   async throws -> BillingAccessResponse
 {
-  let client = BillingClient(configuration: configuration, tokenProvider: session.tokenProvider)
+  let client = BillingClient(
+    configuration: configuration, tokenProvider: await session.tokenProvider)
   return try await client.getAccess()
 }
 // end-snippet
@@ -83,7 +84,8 @@ func configureOfflineSync(
 ) async throws -> SyncClient {
   let store = try SQLiteSyncStore(fileURL: databaseURL)
   let client = try SyncClient(
-    configuration: configuration, userID: userID, tokenProvider: session.tokenProvider, store: store
+    configuration: configuration, userID: userID, tokenProvider: await session.tokenProvider,
+    store: store
   )
   await session.attach(client)
   return client

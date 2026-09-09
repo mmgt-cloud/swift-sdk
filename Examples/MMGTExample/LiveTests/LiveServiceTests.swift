@@ -72,7 +72,7 @@ private struct LiveConfiguration: Decodable, Sendable {
       let local = try SQLiteSyncStore(fileURL: database)
       let sync = try SyncClient(
         configuration: c.service(c.syncURL), userID: c.userID,
-        tokenProvider: session.tokenProvider, store: local)
+        tokenProvider: await session.tokenProvider, store: local)
       await session.attach(sync)
       let bootstrap = try await sync.bootstrap()
       guard
@@ -121,7 +121,7 @@ private struct LiveConfiguration: Decodable, Sendable {
       phase = "realtime"
       let realtime = try RealtimeClient(
         configuration: c.service(c.realtimeURL), userID: c.userID,
-        tokenProvider: session.tokenProvider, autoReconnect: false)
+        tokenProvider: await session.tokenProvider, autoReconnect: false)
       await session.attach(realtime)
       let channel = "sdk-live:" + c.runID
       let messages = await realtime.messages()
@@ -173,13 +173,14 @@ private struct LiveConfiguration: Decodable, Sendable {
 
       phase = "billing"
       let billing = BillingClient(
-        configuration: try c.service(c.billingURL), tokenProvider: session.tokenProvider)
+        configuration: try c.service(c.billingURL), tokenProvider: await session.tokenProvider)
       _ = try await billing.getCatalog()
       _ = try await billing.getAccess()
       _ = try await billing.listWorkspaces()
 
       phase = "ai"
-      let ai = AIClient(configuration: try c.service(c.aiURL), tokenProvider: session.tokenProvider)
+      let ai = AIClient(
+        configuration: try c.service(c.aiURL), tokenProvider: await session.tokenProvider)
       await session.attach(ai)
       let catalog = try await ai.catalog()
       guard

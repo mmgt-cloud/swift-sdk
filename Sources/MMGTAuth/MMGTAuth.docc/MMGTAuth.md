@@ -1,5 +1,11 @@
 # ``MMGTAuth``
 
+Create `await session.tokenProvider` after successful authentication. It remains
+valid through refresh and becomes permanently invalid after logout or another
+authentication attempt. Create fresh service clients and token providers for the
+new account. Attach lifecycle participants to cancel their outstanding work;
+retaining an old provider never grants access as the next account.
+
 Application user authentication and native authorization.
 
 Own one `AuthSession` for an application/environment. Its token provider is the sole refresh owner shared by your service clients. `AuthState` observes session snapshots without importing SwiftUI.

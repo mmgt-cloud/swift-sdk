@@ -39,6 +39,41 @@ private let profileFixture =
   #"{"id":"user-a","email":"a@example.invalid","email_verified":true,"two_fa_enabled":false,"has_password":true,"created_at":"2026-09-09T12:00:00.123456Z","updated_at":"2026-09-09T12:00:00Z"}"#
 
 @Suite(.timeLimit(.minutes(1))) struct SessionTests {
+  @Test func retainedTokenProvidersCannotAdoptAnotherAccount() async throws {
+    let (session, _, transport) = try fixture()
+    let beforeLogin = await session.tokenProvider
+    let first = Task {
+      try await session.authenticate { _ in
+        .authenticated(.init(accessToken: "account-a-access", refreshToken: "account-a-refresh"))
+      }
+    }
+    await transport.waitForRequest(0)
+    await transport.reply(0, profileFixture)
+    _ = try await first.value
+    let firstSource = await session.tokenProvider
+    #expect(try await firstSource() == "account-a-access")
+    await #expect(throws: MMGTError.sessionChanged) { try await beforeLogin() }
+
+    let refresh = Task { try await session.refreshToken() }
+    await transport.waitForRequest(1)
+    await transport.reply(1, #"{"access_token":"rotated-a","refresh_token":"rotated-a-refresh"}"#)
+    _ = try await refresh.value
+    #expect(try await firstSource() == "rotated-a")
+
+    let second = Task {
+      try await session.authenticate { _ in
+        .authenticated(.init(accessToken: "account-b-access", refreshToken: "account-b-refresh"))
+      }
+    }
+    await transport.waitForRequest(2)
+    await transport.reply(2, profileFixture.replacingOccurrences(of: "user-a", with: "user-b"))
+    _ = try await second.value
+    await #expect(throws: MMGTError.sessionChanged) { try await firstSource() }
+    let secondSource = await session.tokenProvider
+    #expect(try await secondSource() == "account-b-access")
+    try await session.signOutLocally()
+    await #expect(throws: MMGTError.sessionChanged) { try await secondSource() }
+  }
   @Test func enrollmentCredentialsCannotBecomeAPersistedServiceSession() async throws {
     let (session, store, transport) = try fixture()
     let login = Task {

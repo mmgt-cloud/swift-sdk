@@ -62,7 +62,7 @@ import UIKit
     accountMessage = nil
     guard let identity else { return }
     let session = auth.session
-    let source = session.tokenProvider
+    let source = await session.tokenProvider
     let store = try SQLiteSyncStore(
       fileURL: URL.applicationSupportDirectory.appending(path: "MMGTExample/sync.sqlite"))
     let syncClient = try SyncClient(

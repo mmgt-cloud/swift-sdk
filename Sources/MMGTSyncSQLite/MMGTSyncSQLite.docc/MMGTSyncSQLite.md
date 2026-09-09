@@ -25,7 +25,8 @@ func configureOfflineSync(
 ) async throws -> SyncClient {
   let store = try SQLiteSyncStore(fileURL: databaseURL)
   let client = try SyncClient(
-    configuration: configuration, userID: userID, tokenProvider: session.tokenProvider, store: store
+    configuration: configuration, userID: userID, tokenProvider: await session.tokenProvider,
+    store: store
   )
   await session.attach(client)
   return client

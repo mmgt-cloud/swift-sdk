@@ -5,6 +5,9 @@
 - Eight Swift Package Manager products for iOS 26+, Swift tools 6.2 and Swift 6.
 - Auth session ownership, durable Keychain activation, system-browser OIDC and
   provider-account flows, native passkeys and explicit MFA/account operations.
+- Token providers are obtained with `await session.tokenProvider` after login and
+  are bound to that session generation. Retained clients cannot adopt another
+  account. Incomplete MFA and OpenID token results fail explicitly.
 - Billing user API, Realtime WebSocket feeds, presence and confirmed cursors,
   Sync with atomic SQLite outbox/snapshot recovery, and AI HTTP/WebSocket/tools.
 - Observable service state and foreground lifecycle integration without packaged UI.

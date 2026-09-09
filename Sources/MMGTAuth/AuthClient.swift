@@ -27,6 +27,22 @@ public enum LoginResult: Sendable, Equatable, CustomStringConvertible {
   }
 
   static func parse(_ response: JSONValue, setupMessage: Bool = false) throws -> Self {
+    if response["requires_2fa"]?.bool == true {
+      guard response["access_token"] == nil, response["refresh_token"] == nil,
+        response["requires_2fa_setup"]?.bool != true,
+        response["password_expired"]?.bool != true,
+        let temp = response["temp_token"]?.string, !temp.isEmpty,
+        let method = response["method"]?.string, !method.isEmpty
+      else { throw MMGTError.invalidResponse("Incomplete or contradictory MFA result") }
+      return .requiresTwoFactor(
+        tempToken: temp, method: method, message: response["message"]?.string)
+    }
+    if response["password_expired"]?.bool == true {
+      guard (response["access_token"]?.string ?? "").isEmpty,
+        (response["refresh_token"]?.string ?? "").isEmpty
+      else { throw MMGTError.invalidResponse("Expired password response included session tokens") }
+      return .passwordExpired
+    }
     if let access = response["access_token"]?.string, !access.isEmpty,
       let refresh = response["refresh_token"]?.string, !refresh.isEmpty
     {
@@ -37,14 +53,6 @@ public enum LoginResult: Sendable, Equatable, CustomStringConvertible {
         return .requiresTwoFactorSetup(tokens, message: response["message"]?.string)
       }
       return .authenticated(tokens)
-    }
-    if response["password_expired"]?.bool == true { return .passwordExpired }
-    if response["requires_2fa"]?.bool == true, let temp = response["temp_token"]?.string,
-      !temp.isEmpty
-    {
-      return .requiresTwoFactor(
-        tempToken: temp, method: response["method"]?.string ?? "totp",
-        message: response["message"]?.string)
     }
     throw MMGTError.invalidResponse("Unrecognized login result")
   }
