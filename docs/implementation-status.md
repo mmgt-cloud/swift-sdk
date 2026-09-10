@@ -1,20 +1,28 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-10 08:12 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-10, local contract review. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
-| Eight package products | Implemented; operation review continues | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Full acceptance pending | Pending |
+| Eight package products | Implemented; all 143 operation mappings reviewed | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Full acceptance pending | Pending |
 | Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Discovery, bounded scene readiness and cancellation tests pass | Full passkey → system-browser HTTPS callback passes at 880c682; other native scenarios and new-candidate gates remain required | Pending |
 | Billing | User endpoint client | All 18 HTTP operation contracts reviewed against server, six additional nonempty DTO fixtures and no-retry checkout failure cases pass | User reads pass; actual checkout/workspace acceptance pending | Pending |
-| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Native publish/event/ACK passes on physical iPhone after platform missing-Origin opt-in | Pending |
+| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | All 16 mappings reviewed; first-frame auth, cancellation, reconnect/lifecycle, confirmed cursor restart/CAS, replay gap and bounded observers pass locally | Native publish/event/ACK passes on physical iPhone after platform missing-Origin opt-in | Pending |
 | Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery pass | Write, CAS conflict and snapshot pass in physical diagnostic; full gate pending | Pending |
 | AI | HTTP, WebSocket, tools, files and cancellation | Shared fixtures, one-socket tool loop, no duplicate execution and interrupted output pass | Explicit Codex HTTP and WebSocket requests pass on physical iPhone; full file/tool fault matrix remains separate | Pending |
 | SwiftUI and example | Observable state, lifecycle, five service tabs and account actions | Example and eight byte-checked DocC quickstarts build with Swift 6.2 | Pending | Pending |
 | Privacy | Eight SDK manifests and app integration guidance | Actual app contains SDK, AppAuth/AppAuthCore and GRDB manifests | App disclosures require review | App disclosures require review |
 | DocC | Eight catalogs and local generator | Eight archives generated with warnings treated as errors | Not applicable | Public hosting pending |
 | Platform native Auth, Panel and ZIP | Implemented in the private platform repository | Complete 14-group gate passed at platform 9268171 | Two migrations/four rollouts, actual Panel configuration/AASA and downloaded ZIP checks passed; full native gate open | Pending |
+
+## Current local contract scope
+
+The matrix now reviews all 143 npm-to-server-to-Swift mappings with explicit test
+references and 55 shared synthetic fixtures. This is a local source/wire review;
+all new device, full stage and production gates remain open. NSDK-01–09 corrections
+and pending npm Auth/Sync publication must be included in a new release candidate.
+Historical reports below retain their original commits and narrower scopes.
 
 ## Current five-service and contract evidence
 
