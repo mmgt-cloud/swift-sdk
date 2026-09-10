@@ -46,6 +46,9 @@ the token to that session, cancels work on logout and rejects late results.
 `NativeAccountAuthorizer` uses this boundary for linking Google, Apple, Facebook
 and GitHub accounts. Provider reauthentication follows the existing Google/Apple
 contract; password and passkey reauthentication remain available independently.
+Callback validation errors identify only the failed structural check; they never
+include the URL, state or code. Treat a rejected callback as a failed attempt.
+
 The registered native callback receives an opaque code and state. PKCE and the
 current session are required to finish; no provider credential reaches the app.
 Approval changes, session deletion or required MFA enrollment reject a pending

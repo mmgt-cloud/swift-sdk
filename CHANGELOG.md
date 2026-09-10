@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Report native account callback validation failures with fixed structural reason
+  codes, without including callback URLs, state, authorization codes or tokens.
+
 - Fence delayed Realtime connect cancellation to its own waiter; complete all
   143 server contract mappings and add shared recovery/presence frame tests.
 

@@ -65,6 +65,19 @@ import UIKit
     #expect(start["code_challenge"] == .string(proof.challenge) && start["code_verifier"] == nil)
     #expect(finish["code_verifier"] == .string(proof.verifier))
   }
+  @Test func rejectedCallbackDiagnosticsContainNoCredentials() throws {
+    let proof = try NativeAccountProof()
+    let registered = URL(string: "https://example.invalid/native/callback")!
+    let valid = "\(registered)?code=\(UUID().uuidString)&state=\(proof.state)"
+    for (suffix, expected) in [
+      ("#", "empty-fragment"), ("#synthetic-secret", "fragment"),
+      ("&extra=synthetic-secret", "query-count"),
+    ] {
+      #expect(throws: MMGTError.invalidResponse("Native account callback: " + expected)) {
+        try proof.code(from: URL(string: valid + suffix)!, registered: registered)
+      }
+    }
+  }
   @Test func accountOperationCannotReturnLateResultAfterLogout() async throws {
     let (session, store, transport) = try SessionTests().fixture()
     let login = Task {

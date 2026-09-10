@@ -30,13 +30,29 @@ struct NativeAccountProof: Sendable {
   }
   func code(from callback: URL, registered: URL) throws -> String {
     guard callback.scheme == registered.scheme, callback.host == registered.host,
-      callback.port == registered.port, callback.path == registered.path,
-      callback.user == nil, callback.password == nil, callback.fragment == nil,
-      let query = URLComponents(url: callback, resolvingAgainstBaseURL: false)?.queryItems,
-      query.count == 2, query.filter({ $0.name == "state" }).count == 1,
-      query.first(where: { $0.name == "state" })?.value == state,
-      let code = query.first(where: { $0.name == "code" })?.value, UUID(uuidString: code) != nil
-    else { throw MMGTError.invalidResponse("Native account callback or state mismatch") }
+      callback.port == registered.port, callback.path == registered.path
+    else { throw MMGTError.invalidResponse("Native account callback: target-mismatch") }
+    guard callback.user == nil, callback.password == nil else {
+      throw MMGTError.invalidResponse("Native account callback: user-information")
+    }
+    if let fragment = callback.fragment {
+      throw MMGTError.invalidResponse(
+        fragment.isEmpty
+          ? "Native account callback: empty-fragment" : "Native account callback: fragment")
+    }
+    guard let query = URLComponents(url: callback, resolvingAgainstBaseURL: false)?.queryItems,
+      query.count == 2
+    else { throw MMGTError.invalidResponse("Native account callback: query-count") }
+    guard query.filter({ $0.name == "state" }).count == 1 else {
+      throw MMGTError.invalidResponse("Native account callback: state-count")
+    }
+    guard query.first(where: { $0.name == "state" })?.value == state else {
+      throw MMGTError.invalidResponse("Native account callback: state-mismatch")
+    }
+    guard let code = query.first(where: { $0.name == "code" })?.value, UUID(uuidString: code) != nil
+    else {
+      throw MMGTError.invalidResponse("Native account callback: code-format")
+    }
     return code
   }
 }
