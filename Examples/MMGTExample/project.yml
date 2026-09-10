@@ -6,6 +6,13 @@ options:
 packages:
   MMGT:
     path: ../..
+  # Device tests directly inspect these dependency types, just like Package.swift's test target.
+  AppAuth:
+    url: https://github.com/openid/AppAuth-iOS.git
+    exactVersion: 3.0.0
+  GRDB:
+    url: https://github.com/groue/GRDB.swift.git
+    exactVersion: 7.11.1
 targets:
   MMGTAccountsTests:
     type: bundle.unit-test
@@ -81,6 +88,10 @@ targets:
       - target: MMGTExample
       - package: MMGT
         products: [MMGTCore, MMGTAuth, MMGTBilling, MMGTRealtime, MMGTSync, MMGTSyncSQLite, MMGTAI, MMGTSwiftUI]
+      - package: AppAuth
+        product: AppAuth
+      - package: GRDB
+        product: GRDB
   MMGTExample:
     type: application
     platform: iOS
