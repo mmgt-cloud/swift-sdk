@@ -1,6 +1,6 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-10 03:50 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-10 08:12 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
@@ -38,7 +38,7 @@ ownership, build hashes, stage-before-prod and a durable no-retry attempt record
 six local Python regressions pass. The complete account suite passed on minimum iOS 26.0 at `f91974e` (two tests,
 zero failures/skips), against stage as a development diagnostic. Its server
 account was deleted; a separate reconciliation removed the disposable role under
-legacy foreign-key constraints. Physical account execution remains pending.
+legacy foreign-key constraints. The same signed `f91974e` suite passed on physical iPhone at 07:50 UTC, with two tests and zero failures/skips; server account/role deletion was verified. This is diagnostic evidence, not acceptance of later SDK changes.
 See [the scenario and its limits](../Examples/MMGTExample/AccountsTests/README.md).
 
 ## Earlier native and service evidence — 10 September, before 00:43 UTC
@@ -223,3 +223,21 @@ Foundation consumes a leading UTF-8 BOM when decoding text. The test now verifie
 the unchanged CSV content and CRLF delimiters after that encoding signature, and
 the documentation states this behavior. The failed result remains retained; this
 was a test-contract correction, not a silent retry of a provider operation.
+
+
+## AI continuation contract — 10 September
+
+The Swift tool loop incorrectly sent another `start` while the real server
+expected `tool_result`. The corrected loop sends one start and preserves the
+socket, checks all calls before executing effects, and refuses changed arguments
+under an executed ID. Cancelled/account-obsolete handlers cannot submit late
+outputs. The server review also reproduced premature terminal publication and
+late terminal results after cancellation; a separately tested platform correction
+is required before fresh stage acceptance.
+
+The local iOS 26.0 run passes 77 tests / 111 parameterized cases, zero failures or
+skips. This result was obtained on uncommitted preparation. Six AI mappings now
+have explicit server source hashes and tests: 32 reviewed of 143, 111 pending.
+The shared fixture inventory has 25 entries. Go required PostgreSQL/race and
+nine TypeScript tests pass. Actual provider tools/uploads, new exact-candidate
+device tests, stage and production remain separate gates. No stable tag is issued.

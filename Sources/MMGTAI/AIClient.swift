@@ -139,6 +139,7 @@ public actor AIClient: ApplicationLifecycleParticipant {
           await socket.close()
         } catch {
           await socket.close()
+          try check(expected)
           throw error
         }
       } catch is CancellationError { continuation.finish(throwing: CancellationError()) } catch let
@@ -199,11 +200,13 @@ public actor AIClient: ApplicationLifecycleParticipant {
         try await authenticate(socket, expected: expected)
         let heartbeat = heartbeat(socket)
         defer { heartbeat.cancel() }
-        var request = input
+        // The server owns the accumulated request. A second start while it is
+        // waiting for tools is rejected; return each result on this same socket.
+        try await socket.send(["type": "start", "request": try .encoding(input)])
         var executed: [String: (call: AIToolCall, result: AIToolResult)] = [:]
-        for _ in 0..<maxIterations {
+        var iterations = 0
+        while true {
           try check(expected)
-          try await socket.send(["type": "start", "request": try .encoding(request)])
           let response = try await terminalResponse(socket, expected: expected)
           if response.status == "completed" {
             await socket.close()
@@ -211,6 +214,26 @@ public actor AIClient: ApplicationLifecycleParticipant {
           }
           guard response.status == "requires_action", let calls = response.toolCalls, !calls.isEmpty
           else { throw MMGTError.invalidResponse("Expected AI tool calls") }
+          guard iterations < maxIterations else {
+            throw APIError(
+              status: 409, code: "tool_loop_limit",
+              message: "AI tool loop reached its iteration limit")
+          }
+          iterations += 1
+          var callIDs = Set<String>()
+          for call in calls {
+            guard !call.id.isEmpty, callIDs.insert(call.id).inserted else {
+              throw MMGTError.invalidResponse("AI returned empty or duplicate tool call IDs")
+            }
+            if let previous = executed[call.id], previous.call != call {
+              throw MMGTError.invalidResponse("AI reused a tool call ID with different arguments")
+            }
+            guard tools[call.name] != nil,
+              input.tools?.contains(where: { $0.name == call.name }) == true
+            else {
+              throw MMGTError.unsupported("AI requested an unregistered tool: \(call.name)")
+            }
+          }
           var results: [AIToolResult] = []
           for call in calls {
             try check(expected)
@@ -232,13 +255,16 @@ public actor AIClient: ApplicationLifecycleParticipant {
             executed[call.id] = (call, result)
             results.append(result)
           }
-          request.toolCalls = calls
-          request.toolResults = results
+          for result in results {
+            try check(expected)
+            try await socket.send([
+              "type": "tool_result", "callId": .string(result.callId), "output": result.output,
+            ])
+          }
         }
-        throw APIError(
-          status: 409, code: "tool_loop_limit", message: "AI tool loop reached its iteration limit")
       } catch {
         await socket.close()
+        try check(expected)
         throw error
       }
     } onCancel: {

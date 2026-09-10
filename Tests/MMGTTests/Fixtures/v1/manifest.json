@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-3",
+  "contractVersion": "2026-09-10.native-4",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -157,6 +157,27 @@
       "goType": "ActivityLogExportResponse",
       "swiftType": "ActivityLogExportResponse",
       "sha256": "f9ca2579fbafd9b757d4d0cb44145aab246546a0dac7baace9912b22f33a6e8f"
+    },
+    {
+      "file": "ai-catalog.json",
+      "service": "ai",
+      "goType": "Catalog",
+      "swiftType": "AICatalog",
+      "sha256": "4e1fcd9d452ab0ac580deb0406b754a32c5a7ccd522f8df35944029b6ceb15ca"
+    },
+    {
+      "file": "ai-file.json",
+      "service": "ai",
+      "goType": "UploadedFile",
+      "swiftType": "AIFileReference",
+      "sha256": "392bd1dd2226c4e24522e86c9db9dda8691e3507be3ceb308ae279ac53b13bb8"
+    },
+    {
+      "file": "ai-toolresult.json",
+      "service": "ai",
+      "goType": "wsFrame",
+      "swiftType": "JSONValue",
+      "sha256": "f2789b53beffdb9d71f43da59a69b554d08b47a96f1ca342fd703d3963cd595f"
     }
   ]
 }

@@ -2568,16 +2568,19 @@
         "/catalog"
       ],
       "swift": "AIClient.catalog",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AIHTTPContractTests.swift#catalogGenerationAndFilesUseAuthenticatedAppRoutesOnce"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -2586,16 +2589,20 @@
         "/files"
       ],
       "swift": "AIClient.upload",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AIHTTPContractTests.swift#catalogGenerationAndFilesUseAuthenticatedAppRoutesOnce",
+        "Tests/MMGTTests/AIHTTPContractTests.swift#invalidUploadMetadataAndImplicitModelNeverReachTransport"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -2604,16 +2611,19 @@
         "/files/${encodeURIComponent(fileId)}"
       ],
       "swift": "AIClient.deleteFile",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AIHTTPContractTests.swift#catalogGenerationAndFilesUseAuthenticatedAppRoutesOnce"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -2622,48 +2632,66 @@
         "/responses"
       ],
       "swift": "AIClient.generate",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AIHTTPContractTests.swift#catalogGenerationAndFilesUseAuthenticatedAppRoutesOnce",
+        "Tests/MMGTTests/AIHTTPContractTests.swift#invalidUploadMetadataAndImplicitModelNeverReachTransport",
+        "Tests/MMGTTests/AIHTTPContractTests.swift#providerFailureNeverRetriesGenerationOrChangesModel"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     },
     {
       "service": "ai",
       "typescript": "stream",
       "paths": [],
       "swift": "AIClient.stream",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/WebSocketTests.swift#aiPartialTextIsNotSuccessfulCompletion",
+        "Tests/MMGTTests/AIToolContractTests.swift#streamCancellationPreservesPartialResultWithoutSuccess"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     },
     {
       "service": "ai",
       "typescript": "runTools",
       "paths": [],
       "swift": "AIClient.runTools",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AIToolContractTests.swift#oneAllowedToolRoundCanCompleteWithoutStartingAgain",
+        "Tests/MMGTTests/AIToolContractTests.swift#iterationLimitStopsBeforeAnotherToolSideEffect",
+        "Tests/MMGTTests/AIToolContractTests.swift#invalidRoundCannotExecuteItsFirstTool",
+        "Tests/MMGTTests/AIToolContractTests.swift#changedCallIDCannotRepeatAnAlreadyExecutedEffect",
+        "Tests/MMGTTests/AIToolContractTests.swift#cancellationDuringToolDoesNotSubmitLateOutput",
+        "Tests/MMGTTests/AIToolContractTests.swift#accountChangeDoesNotSubmitLateToolOutput",
+        "Tests/MMGTTests/WebSocketTests.swift#aiToolLoopKeepsOneSocketAndNeverReexecutesCallIDs"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "ai"
     }
   ],
   "platformDirty": false,
@@ -2733,6 +2761,29 @@
         {
           "path": "services/auth/internal/log/query_service.go",
           "sha256": "1128e494dddca5cc6ffdea696f0eac2842960bf06924532a3d88a62c515d1ee3"
+        }
+      ]
+    },
+    "ai": {
+      "platformCommit": "8b58aeddfe270766fe904e94e086873fac17ee3d",
+      "platformDirty": true,
+      "scope": "Public authenticated catalog/generation/file routes and DTOs; first-frame WebSocket auth; single start with tool_result continuation after server state is ready, terminal/cancellation ordering. Checksums include the uncommitted NSDK-03 server correction. Provider/device/environment effects remain pending.",
+      "files": [
+        {
+          "path": "services/ai/internal/api/handler.go",
+          "sha256": "d05d94a0f051fb1faa66418b75abf3b0c971f2e2cf15cce1b05cdf1c4e54688b"
+        },
+        {
+          "path": "services/ai/internal/core/types.go",
+          "sha256": "ca0be46aeef8b9663478c7ea56b8d218ec01e595bbaff040ee647921f07eae85"
+        },
+        {
+          "path": "services/ai/internal/core/service.go",
+          "sha256": "dd8b127d72d8930148009a799d5c5e57d73a74488c304aee798eb33cbab8b020"
+        },
+        {
+          "path": "services/ai/internal/authclient/client.go",
+          "sha256": "3ccf60a96360821aa55b5b06fd1365d872cf18903fb5d1ddf98ce7c330e7c34b"
         }
       ]
     }

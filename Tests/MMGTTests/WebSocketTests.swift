@@ -203,7 +203,11 @@ actor TokenGate {
     #expect(executions.withLock { $0 } == 1)
     #expect(
       await socket.sent.compactMap { $0["type"]?.string } == [
-        "authenticate", "start", "start", "start",
+        "authenticate", "start", "tool_result", "tool_result",
+      ])
+    #expect(
+      await socket.sent[2] == [
+        "type": "tool_result", "callId": "call-a", "output": ["answer": "found"],
       ])
     #expect(await socket.isClosed)
   }

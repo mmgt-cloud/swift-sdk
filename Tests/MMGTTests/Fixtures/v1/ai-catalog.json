@@ -1,0 +1,14 @@
+{
+  "status": "available",
+  "connections": [],
+  "models": [
+    {
+      "id": "synthetic-model",
+      "connectionId": "88888888-8888-4888-8888-888888888888",
+      "displayName": "Synthetic model",
+      "providerKind": "synthetic-provider",
+      "enabled": true,
+      "discoveredAt": "2026-09-10T07:00:00Z"
+    }
+  ]
+}

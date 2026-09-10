@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Correct AI tool continuation to send `tool_result` frames after a single
+  `start`; count tool rounds independently of the final generation. Validate
+  complete call lists before effects, retain per-run deduplication and reject
+  late results after cancellation/account changes. Add HTTP/file and shared
+  wire-contract tests. The corresponding server state correction requires rollout.
+
+
 - Correct live-test Realtime grant preflight for the server's two-part signed
   wire format, with seven deterministic scope/encoding/expiry regressions.
   Report the failing Realtime phase and safe HTTP/network codes in device tests.
