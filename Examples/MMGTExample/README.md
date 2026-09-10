@@ -68,3 +68,8 @@ passkeys and the system-browser HTTPS callback on a signed iPhone. Its runner
 sets `MMGT_EXAMPLE_ENTITLEMENTS` for the example host only and checks the signed
 domains. Ordinary builds leave that setting empty. Native acceptance requires
 explicit fixture ownership, operator-reviewed AASA and interaction on the phone.
+
+The separate [account acceptance target](AccountsTests/README.md) exercises
+sessions, TOTP, recovery codes, password changes and deletion against a disposable
+real Auth account. It requires an explicit private fixture and records each
+attempt before making requests; it never runs in the ordinary package suite.

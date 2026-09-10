@@ -1,22 +1,44 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-10 00:43 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-10 03:00 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
 | Eight package products | Implemented; operation review continues | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Full acceptance pending | Pending |
 | Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Discovery, bounded scene readiness and cancellation tests pass | Full passkey → system-browser HTTPS callback passes at 880c682; other native scenarios and new-candidate gates remain required | Pending |
-| Billing | User endpoint client | Shared catalog/access/checkout DTO and request checks; full operation acceptance pending | Pending | Pending |
-| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Blocked by platform rejection of absent Origin; correction in progress | Pending |
+| Billing | User endpoint client | All 18 HTTP operation contracts reviewed against server, six additional nonempty DTO fixtures and no-retry checkout failure cases pass | User reads pass; actual checkout/workspace acceptance pending | Pending |
+| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Native publish/event/ACK passes on physical iPhone after platform missing-Origin opt-in | Pending |
 | Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery pass | Write, CAS conflict and snapshot pass in physical diagnostic; full gate pending | Pending |
-| AI | HTTP, WebSocket, tools, files and cancellation | Shared fixtures, one-socket tool loop, no duplicate execution and interrupted output pass | Own Codex connection available; native provider test not reached | Pending |
+| AI | HTTP, WebSocket, tools, files and cancellation | Shared fixtures, one-socket tool loop, no duplicate execution and interrupted output pass | Explicit Codex HTTP and WebSocket requests pass on physical iPhone; full file/tool fault matrix remains separate | Pending |
 | SwiftUI and example | Observable state, lifecycle, five service tabs and account actions | Example and eight byte-checked DocC quickstarts build with Swift 6.2 | Pending | Pending |
 | Privacy | Eight SDK manifests and app integration guidance | Actual app contains SDK, AppAuth/AppAuthCore and GRDB manifests | App disclosures require review | App disclosures require review |
 | DocC | Eight catalogs and local generator | Eight archives generated with warnings treated as errors | Not applicable | Public hosting pending |
 | Platform native Auth, Panel and ZIP | Implemented in the private platform repository | Complete 14-group gate passed at platform 9268171 | Two migrations/four rollouts, actual Panel configuration/AASA and downloaded ZIP checks passed; full native gate open | Pending |
 
-## Latest native and service evidence — 10 September
+## Current five-service and contract evidence
+
+Exact SDK `ab0dc0735b8846078aecf1d736d159c1196babac` passed the complete
+five-service scenario on the signed physical iPhone at 02:21:55 UTC on stage:
+Auth, Sync CAS/snapshot, Realtime publish/event/ACK, Billing reads and explicit
+Codex HTTP/WebSocket. The report is
+`.artifacts/live-run-11da345f98104d92a859a556956c477c/report.json` in the main
+checkout. This was one successful full scenario without failures or skips;
+it does not establish full Auth or complete stage release acceptance.
+
+The separate acceptance branch at `dc1399187c7d04e814270950d17d160f057c5a52`
+passed 62 tests / 82 cases on minimum iOS 26.0. Eighteen Billing HTTP operations
+are reviewed against the server and linked to executable tests. Seventeen
+identical fixtures are checked by Go, TypeScript and Swift. The other 125
+operation mappings remain explicitly pending review. These counts do not
+represent production acceptance.
+
+A separate disposable-account suite now compiles on iOS 26. Its runner validates
+ownership, build hashes, stage-before-prod and a durable no-retry attempt record;
+six local Python regressions pass. Actual account execution is still pending.
+See [the scenario and its limits](../Examples/MMGTExample/AccountsTests/README.md).
+
+## Earlier native and service evidence — 10 September, before 00:43 UTC
 
 SDK `880c682` passed 59 tests / 60 parameterized cases on minimum iOS 26.0 and
 on the signed physical iPhone, with zero failures or skips. Swift 6.2 compilation
