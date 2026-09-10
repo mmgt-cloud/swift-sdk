@@ -1,0 +1,6 @@
+{
+  "error": "CAPTCHA verification required",
+  "captcha_required": true,
+  "site_key": "synthetic-public-site-key",
+  "retry_after": 15
+}

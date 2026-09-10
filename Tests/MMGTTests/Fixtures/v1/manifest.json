@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-4",
+  "contractVersion": "2026-09-10.native-5",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -178,6 +178,31 @@
       "goType": "wsFrame",
       "swiftType": "JSONValue",
       "sha256": "f2789b53beffdb9d71f43da59a69b554d08b47a96f1ca342fd703d3963cd595f"
+    },
+    {
+      "file": "auth-login.json",
+      "service": "auth",
+      "sha256": "f36151bcd8cdaec7381d84851cd49323e515770bc4d940c0af62dcece4406507"
+    },
+    {
+      "file": "auth-passwordexpired.json",
+      "service": "auth",
+      "sha256": "bf8898b0c928da7aa784b7d546b86ada00cb076aaa98d1bc4f5cd3fe45f130be"
+    },
+    {
+      "file": "auth-captcha.json",
+      "service": "auth",
+      "sha256": "ad295eabc6a6586c7ea747db1f1f5fde7e7b720b20329039bfc25f37ca866465"
+    },
+    {
+      "file": "auth-accountlocked.json",
+      "service": "auth",
+      "sha256": "1cdddc68bcf78dd63a5f8e9d51cb101110571208ad870a3397154f92517773ce"
+    },
+    {
+      "file": "auth-enrollmentlegacy.json",
+      "service": "auth",
+      "sha256": "bcd3ad4aea7fe78d364b257450834ce5178e715f7b4e6c7e344823d43f674e44"
     }
   ]
 }

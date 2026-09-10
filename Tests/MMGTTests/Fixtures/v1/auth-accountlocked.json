@@ -1,0 +1,5 @@
+{
+  "error": "Account has been locked due to too many failed login attempts",
+  "locked_until": "2026-09-10T10:00:00Z",
+  "retry_after": 30
+}

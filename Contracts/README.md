@@ -12,7 +12,7 @@ provider correctness. Native adaptations describe deliberate differences from
 browser APIs; generic transport extensions are separated from service operations.
 Internal TypeScript helper classes do not belong to the public service matrix.
 
-The test target contains 25 synthetic shared JSON fixtures under
+The test target contains 30 synthetic shared JSON fixtures under
 `Tests/MMGTTests/Fixtures/v1`. Their manifest, checksums and semantic tests run
 without the platform checkout. The platform mirrors their exact bytes and tests
 the actual Go and TypeScript DTOs/clients against them. A selected fixture is
@@ -41,3 +41,10 @@ multipart bytes, selected identity and explicit model, and no retry after failur
 Socket tests verify one start, bounded tool rounds, call-ID reuse, cancellation
 and incomplete streams. The server review identifies the pending terminal-state
 correction by source hashes; it does not claim that correction is deployed.
+
+Sixteen Auth entry operations now have explicit wire tests and server review.
+The same fixtures distinguish complete tokens, password expiry, required MFA,
+flagged/legacy enrollment and actionable CAPTCHA/lockout errors. The TypeScript
+review found empty token strings incorrectly counted as a session (NSDK-04);
+that pending platform change is recorded by its source hash. Swift already
+rejects empty token pairs. Email/provider delivery remains separate acceptance.

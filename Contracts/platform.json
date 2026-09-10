@@ -21,7 +21,10 @@
     },
     {
       "path": "packages/auth-client/src/client.ts",
-      "sha256": "914f57e0d279ab5cc76fa7397b285abc3b3fdcfb9f20b13f1dc702aaea8c58d0"
+      "sha256": "5047d859b7f7f161bc211403fbfbcf234d6a7d3103c2caefd8ffec377b8d59dd",
+      "sourceBaseCommit": "df8dc0d77d944812d2df523dd140842ed9354f3a",
+      "sourceDirty": true,
+      "note": "NSDK-04 rejects empty token pairs; pending TypeScript source correction."
     },
     {
       "path": "packages/billing-client/src/client.ts",
@@ -117,16 +120,20 @@
         "/register"
       ],
       "swift": "AuthClient.register",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -135,16 +142,19 @@
         "/login/otp/start"
       ],
       "swift": "AuthClient.requestLoginCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -153,16 +163,19 @@
         "/login/otp/resend"
       ],
       "swift": "AuthClient.resendLoginCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -171,16 +184,21 @@
         "/login/otp/verify"
       ],
       "swift": "AuthClient.verifyLoginCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#primaryCredentialCannotBypassMFA",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -189,16 +207,19 @@
         "/register/otp/start"
       ],
       "swift": "AuthClient.startRegistrationWithCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -207,16 +228,19 @@
         "/register/otp/resend"
       ],
       "swift": "AuthClient.resendRegistrationCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -225,16 +249,21 @@
         "/register/otp/verify"
       ],
       "swift": "AuthClient.verifyRegistrationCode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#primaryCredentialCannotBypassMFA",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -243,16 +272,23 @@
         "/login"
       ],
       "swift": "AuthClient.login",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#primaryCredentialCannotBypassMFA",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#expiredPasswordAndRefreshEnrollmentCannotBecomeAuthenticated",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#challengeErrorRetainsActionableFieldsWithoutRetry",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -261,16 +297,21 @@
         "/refresh-token"
       ],
       "swift": "AuthClient.refreshToken",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#expiredPasswordAndRefreshEnrollmentCannotBecomeAuthenticated",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -279,16 +320,20 @@
         "/logout"
       ],
       "swift": "AuthClient.logout",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -297,16 +342,19 @@
         "/forgot-password"
       ],
       "swift": "AuthClient.forgotPassword",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -315,16 +363,20 @@
         "/reset-password"
       ],
       "swift": "AuthClient.resetPassword",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -333,16 +385,19 @@
         "/verify-email"
       ],
       "swift": "AuthClient.verifyEmail",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -351,16 +406,19 @@
         "/resend-verification"
       ],
       "swift": "AuthClient.resendVerification",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -369,16 +427,19 @@
         "/magic-link/request"
       ],
       "swift": "AuthClient.requestMagicLink",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -387,16 +448,22 @@
         "/magic-link/verify"
       ],
       "swift": "AuthClient.verifyMagicLink",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthEntryContractTests.swift#publicEntryRoutesPreserveAppBodyAndAuthentication",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#primaryCredentialCannotBypassMFA",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#foreignMagicLinkFailsBeforeSendingTheOneTimeToken",
+        "Tests/MMGTTests/AuthEntryContractTests.swift#uncertainAccountWriteNeverRetries"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-entry"
     },
     {
       "service": "auth",
@@ -2784,6 +2851,28 @@
         {
           "path": "services/ai/internal/authclient/client.go",
           "sha256": "3ccf60a96360821aa55b5b06fd1365d872cf18903fb5d1ddf98ce7c330e7c34b"
+        }
+      ]
+    },
+    "auth-entry": {
+      "platformCommit": "df8dc0d77d944812d2df523dd140842ed9354f3a",
+      "scope": "Sixteen public entry operations: password/OTP registration and login, refresh/logout, reset and verification mail, magic link; actual methods, app binding, request DTOs, primary MFA/enrollment and expired-password/error response shapes. Email delivery, token storage/session concurrency, provider/device and environment acceptance remain separate. Server implementation files are unchanged.",
+      "files": [
+        {
+          "path": "services/auth/cmd/api/main.go",
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
+        },
+        {
+          "path": "services/auth/pkg/dto/auth.go",
+          "sha256": "115bf9e174f8150c1ddb10034e1a043633f9af156344a2f8157d578632c1282d"
+        },
+        {
+          "path": "services/auth/internal/user/handler.go",
+          "sha256": "4c9af0fe116d6491a04df2235805f57f05402150778ab19a2544d60dbf4158c4"
+        },
+        {
+          "path": "services/auth/internal/user/login_response.go",
+          "sha256": "00c12d38ba200550d2211c5b55b1a60ace63d7c6b1e2b1de638804de7bf5a427"
         }
       ]
     }

@@ -1,0 +1,5 @@
+{
+  "message": "MFA setup is required",
+  "access_token": "synthetic-enrollment-access",
+  "refresh_token": "synthetic-enrollment-refresh"
+}

@@ -1,5 +1,18 @@
 # ``MMGTAuth``
 
+Public entry operations are scoped to the configured application. Registration
+returns a message, not a session. Email-code and magic-link verification can
+require MFA or enrollment just like password login. Inspect `LoginResult` before
+passing complete tokens to `AuthSession`; never treat temporary/enrollment tokens
+or empty token strings as a completed sign-in. A password-expired result requires
+the password reset flow. One-time codes and tokens must not be blindly retried
+after an uncertain response.
+
+`APIError.body` retains Auth's CAPTCHA and lockout fields (`captcha_required`,
+`site_key`, `locked_until`, `retry_after`). These legacy endpoints may return
+a message instead of a stable error code. Handle their HTTP status and typed
+body; the SDK does not solve CAPTCHA, deliver mail or retry requests automatically.
+
 Create `await session.tokenProvider` after successful authentication. It remains
 valid through refresh and becomes permanently invalid after logout or another
 authentication attempt. Create fresh service clients and token providers for the

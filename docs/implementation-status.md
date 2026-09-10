@@ -241,3 +241,19 @@ have explicit server source hashes and tests: 32 reviewed of 143, 111 pending.
 The shared fixture inventory has 25 entries. Go required PostgreSQL/race and
 nine TypeScript tests pass. Actual provider tools/uploads, new exact-candidate
 device tests, stage and production remain separate gates. No stable tag is issued.
+
+
+## Auth entry contracts — 10 September
+
+Sixteen entry operations now have explicit server request/response review and
+executable method/app/header/body/query tests. Password, email-code and magic-link
+responses preserve MFA/enrollment; expired passwords and incomplete refreshes do
+not authenticate. CAPTCHA/lockout details are retained for the app to act on,
+and uncertain writes are not retried. Five more Go/TS/Swift fixtures bring the
+inventory to 30; 48 of 143 operation mappings are reviewed and 95 remain pending.
+
+This review found an existing npm defect: the server's expired-password response
+includes empty token strings, which TypeScript treated as successful login. A
+separate TypeScript correction (NSDK-04) is required before the next platform
+release. Swift already handles this response correctly. These are synthetic/local
+contract checks, not proof of actual email delivery or a new device/environment run.
