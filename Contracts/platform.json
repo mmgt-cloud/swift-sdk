@@ -671,34 +671,48 @@
         "/${provider}/login"
       ],
       "swift": "OIDCAuthorizer.signIn",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#appAuthRequestHasPKCEIndependentStateNonceAndNoClientSecret",
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#cancelledDiscoveryCannotPresentOrCreateAnotherRequest",
+        "Tests/MMGTTests/NativeAuthTests.swift#discoveryKeepsLegacyIssuerButRejectsForeignAppOrHost",
+        "Tests/MMGTTests/NativeAuthTests.swift#openIDLoginRequiresIDTokenAndRejectsAnErroredExchange",
+        "Tests/MMGTTests/NativeAuthTests.swift#nativeCallbackRequiresExplicitDevelopmentOptIn"
+      ],
       "kind": "native-adaptation",
       "notes": "Native public-client PKCE flow replaces legacy browser token redirects.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
       "typescript": "redirectToSocialLogin",
       "paths": [],
       "swift": "OIDCAuthorizer.signIn",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#appAuthRequestHasPKCEIndependentStateNonceAndNoClientSecret",
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#cancelledDiscoveryCannotPresentOrCreateAnotherRequest",
+        "Tests/MMGTTests/NativeAuthTests.swift#discoveryKeepsLegacyIssuerButRejectsForeignAppOrHost",
+        "Tests/MMGTTests/NativeAuthTests.swift#openIDLoginRequiresIDTokenAndRejectsAnErroredExchange",
+        "Tests/MMGTTests/NativeAuthTests.swift#nativeCallbackRequiresExplicitDevelopmentOptIn"
+      ],
       "kind": "native-adaptation",
       "notes": "System authentication browser; callback state/nonce/PKCE are mandatory.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -707,17 +721,23 @@
         "/${provider}/link"
       ],
       "swift": "NativeAccountAuthorizer.link",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativeAccountTests.swift#pkceAndStateAreIndependentAndCallbackIsExact",
+        "Tests/MMGTTests/NativeAccountTests.swift#nativeAccountExchangeKeepsSecretsInBodiesAndHeaders",
+        "Tests/MMGTTests/NativeAccountTests.swift#accountOperationCannotReturnLateResultAfterLogout",
+        "Tests/MMGTTests/NativeAccountTests.swift#cancellingDuringStartDoesNotLaunchTheBrowserOrFinish"
+      ],
       "kind": "native-adaptation",
       "notes": "Authenticated, session-bound PKCE provider-account flow.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -1338,17 +1358,24 @@
       "typescript": "registerPasskey",
       "paths": [],
       "swift": "NativePasskeys.register",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#requestsPreserveServerChallengeRPAndCredentialBytes",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#wrongRPAndMalformedCredentialsCannotLaunchSystemUI",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#delayedCancellationAndDelegateFromOldCeremonyCannotCancelNewOne",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#cancelledNativeWrappersNeverSubmitCredentialFinish",
+        "Tests/MMGTTests/NativeAuthTests.swift#webAuthnSerializationUsesExactBase64URLBytes"
+      ],
       "kind": "native-adaptation",
       "notes": "AuthenticationServices user interaction; actual device acceptance required.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -1443,17 +1470,24 @@
       "typescript": "verifyPasskey2FA",
       "paths": [],
       "swift": "NativePasskeys.verifyTwoFactor",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#requestsPreserveServerChallengeRPAndCredentialBytes",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#wrongRPAndMalformedCredentialsCannotLaunchSystemUI",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#delayedCancellationAndDelegateFromOldCeremonyCannotCancelNewOne",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#cancelledNativeWrappersNeverSubmitCredentialFinish",
+        "Tests/MMGTTests/NativeAuthTests.swift#webAuthnSerializationUsesExactBase64URLBytes"
+      ],
       "kind": "native-adaptation",
       "notes": "AuthenticationServices assertion; no WebAuthn browser globals.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -1504,17 +1538,24 @@
       "typescript": "passwordlessLogin",
       "paths": [],
       "swift": "NativePasskeys.signIn",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#requestsPreserveServerChallengeRPAndCredentialBytes",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#wrongRPAndMalformedCredentialsCannotLaunchSystemUI",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#delayedCancellationAndDelegateFromOldCeremonyCannotCancelNewOne",
+        "Tests/MMGTTests/NativePasskeyRequestTests.swift#cancelledNativeWrappersNeverSubmitCredentialFinish",
+        "Tests/MMGTTests/NativeAuthTests.swift#webAuthnSerializationUsesExactBase64URLBytes"
+      ],
       "kind": "native-adaptation",
       "notes": "AuthenticationServices assertion bound to existing RP ID.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -1765,17 +1806,24 @@
       "typescript": "parseAuthRedirect",
       "paths": [],
       "swift": "OIDCAuthorizer.signIn",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#appAuthRequestHasPKCEIndependentStateNonceAndNoClientSecret",
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#cancelledDiscoveryCannotPresentOrCreateAnotherRequest",
+        "Tests/MMGTTests/NativeAuthTests.swift#discoveryKeepsLegacyIssuerButRejectsForeignAppOrHost",
+        "Tests/MMGTTests/NativeAuthTests.swift#openIDLoginRequiresIDTokenAndRejectsAnErroredExchange",
+        "Tests/MMGTTests/NativeAuthTests.swift#nativeCallbackRequiresExplicitDevelopmentOptIn"
+      ],
       "kind": "native-adaptation",
       "notes": "Native authorization consumes only exact registered callbacks; legacy token-fragment redirects are not accepted.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "auth",
@@ -1784,17 +1832,24 @@
         "/oauth/callback/exchange"
       ],
       "swift": "OIDCAuthorizer.signIn",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#appAuthRequestHasPKCEIndependentStateNonceAndNoClientSecret",
+        "Tests/MMGTTests/NativeOIDCRequestTests.swift#cancelledDiscoveryCannotPresentOrCreateAnotherRequest",
+        "Tests/MMGTTests/NativeAuthTests.swift#discoveryKeepsLegacyIssuerButRejectsForeignAppOrHost",
+        "Tests/MMGTTests/NativeAuthTests.swift#openIDLoginRequiresIDTokenAndRejectsAnErroredExchange",
+        "Tests/MMGTTests/NativeAuthTests.swift#nativeCallbackRequiresExplicitDevelopmentOptIn"
+      ],
       "kind": "native-adaptation",
       "notes": "System session owns callback lifecycle and cancellation.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "native-auth"
     },
     {
       "service": "billing",
@@ -3293,6 +3348,52 @@
         {
           "path": "services/billing/internal/billing/app_handlers.go",
           "sha256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2"
+        }
+      ]
+    },
+    "native-auth": {
+      "platformCommit": "78c9d96e6d845f23c9ab9b90a993ec5567510bd3",
+      "scope": "Eight native adaptations of browser OAuth/provider linking/passkeys. Reviewed public PKCE/client/redirect and account-bound native flows, WebAuthn RP/challenge envelopes. Native request objects and AppAuth authorization parameters are exercised locally, with controlled cancellation/delegate ordering. Tests deliberately do not present OS authentication UI or prove Associated Domains/provider/device/environment acceptance.",
+      "files": [
+        {
+          "path": "services/auth/internal/oidc/handler.go",
+          "sha256": "d823277e2b40300c296059838f48f2cd5edf94aaaf657ccab69b25e1b76e7cba"
+        },
+        {
+          "path": "services/auth/internal/oidc/service.go",
+          "sha256": "08e2ac8b49c1ba331ac6edb386e7d2f2df8eda12b8b52bf3e7ab4735367b7044"
+        },
+        {
+          "path": "services/auth/internal/oidc/repository.go",
+          "sha256": "82b668864e19bbc52044505b4223fdc9ef7a1d6c9532ba4f353bcfdb2e9a3539"
+        },
+        {
+          "path": "services/auth/internal/oidc/native_flow.go",
+          "sha256": "adb5740c91889a9b25f5f9df6518bdd6445b4b8a701a3a21a0fb5eb30e9b4d4b"
+        },
+        {
+          "path": "services/auth/internal/oidc/native_registration.go",
+          "sha256": "41e96e849fd345a1f06e99d589fad8e084fd7f243d86ca5963c8eb3028685d4e"
+        },
+        {
+          "path": "services/auth/internal/social/native_account.go",
+          "sha256": "302e51187cf0a4b5176a880f01be88fdf825db3f65c341e1af15560062851385"
+        },
+        {
+          "path": "services/auth/internal/webauthn/service.go",
+          "sha256": "fa0922d72c7513d4422c4e2d137d83a0a3b95f3efd6ca2c3c04c105bcf525402"
+        },
+        {
+          "path": "services/auth/internal/webauthn/handler.go",
+          "sha256": "c7a38c1f9f66b6a32b0fc1ee44e321d661fc600155172b781b4fcccd7edfc959"
+        },
+        {
+          "path": "services/auth/internal/webauthn/config.go",
+          "sha256": "789a12b9e8cd9222ed7caa5dbe2fc6bc21295c7eee596e282f30346dcf052660"
+        },
+        {
+          "path": "services/auth/internal/webauthn/enrollment.go",
+          "sha256": "72b90d0de395e8986a6a40f958586821c00f58cfe62e389ae520d8647f327629"
         }
       ]
     }

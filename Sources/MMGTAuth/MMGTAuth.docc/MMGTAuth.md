@@ -192,3 +192,9 @@ Password-only `confirmMerge` cannot bypass required or enrolled MFA. Complete
 the existing account's authentication and use the authenticated linking flow
 when instructed by the server. Native provider login uses the hosted OIDC flow
 for this account reconciliation.
+
+A passkey cancellation belongs to one ceremony. A queued cancellation or delegate
+callback from a completed ceremony cannot finish or cancel its replacement. The
+native helpers preserve server challenges, RP identity, credential bytes and
+user-verification requirements. Their local request tests do not prove device
+association: test the signed app, system prompts and callback on a real device.

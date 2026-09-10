@@ -33,14 +33,25 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
 {
   public let relyingPartyID: String
   private let window: UIWindow
+  private let startRequest: @MainActor (ASAuthorizationController) -> Void
   private var controller: ASAuthorizationController?
+  private(set) var ceremony: UUID?
   private var pending: CheckedContinuation<JSONValue, any Error>?
 
-  public init(relyingPartyID: String, presentationAnchor: UIWindow) throws {
+  public convenience init(relyingPartyID: String, presentationAnchor: UIWindow) throws {
+    try self.init(
+      relyingPartyID: relyingPartyID, presentationAnchor: presentationAnchor,
+      startRequest: { $0.performRequests() })
+  }
+  init(
+    relyingPartyID: String, presentationAnchor: UIWindow,
+    startRequest: @escaping @MainActor (ASAuthorizationController) -> Void
+  ) throws {
     guard !relyingPartyID.isEmpty, !relyingPartyID.contains("/"), !relyingPartyID.contains(":")
     else { throw MMGTError.invalidConfiguration("A WebAuthn RP hostname is required") }
     self.relyingPartyID = relyingPartyID
     window = presentationAnchor
+    self.startRequest = startRequest
     super.init()
   }
   public func register(name: String, client: AuthClient) async throws -> MessageResponse {
@@ -72,6 +83,11 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
     return try await client.finishPasskeyReauthentication(credential: credential)
   }
   public func createCredential(options: JSONValue) async throws -> JSONValue {
+    try await perform(registrationRequest(options: options))
+  }
+  func registrationRequest(options: JSONValue) throws
+    -> ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest
+  {
     guard let key = options["publicKey"], key["rp"]?["id"]?.string == relyingPartyID,
       let challenge = key["challenge"]?.string, let user = key["user"],
       let name = user["name"]?.string, let id = user["id"]?.string
@@ -87,9 +103,14 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
     request.userVerificationPreference = preference(
       key["authenticatorSelection"]?["userVerification"]?.string)
     request.excludedCredentials = try descriptors(key["excludeCredentials"])
-    return try await perform(request)
+    return request
   }
   public func getCredential(options: JSONValue) async throws -> JSONValue {
+    try await perform(assertionRequest(options: options))
+  }
+  func assertionRequest(options: JSONValue) throws
+    -> ASAuthorizationPlatformPublicKeyCredentialAssertionRequest
+  {
     guard let key = options["publicKey"], let challenge = key["challenge"]?.string,
       key["rpId"]?.string == nil || key["rpId"]?.string == relyingPartyID
     else {
@@ -101,7 +122,7 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
       challenge: try Base64URL.decode(challenge))
     request.allowedCredentials = try descriptors(key["allowCredentials"])
     request.userVerificationPreference = preference(key["userVerification"]?.string)
-    return try await perform(request)
+    return request
   }
   private func descriptors(_ value: JSONValue?) throws
     -> [ASAuthorizationPlatformPublicKeyCredentialDescriptor]
@@ -126,11 +147,13 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
     default: .preferred
     }
   }
-  private func perform(_ request: ASAuthorizationRequest) async throws -> JSONValue {
+  func perform(_ request: ASAuthorizationRequest) async throws -> JSONValue {
     guard pending == nil else {
       throw MMGTError.invalidConfiguration("A passkey request is already in progress")
     }
     try Task.checkCancellation()
+    let controller = ASAuthorizationController(authorizationRequests: [request])
+    let expected = UUID()
     return try await withTaskCancellationHandler {
       try await withCheckedThrowingContinuation { continuation in
         if Task.isCancelled {
@@ -138,19 +161,25 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
           return
         }
         pending = continuation
-        let controller = ASAuthorizationController(authorizationRequests: [request])
         self.controller = controller
+        ceremony = expected
         controller.delegate = self
         controller.presentationContextProvider = self
-        controller.performRequests()
+        startRequest(controller)
       }
     } onCancel: {
-      Task { @MainActor in self.cancel() }
+      Task { @MainActor in self.cancel(ceremony: expected) }
     }
+  }
+  // The cancellation handler captures the ceremony whose operation was canceled.
+  func cancel(ceremony: UUID) {
+    guard self.ceremony == ceremony else { return }
+    cancel()
   }
   public func cancel() {
     let active = controller
     controller = nil
+    ceremony = nil
     let continuation = pending
     pending = nil
     active?.cancel()
@@ -185,11 +214,13 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
         throw MMGTError.invalidResponse("Unexpected credential type")
       }
       self.controller = nil
+      ceremony = nil
       let continuation = pending
       pending = nil
       continuation?.resume(returning: result)
     } catch {
       self.controller = nil
+      ceremony = nil
       let continuation = pending
       pending = nil
       continuation?.resume(throwing: error)
@@ -200,6 +231,7 @@ public final class NativePasskeys: NSObject, ASAuthorizationControllerDelegate,
   ) {
     guard self.controller === controller else { return }
     self.controller = nil
+    ceremony = nil
     let continuation = pending
     pending = nil
     if (error as? ASAuthorizationError)?.code == .canceled {

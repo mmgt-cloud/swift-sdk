@@ -58,16 +58,8 @@ public struct NativeOIDCConfiguration: Sendable {
       authenticated: false)
     try Task.checkCancellation()
     guard generation == expected else { throw MMGTError.sessionChanged }
-    let endpoints = try Self.validateDiscovery(metadata, configuration: configuration.auth)
-    let service = OIDServiceConfiguration(
-      authorizationEndpoint: endpoints.authorization, tokenEndpoint: endpoints.token,
-      issuer: endpoints.issuer)
-    // This initializer supplies secure state, nonce and PKCE S256. Public clients have no secret.
-    let request = OIDAuthorizationRequest(
-      configuration: service, clientId: configuration.clientID, clientSecret: nil,
-      scopes: ["openid", "profile", "email", "offline_access"],
-      redirectURL: configuration.redirectURL, responseType: OIDResponseTypeCode,
-      additionalParameters: forceLogin ? ["prompt": "login"] : nil)
+    let request = try Self.authorizationRequest(
+      metadata: metadata, configuration: configuration, forceLogin: forceLogin)
     try Task.checkCancellation()
     try await BrowserPresentationGate.wait(for: presentationAnchor) {
       self.generation == expected
@@ -94,6 +86,20 @@ public struct NativeOIDCConfiguration: Sendable {
     } onCancel: {
       Task { @MainActor in if self.generation == expected { self.cancel() } }
     }
+  }
+  nonisolated static func authorizationRequest(
+    metadata: JSONValue, configuration: NativeOIDCConfiguration, forceLogin: Bool
+  ) throws -> OIDAuthorizationRequest {
+    let endpoints = try Self.validateDiscovery(metadata, configuration: configuration.auth)
+    let service = OIDServiceConfiguration(
+      authorizationEndpoint: endpoints.authorization, tokenEndpoint: endpoints.token,
+      issuer: endpoints.issuer)
+    // This initializer supplies secure state, nonce and PKCE S256. Public clients have no secret.
+    return OIDAuthorizationRequest(
+      configuration: service, clientId: configuration.clientID, clientSecret: nil,
+      scopes: ["openid", "profile", "email", "offline_access"],
+      redirectURL: configuration.redirectURL, responseType: OIDResponseTypeCode,
+      additionalParameters: forceLogin ? ["prompt": "login"] : nil)
   }
   // AppAuth validates issuer, audience, dates and nonce when an ID token is
   // present. Our openid flow requires it, so an OAuth-only response cannot

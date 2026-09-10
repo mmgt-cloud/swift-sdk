@@ -36,7 +36,10 @@ let package = Package(
     .testTarget(
       name: "MMGTTests",
       dependencies: modules.map { .byName(name: $0) }
-        + [.product(name: "GRDB", package: "GRDB.swift")],
+        + [
+          .product(name: "GRDB", package: "GRDB.swift"),
+          .product(name: "AppAuth", package: "AppAuth-iOS"),
+        ],
       resources: [.copy("Fixtures")]),
   ],
   swiftLanguageModes: [.v6]

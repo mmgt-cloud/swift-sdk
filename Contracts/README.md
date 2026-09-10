@@ -70,3 +70,11 @@ Session adaptations have generation, refresh, persistence and Keychain fault
 evidence. Generic HTTP extensions are tested separately from service operations;
 NSDK-07 rejects CRLF/control bytes before transport. System authentication UI
 and real provider effects still require their own acceptance.
+
+All eight remaining native Auth adaptations have source and local evidence.
+Tests inspect the actual AppAuth authorization request (PKCE S256, independent
+state/nonce, exact callback and no secret), native platform passkey request bytes,
+provider linking proof and cancellation ordering. NSDK-08 fences a delayed
+passkey cancellation to its originating ceremony. The complete matrix now has
+127 reviewed operations; 16 Realtime mappings remain. These local checks do not
+replace browser/device ceremonies, Associated Domains or provider acceptance.
