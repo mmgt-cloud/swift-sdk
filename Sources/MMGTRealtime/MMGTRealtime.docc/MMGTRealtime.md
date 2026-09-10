@@ -16,6 +16,25 @@ Apply an event's domain effect before calling `acknowledge`. This ACK confirms t
 
 `FileRealtimeCursorStore` commits acknowledged cursors with revision checks across instances. Backgrounding closes the connection; returning active reconnects a previously desired connection. An explicit disconnect cancels reconnection.
 
+`connect()` completes when the authenticated `ready` frame is received. Grant
+acquisition and channel subscriptions continue afterward; observe `subscribed`
+and error messages for each channel. A grant rejection requires action by the
+application. Publishing never silently retries after an uncertain send.
+
+Swift always uses manual ACK. A received event, `subscribed` metadata or a publish
+return value does not advance the stored cursor. `RealtimeCursorStore.load`
+returns this installation's confirmed event ID and revision, not a server ACK
+timestamp. Keys include the service URL, application, user and channel. After a
+replay gap the confirmed cursor is cleared; rebuilding authoritative data remains
+the application's responsibility. The new connection may deliver the same domain
+event again, so durable effect deduplication belongs to that application.
+
+Cancel an observing task to stop only its feed. `disconnect()` stops reconnects
+and retains desired subscriptions for an explicit future `connect()`; `close()`
+or sign-out permanently closes this client. Cancellation of a completed connect
+attempt cannot cancel a replacement connection. No continuous WebSocket service
+is promised while iOS suspends the application.
+
 <!-- compiled-quickstart -->
 ## Compiled quickstart
 

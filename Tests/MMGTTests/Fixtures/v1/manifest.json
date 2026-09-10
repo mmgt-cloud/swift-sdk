@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-8",
+  "contractVersion": "2026-09-10.native-9",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -282,6 +282,83 @@
       "service": "auth",
       "goType": "ValidateToken handler envelope",
       "sha256": "6186558fee75b02b51f103130ccb22a5b237e91e00165f426972f91ed76931ad"
+    },
+    {
+      "file": "realtime-auth.json",
+      "service": "realtime",
+      "goType": "clientMessage",
+      "swiftType": "JSONValue",
+      "sha256": "4f3103218e61fe3d4174f6e217f645b50c5276d50cb850c19fea14cb570a8fd4"
+    },
+    {
+      "file": "realtime-ready.json",
+      "service": "realtime",
+      "goType": "handleAuth map",
+      "swiftType": "RealtimeMessage",
+      "sha256": "771f4c0f37d401fdbabeab72e6c12e0cd4f55fc5ddac3f5f9f10a52850522115"
+    },
+    {
+      "file": "realtime-subscribe.json",
+      "service": "realtime",
+      "goType": "clientMessage",
+      "swiftType": "JSONValue",
+      "sha256": "953f1d94b278158f94644ffef7dcb834f79277f941e49255759335f0fe78227a"
+    },
+    {
+      "file": "realtime-subscribed.json",
+      "service": "realtime",
+      "goType": "subscribedMessage",
+      "swiftType": "RealtimeMessage",
+      "sha256": "6330db7db7e659693cd81727c9e1136e8eedbce62219514e33f3ad35396ec919"
+    },
+    {
+      "file": "realtime-unsubscribe.json",
+      "service": "realtime",
+      "goType": "clientMessage",
+      "swiftType": "JSONValue",
+      "sha256": "8a6b60499dc12ed514e201060acae70220fb757955527de195771111481d0720"
+    },
+    {
+      "file": "realtime-publish.json",
+      "service": "realtime",
+      "goType": "clientMessage",
+      "swiftType": "JSONValue",
+      "sha256": "129db4ec2eab52c8d7998108f9deba701adc439a3aa358fecc24fef9d56a41a8"
+    },
+    {
+      "file": "realtime-snapshot.json",
+      "service": "realtime",
+      "goType": "presenceSnapshotMessage",
+      "swiftType": "RealtimeMessage",
+      "sha256": "ea999be524fdaaec7c5c8b67af970658f94022c042a2b5afc24c65fc070af18e"
+    },
+    {
+      "file": "realtime-joined.json",
+      "service": "realtime",
+      "goType": "presenceChangeMessage",
+      "swiftType": "RealtimeMessage",
+      "sha256": "e5ea2d1b250ebd0eca3262e074dfb9b24bd4512af0bbe2bbbd86f13ff0031278"
+    },
+    {
+      "file": "realtime-left.json",
+      "service": "realtime",
+      "goType": "presenceChangeMessage",
+      "swiftType": "RealtimeMessage",
+      "sha256": "778f81040a15c2a1ecf7dd1238d07cf7be3b5b81bb3196372748f431abb14f77"
+    },
+    {
+      "file": "realtime-gap.json",
+      "service": "realtime",
+      "goType": "handleSubscribe map",
+      "swiftType": "RealtimeMessage",
+      "sha256": "1884ca31148499e84f20f877ab817b48cd3f7672c7334ae86aeb7fc9987ad025"
+    },
+    {
+      "file": "realtime-error.json",
+      "service": "realtime",
+      "goType": "errorMessage map",
+      "swiftType": "RealtimeMessage",
+      "sha256": "c735f695429f88fc7a54439d9f608751af17e39aff8018dd0ffa654cf602e30f"
     }
   ]
 }

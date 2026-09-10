@@ -1,0 +1,5 @@
+{
+  "type": "error",
+  "code": "grant_required",
+  "message": "A valid subscription grant is required"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "subscribe",
+  "channel": "workspace:synthetic",
+  "grant": "synthetic-grant",
+  "resume_after": "1725883200000-0",
+  "presence": true,
+  "ack_mode": "manual"
+}

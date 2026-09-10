@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fence delayed Realtime connect cancellation to its own waiter; complete all
+  143 server contract mappings and add shared recovery/presence frame tests.
+
 - Fence delayed overlapping Sync pulls and snapshots using durable per-scope
   snapshot watermarks, including authoritative absence. Upgrade SQLite v1 by
   rebuilding feeds while preserving pending mutations and issues for review.

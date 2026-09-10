@@ -110,8 +110,9 @@ public actor RealtimeClient: ApplicationLifecycleParticipant {
       Task { await self.cancelConnect(id) }
     }
   }
-  private func cancelConnect(_ id: UUID) async {
-    if let waiter = waiters.removeValue(forKey: id) { waiter.resume(throwing: CancellationError()) }
+  func cancelConnect(_ id: UUID) async {
+    guard let waiter = waiters.removeValue(forKey: id) else { return }
+    waiter.resume(throwing: CancellationError())
     if waiters.isEmpty, state != .open { await disconnect() }
   }
   private func start() {

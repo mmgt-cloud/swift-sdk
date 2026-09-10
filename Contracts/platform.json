@@ -2679,274 +2679,333 @@
       "typescript": "getState",
       "paths": [],
       "swift": "RealtimeClient.state / connectionStates",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/RealtimeReconnectTests.swift#lifecycleReconnectsOnlyPreviouslyDesiredConnections"
+      ],
       "kind": "native-adaptation",
       "notes": "Actor snapshot and AsyncSequence.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "getConnectionId",
       "paths": [],
       "swift": "RealtimeClient.connectionID",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/RealtimeReconnectTests.swift#lifecycleReconnectsOnlyPreviouslyDesiredConnections"
+      ],
       "kind": "native-adaptation",
       "notes": "Actor-owned connection identity.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "getUserId",
       "paths": [],
       "swift": "RealtimeClient.identity.userID",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/WebSocketTests.swift#realtimeAuthenticatesInFirstFrameAndRejectsForeignUser"
+      ],
       "kind": "native-adaptation",
       "notes": "Immutable expected account identity.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "getSubscriptions",
       "paths": [],
       "swift": "RealtimeClient.getSubscriptions",
-      "serverVerified": false,
+      "serverVerified": true,
       "tests": [
-        "Tests/MMGTTests/RealtimeRecoveryTests.swift"
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#lateGrantCannotRestoreAnUnsubscribedOrReplacedSubscription",
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence"
       ],
       "kind": "native-adaptation",
       "notes": "Desired subscriptions are preserved for reconnect; a late grant cannot restore a replaced subscription.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "partial",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "getPresence",
       "paths": [],
       "swift": "RealtimeClient.getPresence",
-      "serverVerified": false,
+      "serverVerified": true,
       "tests": [
-        "Tests/MMGTTests/RealtimeRecoveryTests.swift"
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#presenceCountsAreAuthoritativeAndClearedOnDisconnect",
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence"
       ],
       "kind": "native-adaptation",
       "notes": "Actor snapshot. Presence is connection-local and is cleared on disconnect.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "partial",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "getLastAck",
       "paths": [],
       "swift": "RealtimeCursorStore.load",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#confirmedCursorSurvivesRestartAndReplayGapInvalidatesIt",
+        "Tests/MMGTTests/WebSocketTests.swift#fileCursorCASProtectsAgainstOtherInstances"
+      ],
       "kind": "native-adaptation",
-      "notes": "Only confirmed transport ACK advances the persisted cursor.",
+      "notes": "Native adaptation returns locally confirmed event ID and CAS revision, not server last_acked_at. Subscribed metadata never overwrites local applied progress. Scoped by environment/app/user/channel.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "connect",
       "paths": [],
       "swift": "RealtimeClient.connect",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeReconnectTests.swift#completedWaiterCancellationCannotStopAutomaticReconnect",
+        "Tests/MMGTTests/RealtimeReconnectTests.swift#activeConnectCancellationDoesNotCreateASocketFromALateToken",
+        "Tests/MMGTTests/WebSocketTests.swift#readyDeadlineIncludesNonCooperativeTokenProvider",
+        "Tests/MMGTTests/WebSocketTests.swift#realtimeAuthenticatesInFirstFrameAndRejectsForeignUser"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime",
+      "notes": "Completes on authenticated ready, before asynchronous grant acquisition/resubscription. Observe subscribed/error frames separately. Cancellation is scoped to a live waiter; reconnect refreshes token and grants."
     },
     {
       "service": "realtime",
       "typescript": "disconnect",
       "paths": [],
       "swift": "RealtimeClient.disconnect",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeReconnectTests.swift#lifecycleReconnectsOnlyPreviouslyDesiredConnections",
+        "Tests/MMGTTests/RealtimeContractTests.swift#oneObserverCancellationDoesNotCloseAnotherFeedOrConnection"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "subscribe",
       "paths": [],
       "swift": "RealtimeClient.subscribe",
-      "serverVerified": false,
+      "serverVerified": true,
       "tests": [
-        "Tests/MMGTTests/RealtimeRecoveryTests.swift",
-        "Tests/MMGTTests/WebSocketTests.swift"
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#lateGrantCannotRestoreAnUnsubscribedOrReplacedSubscription",
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence"
       ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "partial",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "unsubscribe",
       "paths": [],
       "swift": "RealtimeClient.unsubscribe",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#lateGrantCannotRestoreAnUnsubscribedOrReplacedSubscription",
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "publish",
       "paths": [],
       "swift": "RealtimeClient.publish",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/RealtimeContractTests.swift#invalidChannelsNeverReachTransport"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "ack",
       "paths": [],
       "swift": "RealtimeClient.acknowledge",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#confirmedCursorSurvivesRestartAndReplayGapInvalidatesIt",
+        "Tests/MMGTTests/WebSocketTests.swift#realtimeCursorOnlyAdvancesAfterAcknowledgementAndDedupeIsPerConnection"
+      ],
       "kind": "native-adaptation",
       "notes": "Call after applying the event; not a domain read receipt.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "on",
       "paths": [],
       "swift": "RealtimeClient.messages / connectionStates",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#slowConsumerReceivesExplicitOverflowAndCanOpenANewFeed"
+      ],
       "kind": "native-adaptation",
       "notes": "AsyncSequence replaces named callbacks.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "off",
       "paths": [],
       "swift": "Task.cancel",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#oneObserverCancellationDoesNotCloseAnotherFeedOrConnection"
+      ],
       "kind": "native-adaptation",
       "notes": "Cancel the observing task; stream termination removes its observer.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "onEvent",
       "paths": [],
       "swift": "RealtimeClient.messages",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/WebSocketTests.swift#realtimeCursorOnlyAdvancesAfterAcknowledgementAndDedupeIsPerConnection",
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#slowConsumerReceivesExplicitOverflowAndCanOpenANewFeed"
+      ],
       "kind": "native-adaptation",
       "notes": "Match the event case of the typed sequence.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "realtime",
       "typescript": "onPresence",
       "paths": [],
       "swift": "RealtimeClient.messages",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/RealtimeContractTests.swift#sharedFramesPreserveRequestsConfirmedCursorAndPresence",
+        "Tests/MMGTTests/RealtimeRecoveryTests.swift#presenceCountsAreAuthoritativeAndClearedOnDisconnect"
+      ],
       "kind": "native-adaptation",
       "notes": "Match the presence case of the typed sequence.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
-        "device": "not-applicable"
-      }
+        "device": "pending"
+      },
+      "serverReview": "realtime"
     },
     {
       "service": "ai",
@@ -3394,6 +3453,52 @@
         {
           "path": "services/auth/internal/webauthn/enrollment.go",
           "sha256": "72b90d0de395e8986a6a40f958586821c00f58cfe62e389ae520d8647f327629"
+        }
+      ]
+    },
+    "realtime": {
+      "platformCommit": "a1cb36dad40d57f595c15b03f287d33aa3aa95a0",
+      "scope": "16 runtime/native adaptations reviewed against first-frame auth, channel/grant and ACK/replay/presence implementation. Ten Go DTO fixtures and actual local WebSocket ready/grant/replay/ACK round-trip supplement Swift fault tests and TypeScript wire checks. No server implementation change; no provider, physical or environment acceptance inferred.",
+      "files": [
+        {
+          "path": "services/realtime/internal/realtime/client.go",
+          "sha256": "4f465c5af05237f1efa98ca7ab3e3c403713256c3cf5ab10770ff1f177d356ea"
+        },
+        {
+          "path": "services/realtime/internal/realtime/server.go",
+          "sha256": "c79849ca699affea200bfd3055e94b93a84aaa68841616b822cb854e03a818a8"
+        },
+        {
+          "path": "services/realtime/internal/realtime/channel.go",
+          "sha256": "c2409a74548118b1ed4e75ff2fc8fccab64f8f9481d6f4a3119ed657a065068c"
+        },
+        {
+          "path": "services/realtime/internal/realtime/grant.go",
+          "sha256": "39b183490b7d59b3915673cd661fbbfcd5d0f25fde003519d7825a24e82da7c8"
+        },
+        {
+          "path": "services/realtime/internal/realtime/ack.go",
+          "sha256": "85c3bb99335eb0517a6a62cdbeaf00e4ceb090bcad27e841b611ef5b20df9815"
+        },
+        {
+          "path": "services/realtime/internal/realtime/presence.go",
+          "sha256": "8efd42b89612f44ad70abc47435cc65e50be6391a8f007419a8dcb9f8cbff8aa"
+        },
+        {
+          "path": "services/realtime/internal/realtime/broker.go",
+          "sha256": "468838b2061c9e83250977d3b131d2885af0cb22f2b1c278f098656f4df018d4"
+        },
+        {
+          "path": "services/realtime/internal/api/router.go",
+          "sha256": "09e92a1993db0be377f2fe7d040dbb33b3fcefe6901a5824afae662a13909152"
+        },
+        {
+          "path": "packages/realtime-client/src/client.ts",
+          "sha256": "413ac46081709da929cd6b583422f43a760450d7ad2c61b9ffc7c46101788b4e"
+        },
+        {
+          "path": "packages/realtime-client/src/types.ts",
+          "sha256": "ba051fc6640da9ce774411a661920f4b6ddc7d0222d278a2d6a5493024e0ab94"
         }
       ]
     }

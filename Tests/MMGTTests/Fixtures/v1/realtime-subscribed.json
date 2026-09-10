@@ -1,0 +1,6 @@
+{
+  "type": "subscribed",
+  "channel": "workspace:synthetic",
+  "last_acked_event_id": "1725883200000-0",
+  "last_acked_at": "2026-09-09T12:00:00.123456789Z"
+}

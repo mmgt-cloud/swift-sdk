@@ -1,0 +1,11 @@
+{
+  "type": "publish",
+  "channel": "workspace:synthetic",
+  "grant": "synthetic-grant",
+  "event_type": "synthetic.changed",
+  "payload": {
+    "domain_event_id": "synthetic-event",
+    "enabled": false,
+    "removed": null
+  }
+}

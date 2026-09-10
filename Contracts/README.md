@@ -12,7 +12,7 @@ provider correctness. Native adaptations describe deliberate differences from
 browser APIs; generic transport extensions are separated from service operations.
 Internal TypeScript helper classes do not belong to the public service matrix.
 
-The test target contains 44 synthetic shared JSON fixtures under
+The test target contains 55 synthetic shared JSON fixtures under
 `Tests/MMGTTests/Fixtures/v1`. Their manifest, checksums and semantic tests run
 without the platform checkout. The platform mirrors their exact bytes and tests
 the actual Go and TypeScript DTOs/clients against them. A selected fixture is
@@ -76,5 +76,13 @@ Tests inspect the actual AppAuth authorization request (PKCE S256, independent
 state/nonce, exact callback and no secret), native platform passkey request bytes,
 provider linking proof and cancellation ordering. NSDK-08 fences a delayed
 passkey cancellation to its originating ceremony. The complete matrix now has
-127 reviewed operations; 16 Realtime mappings remain. These local checks do not
+143 reviewed operations; no operation remains unreviewed. These local checks do not
 replace browser/device ceremonies, Associated Domains or provider acceptance.
+
+Realtime adds eleven shared frames (55 fixtures total). All 16 runtime mappings
+have explicit server and test references. The native API intentionally uses
+confirmed, identity-scoped cursor progress and manual ACK; it does not expose the
+browser client's last-ACK timestamp or persist each received event automatically.
+A delayed completed-connect cancellation cannot stop reconnect (NSDK-09).
+Grant refresh, lifecycle, observer cancellation, restart and replay-gap tests are
+local evidence; actual network/device and environment fault acceptance remain open.
