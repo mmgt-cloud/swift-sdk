@@ -131,5 +131,5 @@ Profile and provider reads require `user:read`, profile changes `user:write`, an
 activity operations `log:read`. Session listing still requires an authenticated
 session. The SDK does not refresh or retry a rejected profile change automatically.
 Activity exports are capped at 10,000 rows. Prefer `exportActivityLogs` when you
-need its `truncated` metadata; `exportActivityCSV` returns the raw CSV text,
-including the UTF-8 BOM, without response headers. Filters use `YYYY-MM-DD` dates.
+need its `truncated` metadata; `exportActivityCSV` returns UTF-8 decoded CSV text
+without response headers; Foundation consumes a leading UTF-8 BOM. Filters use `YYYY-MM-DD` dates.

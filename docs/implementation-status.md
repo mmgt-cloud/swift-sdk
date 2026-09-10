@@ -217,3 +217,9 @@ Billing, 26 of 143 mappings are reviewed; 117 remain pending. The fixture set no
 contains 22 files. The first local simulator run passed 67 tests, zero failures
 or skips, on uncommitted preparation; exact-commit, device and release gates
 remain separate. No new stable SDK version has been published.
+
+The first exact-commit attempt (`353e6f4`) exposed an incorrect CSV test expectation:
+Foundation consumes a leading UTF-8 BOM when decoding text. The test now verifies
+the unchanged CSV content and CRLF delimiters after that encoding signature, and
+the documentation states this behavior. The failed result remains retained; this
+was a test-contract correction, not a silent retry of a provider operation.

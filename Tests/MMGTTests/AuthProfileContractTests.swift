@@ -110,7 +110,9 @@ private enum AuthReadOperation: String, CaseIterable, Sendable {
       configuration: try .init(
         baseURL: URL(string: "https://api.example.invalid/auth")!, appID: "synthetic-app"),
       tokenProvider: { "synthetic-access" }, transport: transport)
-    #expect(try await client.exportActivityCSV() == csv)
+    // Foundation's UTF-8 text decoder consumes the encoding signature. CSV
+    // content and CRLF delimiters remain unchanged; this API returns text.
+    #expect(try await client.exportActivityCSV() == String(csv.dropFirst()))
     let requests = await transport.requests
     #expect(requests.count == 1 && requests[0].url?.query == "format=csv")
   }
