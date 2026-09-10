@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Accept a trailing empty fragment on native account callbacks returned by the
+  system browser. Continue rejecting fragment data, wrong targets or state,
+  duplicate/extra query parameters and malformed codes.
+
 - Report native account callback validation failures with fixed structural reason
   codes, without including callback URLs, state, authorization codes or tokens.
 

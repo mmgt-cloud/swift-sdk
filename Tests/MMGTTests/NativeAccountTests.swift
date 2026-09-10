@@ -70,11 +70,33 @@ import UIKit
     let registered = URL(string: "https://example.invalid/native/callback")!
     let valid = "\(registered)?code=\(UUID().uuidString)&state=\(proof.state)"
     for (suffix, expected) in [
-      ("#", "empty-fragment"), ("#synthetic-secret", "fragment"),
+      ("#synthetic-secret", "fragment"),
       ("&extra=synthetic-secret", "query-count"),
     ] {
       #expect(throws: MMGTError.invalidResponse("Native account callback: " + expected)) {
         try proof.code(from: URL(string: valid + suffix)!, registered: registered)
+      }
+    }
+  }
+  @Test func emptyBrowserFragmentPreservesAllCallbackGuards() throws {
+    let proof = try NativeAccountProof()
+    let id = UUID().uuidString
+    for target in ["https://example.invalid/native/callback", "mmgt-example://native/callback"] {
+      let registered = URL(string: target)!
+      let valid = "\(target)?code=\(id)&state=\(proof.state)"
+      #expect(try proof.code(from: URL(string: valid + "#")!, registered: registered) == id)
+      for value in [
+        valid + "# ", valid + "#%00", valid + "##", valid + "#code=\(id)",
+        valid + "&code=\(id)#", valid + "&state=\(proof.state)#", valid + "&extra=value#",
+        valid.replacingOccurrences(of: proof.state, with: "wrong-state") + "#",
+        valid.replacingOccurrences(of: "code=\(id)", with: "code=not-a-code") + "#",
+        valid.replacingOccurrences(of: "/callback?", with: "/other?") + "#",
+        valid.replacingOccurrences(of: "://", with: "://synthetic-user@") + "#",
+        valid.replacingOccurrences(of: "://", with: "://foreign.invalid/") + "#",
+      ] {
+        #expect(throws: MMGTError.self) {
+          try proof.code(from: URL(string: value)!, registered: registered)
+        }
       }
     }
   }

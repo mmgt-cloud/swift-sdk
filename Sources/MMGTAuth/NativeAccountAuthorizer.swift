@@ -35,10 +35,10 @@ struct NativeAccountProof: Sendable {
     guard callback.user == nil, callback.password == nil else {
       throw MMGTError.invalidResponse("Native account callback: user-information")
     }
-    if let fragment = callback.fragment {
-      throw MMGTError.invalidResponse(
-        fragment.isEmpty
-          ? "Native account callback: empty-fragment" : "Native account callback: fragment")
+    // A system-browser redirect can preserve a trailing empty '#'. It carries
+    // no response data; any nonempty fragment is still outside this contract.
+    if let fragment = callback.fragment, !fragment.isEmpty {
+      throw MMGTError.invalidResponse("Native account callback: fragment")
     }
     guard let query = URLComponents(url: callback, resolvingAgainstBaseURL: false)?.queryItems,
       query.count == 2

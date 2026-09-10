@@ -48,6 +48,11 @@ and GitHub accounts. Provider reauthentication follows the existing Google/Apple
 contract; password and passkey reauthentication remain available independently.
 Callback validation errors identify only the failed structural check; they never
 include the URL, state or code. Treat a rejected callback as a failed attempt.
+The received callback may have a trailing empty `#`, as observed after a
+system-browser provider redirect. This exception carries no response data:
+nonempty fragments remain invalid, and the exact registered target, state and
+single opaque code are still checked. It does not permit fragments in the
+registered redirect configuration or apply general URL normalization.
 
 The registered native callback receives an opaque code and state. PKCE and the
 current session are required to finish; no provider credential reaches the app.
