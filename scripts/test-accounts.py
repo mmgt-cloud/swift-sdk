@@ -177,6 +177,7 @@ def main():
         claim_attempt(ROOT / '.artifacts', data, revision, report_path)
         command = ['xcodebuild', 'test-without-building', '-xctestrun', prior['xctestrun'],
                    '-destination', prior['destination'], '-parallel-testing-enabled', 'NO',
+                   '-collect-test-diagnostics', 'never',
                    '-resultBundlePath', str(folder / 'tests.xcresult')]
     with (folder / 'xcodebuild.log').open('w') as log:
         try:

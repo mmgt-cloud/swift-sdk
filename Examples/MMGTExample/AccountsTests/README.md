@@ -9,6 +9,9 @@ account in a platform-owned smoke application with TOTP enabled. The platform
 operator prepares an already verified disposable identity; this scenario does
 not establish delivery of registration, magic-link or password-reset emails.
 It also does not replace browser MFA, provider linking or passkey acceptance.
+The fixture needs the normal member permissions plus `user:delete`, assigned
+through its own disposable role. The default member role alone correctly returns
+403 for account deletion; never broaden that shared role to make this test pass.
 
 Build a clean SDK commit before preparing private fixture input:
 
@@ -50,6 +53,9 @@ python3 scripts/test-accounts.py run \
 The runner checks the clean commit and build hashes, journals the attempt
 before execution, passes secrets only through the runner environment, and
 retains private logs and an xcresult. Reusing an attempted `runID` is rejected.
+Verbose automatic system diagnostics are disabled; they stalled collection after
+a reported assertion failure. Test logs, the xcresult and the bounded outer
+timeout remain enabled, and no failed scenario is automatically repeated.
 After an interruption, inspect the recorded phase and reconcile the owned
 server account before preparing a new attempt. There is no automatic retry.
 The two expected test results are a known TOTP counter vector and the complete

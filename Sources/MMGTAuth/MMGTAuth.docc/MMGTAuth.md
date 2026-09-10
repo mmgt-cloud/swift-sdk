@@ -44,6 +44,15 @@ Verification belongs to the exact generated secret and activation is single-use.
 A storage failure during activation requires a new setup. Always present recovery
 codes privately and let the user store them before dismissing setup.
 
+Authentication does not grant every account permission. The application's roles
+must permit the operation: profile reads use `user:read`, profile/password changes
+use `user:write`, activity reads use `log:read`, and MFA management uses the
+corresponding `settings` permission. `deleteAccount` requires `user:delete` in
+addition to the password and explicit confirmation. The default `member` role
+does not include deletion. Surface a 403 as a policy decision; do not repeatedly
+reauthenticate or retry it. Role configuration belongs to the application's
+backend/operator and cannot be changed with a user-only iOS client.
+
 ### Remembering a device
 
 Password/MFA device trust is opt-in. Create a `TrustedDeviceTransport` with the
