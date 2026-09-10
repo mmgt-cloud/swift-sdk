@@ -119,6 +119,7 @@ private enum FixtureTOTP {
         try await $0.login(input: .init(email: c.email, password: c.password))
       }
       try require(await session.identity?.userID == c.userID, "Unexpected initial account")
+      phase = "profile-update"
       let updated = try await session.performAccountOperation {
         try await $0.updateProfile(
           input: .init(firstName: "Native", lastName: "Fixture", locale: "en"))
@@ -126,11 +127,15 @@ private enum FixtureTOTP {
       try require(
         updated.id == c.userID && updated.firstName == "Native",
         "Profile update changed identity or fields")
+      phase = "token-validation"
       _ = try await session.performAccountOperation { try await $0.validateToken() }
+      phase = "activity-event-types"
       _ = try await session.performAccountOperation { try await $0.getActivityEventTypes() }
+      phase = "activity-list"
       _ = try await session.performAccountOperation {
         try await $0.listActivityLogs(page: 1, limit: 10)
       }
+      phase = "session-list"
       let before = try await session.performAccountOperation { try await $0.listSessions() }
       try require(before.sessions.contains(where: \.isCurrent), "Current session absent")
       print("MMGT account acceptance: profile and session reads passed")
@@ -239,6 +244,8 @@ private enum FixtureTOTP {
       let code: String
       if let api = error as? APIError {
         code = "HTTP " + String(api.status)
+      } else if let keychain = error as? KeychainError {
+        code = "Keychain OSStatus " + String(keychain.status)
       } else if error is CancellationError {
         code = "cancelled"
       } else if let safe = error as? AccountFailure {
