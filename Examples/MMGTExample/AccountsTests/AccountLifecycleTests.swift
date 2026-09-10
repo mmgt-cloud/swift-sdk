@@ -37,10 +37,18 @@ private enum FixtureTOTP {
     -> String
   {
     let alphabet = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567")
+    let upper = secret.uppercased()
+    let payload = upper.prefix { $0 != "=" }
+    let padding = upper.dropFirst(payload.count)
+    let allowedPadding = [0: 0, 2: 6, 4: 4, 5: 3, 7: 1]
+    guard let requiredPadding = allowedPadding[payload.count % 8],
+      padding.allSatisfy({ $0 == "=" }),
+      padding.isEmpty || padding.count == requiredPadding
+    else { throw AccountFailure(description: "Invalid TOTP fixture padding") }
     var buffer = 0
     var bits = 0
     var key = Data()
-    for character in secret.uppercased() {
+    for character in payload {
       guard let value = alphabet.firstIndex(of: character) else {
         throw AccountFailure(description: "Invalid TOTP fixture encoding")
       }
@@ -76,6 +84,12 @@ private enum FixtureTOTP {
 @Suite(.serialized, .timeLimit(.minutes(5))) struct AccountLifecycleTests {
   @Test func fixtureTOTPMatchesKnownCounterVector() throws {
     #expect(try FixtureTOTP.code(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", time: 59) == "287082")
+    let padded = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA===="
+    #expect(try FixtureTOTP.code(secret: padded, time: 59) == "599872")
+    #expect(try FixtureTOTP.code(secret: String(padded.dropLast(4)), time: 59) == "599872")
+    for invalid in ["M=Y=====", "MY=====", "MY=======", "MZ======", "A", "", "========"] {
+      #expect(throws: AccountFailure.self) { try FixtureTOTP.code(secret: invalid, time: 59) }
+    }
   }
 
   @Test func realAccountSessionsTOTPRecoveryPasswordAndDeletion() async throws {

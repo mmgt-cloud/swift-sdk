@@ -140,7 +140,8 @@ def main():
                             'oidcClientID', 'redirectURL', 'relyingPartyID', 'syncCollection', 'developmentScheme'}:
             raise ValueError('The example may contain only public configuration')
         command = ['xcodebuild', 'build-for-testing', '-project', 'Examples/MMGTExample/MMGTExample.xcodeproj',
-                   '-scheme', 'MMGTAccounts', '-destination', args.destination, '-derivedDataPath', str(derived)]
+                   '-scheme', 'MMGTAccounts', '-destination', 'generic/platform=iOS' if physical else args.destination,
+                   '-derivedDataPath', str(derived)]
         if physical:
             command += ['-allowProvisioningUpdates', 'DEVELOPMENT_TEAM=' + args.team_id,
                         'CODE_SIGN_STYLE=Automatic']

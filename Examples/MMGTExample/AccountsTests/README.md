@@ -18,7 +18,8 @@ python3 scripts/test-accounts.py build \
 ```
 
 For a physical iPhone, use `platform=iOS,id=YOUR-DEVICE-ID`, supply `--team-id`,
-and optionally `--developer-dir`. The phone must be unlocked to start the host;
+and optionally `--developer-dir`. Building uses the generic iOS destination and
+retains the selected physical device ID for execution. The phone must be unlocked to start the host;
 the account scenario itself needs no interactive authentication.
 
 The Simulator host is signed ad hoc with a synthetic application identifier;
@@ -28,6 +29,11 @@ Simulator host failed real Keychain persistence with OSStatus -34018 before
 profile mutation. The scenario now probes save/load/clear using synthetic local
 tokens before any live request. This follows Apple's requirement for a Keychain
 [access-group identity](https://developer.apple.com/documentation/security/errsecmissingentitlement).
+
+The fixture's TOTP generator accepts the server's padded Base32 secrets and
+canonical unpadded input, with known counter vectors and malformed-padding
+checks. It is a test helper; public SDK consumers display setup data to the
+user's authenticator rather than retaining the TOTP secret in their client.
 
 The private JSON input has exactly these fields: `environment`, `appID`,
 `userID`, `runID`, `email`, `password`, `replacementPassword`, `authURL`. Store
