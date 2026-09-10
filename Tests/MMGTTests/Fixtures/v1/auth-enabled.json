@@ -1,0 +1,7 @@
+{
+  "message": "Synthetic MFA enabled",
+  "recovery_codes": [
+    "synthetic-recovery-one",
+    "synthetic-recovery-two"
+  ]
+}

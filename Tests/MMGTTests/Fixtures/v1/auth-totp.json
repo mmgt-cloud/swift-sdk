@@ -1,0 +1,5 @@
+{
+  "secret": "MZXW6YTBOI======",
+  "qr_code_url": "otpauth://totp/MMGT:Synthetic?secret=MZXW6YTBOI&issuer=MMGT",
+  "qr_code_data": "AAECAw=="
+}

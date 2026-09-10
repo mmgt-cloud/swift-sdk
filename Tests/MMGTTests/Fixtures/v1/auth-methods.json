@@ -1,0 +1,13 @@
+{
+  "available_methods": [
+    "totp",
+    "email",
+    "passkey",
+    "sms",
+    "backup_email"
+  ],
+  "email_2fa_enabled": true,
+  "totp_enabled": true,
+  "passkey_enabled": true,
+  "sms_enabled": true
+}
