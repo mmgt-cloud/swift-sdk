@@ -314,6 +314,9 @@ public struct SocialAccountResponse: Codable, Sendable, Equatable {
   public var provider: String
   public var providerUserId: String
   public var email: String?
+  /// Nil means the server did not supply verification information.
+  public var emailVerified: Bool?
+  public var emailIsPrivateRelay: Bool?
   public var name: String?
   public var firstName: String?
   public var lastName: String?
@@ -325,12 +328,15 @@ public struct SocialAccountResponse: Codable, Sendable, Equatable {
   public init(
     id: String, provider: String, providerUserId: String, email: String? = nil, name: String? = nil,
     firstName: String? = nil, lastName: String? = nil, profilePicture: String? = nil,
-    username: String? = nil, locale: String? = nil, createdAt: String, updatedAt: String
+    username: String? = nil, locale: String? = nil, createdAt: String, updatedAt: String,
+    emailVerified: Bool? = nil, emailIsPrivateRelay: Bool? = nil
   ) {
     self.id = id
     self.provider = provider
     self.providerUserId = providerUserId
     self.email = email
+    self.emailVerified = emailVerified
+    self.emailIsPrivateRelay = emailIsPrivateRelay
     self.name = name
     self.firstName = firstName
     self.lastName = lastName
@@ -345,6 +351,8 @@ public struct SocialAccountResponse: Codable, Sendable, Equatable {
     case provider = "provider"
     case providerUserId = "provider_user_id"
     case email = "email"
+    case emailVerified = "email_verified"
+    case emailIsPrivateRelay = "email_is_private_relay"
     case name = "name"
     case firstName = "first_name"
     case lastName = "last_name"
@@ -370,6 +378,8 @@ public struct UserResponse: Codable, Sendable, Equatable {
   public var id: String
   public var email: String
   public var emailVerified: Bool
+  /// A requested address that has not yet replaced the current account email.
+  public var pendingEmail: String?
   public var name: String?
   public var firstName: String?
   public var lastName: String?
@@ -386,11 +396,13 @@ public struct UserResponse: Codable, Sendable, Equatable {
     id: String, email: String, emailVerified: Bool, name: String? = nil, firstName: String? = nil,
     lastName: String? = nil, profilePicture: String? = nil, locale: String? = nil,
     twoFaEnabled: Bool, twoFaMethod: String? = nil, hasPassword: Bool, roles: [String]? = nil,
-    createdAt: String, updatedAt: String, socialAccounts: [SocialAccountResponse]? = nil
+    createdAt: String, updatedAt: String, socialAccounts: [SocialAccountResponse]? = nil,
+    pendingEmail: String? = nil
   ) {
     self.id = id
     self.email = email
     self.emailVerified = emailVerified
+    self.pendingEmail = pendingEmail
     self.name = name
     self.firstName = firstName
     self.lastName = lastName
@@ -408,6 +420,7 @@ public struct UserResponse: Codable, Sendable, Equatable {
     case id = "id"
     case email = "email"
     case emailVerified = "email_verified"
+    case pendingEmail = "pending_email"
     case name = "name"
     case firstName = "first_name"
     case lastName = "last_name"

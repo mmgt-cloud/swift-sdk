@@ -5,7 +5,7 @@
   "files": [
     {
       "path": "packages/auth-client/src/types.ts",
-      "sha256": "62fe6cefa924a765af764437077316e1deeae508b45bee1fdb2d7ec616879783"
+      "sha256": "4b831ee5c2b86d9e343ac94b63756aacb57af554821ad5ea6abafef1c086af5f"
     },
     {
       "path": "packages/billing-client/src/types.ts",
@@ -405,8 +405,11 @@
         "/profile"
       ],
       "swift": "AuthClient.getProfile",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -414,7 +417,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -423,8 +427,12 @@
         "/profile"
       ],
       "swift": "AuthClient.updateProfile",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads",
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileWriteFailureDoesNotRefreshOrRepeat"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -432,7 +440,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -604,8 +613,11 @@
         "/profile/social-accounts"
       ],
       "swift": "AuthClient.listSocialAccounts",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -613,7 +625,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -1339,8 +1352,11 @@
         "/sessions"
       ],
       "swift": "AuthClient.listSessions",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1348,7 +1364,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -1393,8 +1410,11 @@
         "/activity-logs"
       ],
       "swift": "AuthClient.listActivityLogs",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1402,7 +1422,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -1411,8 +1432,11 @@
         "/activity-logs/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.getActivityLog",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1420,7 +1444,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -1429,8 +1454,10 @@
         "/activity-logs/event-types"
       ],
       "swift": "AuthClient.getActivityEventTypes",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1438,7 +1465,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -1447,8 +1475,12 @@
         "/activity-logs/export"
       ],
       "swift": "AuthClient.exportActivityLogs",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthProfileContractTests.swift#profileSessionAndActivityWireContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#authPreservesPendingEmailProviderFactsAndActivityPayloads",
+        "Tests/MMGTTests/AuthProfileContractTests.swift#activityCSVPreservesTextAndExplicitFormat"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1456,7 +1488,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-profile"
     },
     {
       "service": "auth",
@@ -2658,6 +2691,48 @@
         {
           "path": "services/billing/internal/billing/models.go",
           "sha256": "feb9ad06efa207dedf110a621007a92d9c778223f4228bd82471bc7feb582b14"
+        }
+      ]
+    },
+    "auth-profile": {
+      "platformCommit": "a4e2a240f57fc4dc5576725c2991769db3de36ce",
+      "scope": "Profile GET/PUT, linked-provider reads, session listing and activity list/detail/types/JSON+CSV export: registered routes, JWT/RBAC boundaries, request fields, response DTOs and export cap. Provider login and environment effects remain separate.",
+      "files": [
+        {
+          "path": "services/auth/cmd/api/main.go",
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
+        },
+        {
+          "path": "services/auth/pkg/dto/auth.go",
+          "sha256": "115bf9e174f8150c1ddb10034e1a043633f9af156344a2f8157d578632c1282d"
+        },
+        {
+          "path": "services/auth/pkg/dto/session.go",
+          "sha256": "e08ed31bf8729913538922a786826ab2e548ffef5cfe6828b6cc65ba232fc034"
+        },
+        {
+          "path": "services/auth/pkg/dto/activity_log.go",
+          "sha256": "8712e8d48706bb7d5fc7e5f8c8d663728ff552d4743610e2dbbb436618db25ff"
+        },
+        {
+          "path": "services/auth/internal/user/handler.go",
+          "sha256": "4c9af0fe116d6491a04df2235805f57f05402150778ab19a2544d60dbf4158c4"
+        },
+        {
+          "path": "services/auth/internal/social/handler.go",
+          "sha256": "be8898ac1b0b2a4eccd28a5555127927deeb2a9281ffbe589c4475dd7f1c5f72"
+        },
+        {
+          "path": "services/auth/internal/session/handler.go",
+          "sha256": "eaef31c84fb9afc1551ef7d7a93d93e4ca25782c65633e7ed8d3f3270de485fc"
+        },
+        {
+          "path": "services/auth/internal/log/handler.go",
+          "sha256": "92f5b389926fd6f444095870f55a322132a4bc5e52afe896255f07805a702c87"
+        },
+        {
+          "path": "services/auth/internal/log/query_service.go",
+          "sha256": "1128e494dddca5cc6ffdea696f0eac2842960bf06924532a3d88a62c515d1ee3"
         }
       ]
     }

@@ -92,6 +92,31 @@ import Testing
     #expect(snapshot.records == pull.changes)
     #expect(!snapshot.hasMore && snapshot.cursor == "synthetic-snapshot-cursor")
   }
+  @Test func authPreservesPendingEmailProviderFactsAndActivityPayloads() throws {
+    let profile = try roundTrip("auth-profile", as: UserResponse.self)
+    #expect(profile.email == "current@example.invalid")
+    #expect(profile.pendingEmail == "pending@example.invalid")
+    let social = try roundTrip("auth-social", as: SocialAccountListResponse.self)
+    #expect(profile.socialAccounts == social.socialAccounts)
+    #expect(social.socialAccounts.map(\.emailVerified) == [true, false])
+    #expect(social.socialAccounts.map(\.emailIsPrivateRelay) == [true, false])
+    let sessions = try roundTrip("auth-sessions", as: SessionListResponse.self)
+    #expect(sessions.sessions.map(\.isCurrent) == [true, false])
+    let activity = try roundTrip("auth-activity", as: ActivityLogListResponse.self)
+    let event = try #require(activity.data.first)
+    #expect(event.details["enabled"] == .bool(false) && event.details["removed"] == .null)
+    #expect(!event.isAnomaly && !activity.pagination.hasNext)
+    let export = try roundTrip("auth-export", as: ActivityLogExportResponse.self)
+    #expect(export.data == activity.data && !export.truncated)
+  }
+  @Test func absentProviderFactsRemainUnknownAndDoNotInventVerification() throws {
+    let legacy = Data(
+      #"{"id":"synthetic","provider":"apple","provider_user_id":"synthetic","created_at":"2026-09-10T00:00:00Z","updated_at":"2026-09-10T00:00:00Z"}"#
+        .utf8)
+    let account = try JSONDecoder().decode(SocialAccountResponse.self, from: legacy)
+    #expect(account.emailVerified == nil && account.emailIsPrivateRelay == nil)
+    #expect(try JSONValue.encoding(account) == JSONDecoder().decode(JSONValue.self, from: legacy))
+  }
   @Test func checkoutCallbackDoesNotImplyAccess() throws {
     let checkout = try roundTrip("billing-checkout", as: CheckoutResponse.self)
     let access = try roundTrip("billing-access", as: BillingAccessResponse.self)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-2",
+  "contractVersion": "2026-09-10.native-3",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -122,6 +122,41 @@
       "goType": "createInvitesResponse",
       "swiftType": "CreateInvitesResponse",
       "sha256": "93f8b8bed03eb2972b4c6d316a57fa63cec6b3583c351f995dbe20b60b7cc860"
+    },
+    {
+      "file": "auth-profile.json",
+      "service": "auth",
+      "goType": "UserResponse",
+      "swiftType": "UserResponse",
+      "sha256": "537cf1772d3f0ac6a2b23daa639f35b2bdef90132263ec856def1b7bb6287939"
+    },
+    {
+      "file": "auth-social.json",
+      "service": "auth",
+      "goType": "SocialAccountListResponse",
+      "swiftType": "SocialAccountListResponse",
+      "sha256": "26f60f6f92d8dd50aa1c32c4467aa506ef33d6ae4241a97b3c6d6346fa8c0d96"
+    },
+    {
+      "file": "auth-sessions.json",
+      "service": "auth",
+      "goType": "SessionListResponse",
+      "swiftType": "SessionListResponse",
+      "sha256": "cbf3480a8a8eee5d98b6574f4a20d0ac751adf738a711e20f4afde5900436d0d"
+    },
+    {
+      "file": "auth-activity.json",
+      "service": "auth",
+      "goType": "ActivityLogListResponse",
+      "swiftType": "ActivityLogListResponse",
+      "sha256": "299fcccf0a92cfb640321574e56a7b7872787be6d2e71c8190acd8047390cb2d"
+    },
+    {
+      "file": "auth-export.json",
+      "service": "auth",
+      "goType": "ActivityLogExportResponse",
+      "swiftType": "ActivityLogExportResponse",
+      "sha256": "f9ca2579fbafd9b757d4d0cb44145aab246546a0dac7baace9912b22f33a6e8f"
     }
   ]
 }

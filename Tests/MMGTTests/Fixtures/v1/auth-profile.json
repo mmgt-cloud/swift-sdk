@@ -1,0 +1,42 @@
+{
+  "id": "22222222-2222-4222-8222-222222222222",
+  "email": "current@example.invalid",
+  "email_verified": true,
+  "pending_email": "pending@example.invalid",
+  "name": "Synthetic Account",
+  "first_name": "Synthetic",
+  "last_name": "Account",
+  "profile_picture": "https://media.example.invalid/avatar.png",
+  "locale": "en",
+  "two_fa_enabled": true,
+  "two_fa_method": "totp",
+  "has_password": true,
+  "roles": [
+    "member"
+  ],
+  "created_at": "2026-09-10T03:00:00Z",
+  "updated_at": "2026-09-10T03:00:00Z",
+  "social_accounts": [
+    {
+      "id": "33333333-3333-4333-8333-333333333333",
+      "provider": "apple",
+      "provider_user_id": "synthetic-apple-subject",
+      "email": "synthetic@privaterelay.example.invalid",
+      "email_verified": true,
+      "email_is_private_relay": true,
+      "name": "Synthetic Provider",
+      "created_at": "2026-09-10T03:00:00Z",
+      "updated_at": "2026-09-10T03:00:00Z"
+    },
+    {
+      "id": "44444444-4444-4444-8444-444444444444",
+      "provider": "github",
+      "provider_user_id": "synthetic-github-subject",
+      "email_verified": false,
+      "email_is_private_relay": false,
+      "username": "synthetic-user",
+      "created_at": "2026-09-10T03:00:00Z",
+      "updated_at": "2026-09-10T03:00:00Z"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-10 03:00 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-10 03:50 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
@@ -35,7 +35,10 @@ represent production acceptance.
 
 A separate disposable-account suite now compiles on iOS 26. Its runner validates
 ownership, build hashes, stage-before-prod and a durable no-retry attempt record;
-six local Python regressions pass. Actual account execution is still pending.
+six local Python regressions pass. The complete account suite passed on minimum iOS 26.0 at `f91974e` (two tests,
+zero failures/skips), against stage as a development diagnostic. Its server
+account was deleted; a separate reconciliation removed the disposable role under
+legacy foreign-key constraints. Physical account execution remains pending.
 See [the scenario and its limits](../Examples/MMGTExample/AccountsTests/README.md).
 
 ## Earlier native and service evidence — 10 September, before 00:43 UTC
@@ -200,3 +203,17 @@ Swift has its own version and acceptance process. Remaining work includes the
 operation/fault matrix, corrected native and five-service device tests, complete
 stage then production acceptance, actual iOS ZIP verification, immutable release,
 Swift Package Index/hosted DocC and anonymous tagged installation.
+
+## Profile contract correction — 10 September
+
+Review of the actual server DTOs found three missing Swift properties: pending
+account email and linked-provider email verification/private-relay facts. They
+are now optional properties preserving unknown state and existing initializers.
+Five additional nonempty shared fixtures cover profile, providers, sessions and
+activity/export data; Go, TypeScript and Swift check the same bytes. Eight Auth
+HTTP mappings now have explicit source review and executable request/response
+tests, including filters, JSON/CSV and failed writes without retry. Together with
+Billing, 26 of 143 mappings are reviewed; 117 remain pending. The fixture set now
+contains 22 files. The first local simulator run passed 67 tests, zero failures
+or skips, on uncommitted preparation; exact-commit, device and release gates
+remain separate. No new stable SDK version has been published.

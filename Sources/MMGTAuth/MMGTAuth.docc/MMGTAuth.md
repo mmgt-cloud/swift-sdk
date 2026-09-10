@@ -118,3 +118,18 @@ func signInWithPassword(session: AuthSession, email: String, password: String) a
 - ``NativeAccountAuthorizer``
 - ``NativeAccountProvider``
 - ``ReauthenticationProof``
+
+## Profile facts and activity exports
+
+`UserResponse.pendingEmail` is a requested address awaiting confirmation. Continue
+to use `email` as the current account address until the server confirms the change.
+Linked providers expose `emailVerified` and `emailIsPrivateRelay`; absent values
+remain `nil`, not proof of either verified or unverified status. These properties
+are server observations and do not grant application permissions.
+
+Profile and provider reads require `user:read`, profile changes `user:write`, and
+activity operations `log:read`. Session listing still requires an authenticated
+session. The SDK does not refresh or retry a rejected profile change automatically.
+Activity exports are capped at 10,000 rows. Prefer `exportActivityLogs` when you
+need its `truncated` metadata; `exportActivityCSV` returns the raw CSV text,
+including the UTF-8 BOM, without response headers. Filters use `YYYY-MM-DD` dates.

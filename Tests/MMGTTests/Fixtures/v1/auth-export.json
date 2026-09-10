@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "77777777-7777-4777-8777-777777777777",
+      "user_id": "22222222-2222-4222-8222-222222222222",
+      "event_type": "PROFILE_UPDATED",
+      "timestamp": "2026-09-10T03:00:00Z",
+      "ip_address": "192.0.2.1",
+      "user_agent": "Synthetic iOS",
+      "details": {
+        "updated_fields": {
+          "first_name": "Synthetic"
+        },
+        "enabled": false,
+        "removed": null
+      },
+      "is_anomaly": false,
+      "severity": "INFORMATIONAL"
+    }
+  ],
+  "count": 1,
+  "truncated": false,
+  "exported_at": "2026-09-10T03:00:00Z"
+}
