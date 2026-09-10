@@ -103,6 +103,8 @@ public struct SyncIssue: Codable, Sendable, Equatable {
 }
 
 /// Every write is atomic across store instances sharing a database; success means the transaction committed.
+/// Completed snapshots must retain authoritative presence and absence for their scope/watermark,
+/// so delayed overlapping feeds or snapshots cannot restore older state, even after restart/reset.
 public protocol SyncLocalStore: Sendable {
   func feed(identity: AccountIdentity, scope: SyncScope) async throws -> SyncFeedState
   func commitPage(

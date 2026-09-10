@@ -6,7 +6,7 @@ Create `SyncClient` with an application URL, user identity, token provider and l
 
 Create records with CAS base version `"0"`; update/delete with the latest observed version where the collection uses `reject_stale`. Versions are decimal strings. Persist mutation IDs before sending. A partial batch acknowledges only returned mutation results; missing results remain in the outbox.
 
-A `SyncScope` canonicalizes collections and workspace IDs. Each scope has its own opaque cursor. Workspace operations need a grant from a domain backend that verifies membership; grants last at most five minutes. Renewing a grant does not change scope identity.
+A `SyncScope` canonicalizes collections and workspace IDs. Each scope has its own opaque cursor. Workspace operations need a grant from a domain backend that verifies membership; grants last at most five minutes. Renewing a grant does not change scope identity. `bootstrap(scope:)` obtains the grant for workspace metadata. Its default uses no grant and returns user collection metadata; it is not a filtered feed. The server may also return other user collections and collections authorized by that grant.
 
 `sync` drains pages to its configured bound and returns explicit `hasMore`. Push never advances the pull cursor. Expired history triggers a paginated snapshot. Snapshots expire after 15 minutes; retained history covers 30 days. Recovery preserves outbox and conflicts, moving older pending writes to reconciliation instead of applying them blindly.
 

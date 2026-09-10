@@ -86,9 +86,11 @@ public actor SyncClient: ApplicationLifecycleParticipant {
     try check(expected)
     return try JSONDecoder().decode(T.self, from: data)
   }
-  public func bootstrap() async throws -> SyncBootstrapResponse {
+  /// Scope selects the workspace grant. The response is metadata for all user
+  /// collections and workspace collections visible to that grant, not a feed page.
+  public func bootstrap(scope: SyncScope = try! SyncScope()) async throws -> SyncBootstrapResponse {
     let response: SyncBootstrapResponse = try await request(
-      "bootstrap", method: "GET", scope: SyncScope())
+      "bootstrap", method: "GET", scope: scope)
     guard response.contractRevision == Self.contractRevision else {
       throw MMGTError.unsupported("Sync contract \(response.contractRevision)")
     }

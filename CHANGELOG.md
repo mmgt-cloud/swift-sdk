@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Fence delayed overlapping Sync pulls and snapshots using durable per-scope
+  snapshot watermarks, including authoritative absence. Upgrade SQLite v1 by
+  rebuilding feeds while preserving pending mutations and issues for review.
+  Add workspace-aware `bootstrap(scope:)`, migration/fault tests and HTTP DTO tests.
+
 - Correct AI tool continuation to send `tool_result` frames after a single
   `start`; count tool rounds independently of the final generation. Validate
   complete call lists before effects, retain per-run deduplication and reject

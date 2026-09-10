@@ -13,7 +13,10 @@
     },
     {
       "path": "packages/sync-client/src/types.ts",
-      "sha256": "1f5fb48e27c5359f00689aad86e14eaef7a3b7f7651277f8ae98128244a5b1e0"
+      "sha256": "2cb88677df7756f4f21cde7e78195077c84ac8a4cb92bf572d7fd39db2bf580f",
+      "sourceBaseCommit": "d96053644e7a3432a9f12e84af80c6dc61de14f8",
+      "sourceDirty": true,
+      "note": "NSDK-05 documents snapshot floor ordering for custom stores; no wire DTO change."
     },
     {
       "path": "packages/ai-client/src/types.ts",
@@ -2029,49 +2032,58 @@
       "typescript": "setTokenProvider",
       "paths": [],
       "swift": "SyncClient.init(tokenProvider:)",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#tokenProviderIsReadForEveryRequestWithoutReplacingIdentity"
+      ],
       "kind": "native-adaptation",
       "notes": "Use the shared AuthSession token provider; replace client after account change.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "close",
       "paths": [],
       "swift": "SyncClient.close",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#lateNoncooperativeResponseCannotCommitAfterCancellation"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "cancelPending",
       "paths": [],
       "swift": "SyncClient.cancelPending",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#lateNoncooperativeResponseCannotCommitAfterCancellation"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
@@ -2080,16 +2092,20 @@
         "/bootstrap"
       ],
       "swift": "SyncClient.bootstrap",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#allPublicHTTPRoutesUseActualDTOsAndNeverAdvancePullThroughPush",
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#everyWorkspaceOperationRenewsItsGrantForCanonicalScope"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
@@ -2098,16 +2114,21 @@
         "/push"
       ],
       "swift": "SyncClient.push",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#invalidPushSettlementFailsAsAWhole",
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#everyWorkspaceOperationRenewsItsGrantForCanonicalScope",
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
@@ -2116,16 +2137,20 @@
         "/pull"
       ],
       "swift": "SyncClient.pull",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#rejectsChangesOutsideIdentityAndWireContract",
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#allPublicHTTPRoutesUseActualDTOsAndNeverAdvancePullThroughPush"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
@@ -2134,225 +2159,276 @@
         "/snapshot"
       ],
       "swift": "SyncClient.snapshot",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#allPublicHTTPRoutesUseActualDTOsAndNeverAdvancePullThroughPush",
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#missingWorkspaceGrantFailsBeforeNetwork",
+        "Tests/MMGTTests/SyncSnapshotOrderingTests.swift#olderOverlappingSnapshotCannotResurrectOrRemoveNewerSnapshotState"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "write",
       "paths": [],
       "swift": "SyncClient.write",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "writeBatch",
       "paths": [],
       "swift": "SyncClient.writeBatch",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor",
+        "Tests/MMGTTests/SyncStoreTests.swift#batchRollbackAndUncertainDeliveryCannotBeCoalesced"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "replaceLocalMutation",
       "paths": [],
       "swift": "SyncClient.replaceLocalMutation",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity",
+        "Tests/MMGTTests/SyncStoreTests.swift#batchRollbackAndUncertainDeliveryCannotBeCoalesced"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "rebuild",
       "paths": [],
       "swift": "SyncClient.rebuild",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity",
+        "Tests/MMGTTests/SyncStoreTests.swift#expiredHistoryRecoversBeforeSendingOldWrites"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "sync",
       "paths": [],
       "swift": "SyncClient.sync",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor",
+        "Tests/MMGTTests/SyncRunTests.swift#lateNoncooperativeResponseCannotCommitAfterCancellation",
+        "Tests/MMGTTests/SyncMigrationTests.swift#v1MigrationRebuildsOnceAndRetainsAccountOwnedQueueAndIssues"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "listLocalRecords",
       "paths": [],
       "swift": "SyncClient.listLocalRecords",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "getLocalRecord",
       "paths": [],
       "swift": "SyncClient.getLocalRecord",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "listLocalOutbox",
       "paths": [],
       "swift": "SyncClient.listLocalOutbox",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "removeLocalOutbox",
       "paths": [],
       "swift": "SyncClient.removeLocalOutbox",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "listLocalConflicts",
       "paths": [],
       "swift": "SyncClient.listLocalConflicts",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "clearLocalConflicts",
       "paths": [],
       "swift": "SyncClient.clearLocalConflicts",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#boundedSnapshotResumesAfterRestartAndPartialPushKeepsOriginalIDsAndCursor"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "resolveLocalConflict",
       "paths": [],
       "swift": "SyncClient.resolveLocalConflict",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SyncRunTests.swift#explicitRebuildRetainsIssuesAndLocalEditsRequireFreshMutationIdentity",
+        "Tests/MMGTTests/SyncStoreTests.swift#partialSettlementPreservesUnacknowledgedMutationsAndResolutionIsAtomic"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "sync",
       "typescript": "request",
       "paths": [],
       "swift": "MMGTCore.HTTPClient",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/CoreTests.swift#errorsPreserveDetailsAndNeverRetry",
+        "Tests/MMGTTests/SyncHTTPContractTests.swift#errorsKeepContractCodesAndNeverRetry"
+      ],
       "kind": "transport-extension",
       "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "sync"
     },
     {
       "service": "realtime",
@@ -2873,6 +2949,36 @@
         {
           "path": "services/auth/internal/user/login_response.go",
           "sha256": "00c12d38ba200550d2211c5b55b1a60ace63d7c6b1e2b1de638804de7bf5a427"
+        }
+      ]
+    },
+    "sync": {
+      "platformCommit": "d96053644e7a3432a9f12e84af80c6dc61de14f8",
+      "scope": "Actual app-bound JWT routes and grant checks; user/workspace bootstrap visibility, per-request scoped grants, immutable ownership/CAS, partial idempotent mutations, opaque cursor/snapshot DTOs and fixed watermarks. Native lifecycle/local-store adaptations have explicit synthetic tests. Environment, live retention and physical acceptance remain separate. Server implementation unchanged in this review.",
+      "files": [
+        {
+          "path": "services/sync/internal/sync/handler.go",
+          "sha256": "e5799513b975b18a7701edd7ed5573b32b9747ab04a3c996a0375e822be1136b"
+        },
+        {
+          "path": "services/sync/internal/sync/dto.go",
+          "sha256": "e425c8dab83182024f8751cef31737b2b741b21300f553c798fc79b0bee6ffc6"
+        },
+        {
+          "path": "services/sync/internal/sync/service.go",
+          "sha256": "12b401c7f69a11385ddce850e8f2dcdd1e844aef225c40afd34043bb86a280c0"
+        },
+        {
+          "path": "services/sync/internal/sync/repository.go",
+          "sha256": "02fe4edb00875d512b74e578bb3985d91d98a63b2c20cab02df5795930a0a0f2"
+        },
+        {
+          "path": "services/sync/internal/sync/feed_repository.go",
+          "sha256": "94ac7ff2afc5de6f96d0aae152bf6ebf6df55a36f29684be396885f7a37705b8"
+        },
+        {
+          "path": "services/sync/internal/sync/tokens.go",
+          "sha256": "aca7d3b700e25ef1eaf8b3dbe803f7daf5a522d58c720f07f87a9d74d7652b7b"
         }
       ]
     }

@@ -12,7 +12,7 @@ provider correctness. Native adaptations describe deliberate differences from
 browser APIs; generic transport extensions are separated from service operations.
 Internal TypeScript helper classes do not belong to the public service matrix.
 
-The test target contains 30 synthetic shared JSON fixtures under
+The test target contains 31 synthetic shared JSON fixtures under
 `Tests/MMGTTests/Fixtures/v1`. Their manifest, checksums and semantic tests run
 without the platform checkout. The platform mirrors their exact bytes and tests
 the actual Go and TypeScript DTOs/clients against them. A selected fixture is
@@ -48,3 +48,10 @@ flagged/legacy enrollment and actionable CAPTCHA/lockout errors. The TypeScript
 review found empty token strings incorrectly counted as a session (NSDK-04);
 that pending platform change is recorded by its source hash. Swift already
 rejects empty token pairs. Email/provider delivery remains separate acceptance.
+
+The Sync review covers the four public endpoints and native local-store/lifecycle
+adaptations. The same bootstrap/push/pull/snapshot fixtures are read by Go, TS and
+Swift. Fault tests cover overlapping snapshots, stale responses after cancellation,
+partial batches, restart and the v1 SQLite migration. NSDK-05 also corrects the
+corresponding IndexedDB ordering problem; publication and environment acceptance
+remain pending for both SDK implementations.

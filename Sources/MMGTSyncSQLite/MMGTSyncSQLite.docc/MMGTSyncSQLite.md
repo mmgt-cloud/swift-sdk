@@ -6,7 +6,7 @@ Open `SQLiteSyncStore` at a private Application Support file URL and inject it i
 
 The database keeps account/environment partitions, scoped cursors, records, staged snapshots, outbox and conflict/rejection issues. A page and its cursor commit in one transaction. Snapshot pages remain staged until their final transaction; newer overlapping-feed records and pending local writes are preserved.
 
-Concurrent store instances compare feed revisions before committing. Record versions cannot move backwards. Mutations move atomically between pending and issue state; resolving an attempted mutation creates a new mutation identity.
+Concurrent store instances compare feed revisions before committing. Completed snapshots retain a scope watermark that fences older overlapping pulls and snapshots, including records that were never present locally. The floor, records and final cursor commit atomically. Record versions cannot move backwards. Mutations move atomically between pending and issue state; resolving an attempted mutation creates a new mutation identity.
 
 The database file is excluded from device backup. Deleting the app or the file loses its unsent local changes. Sign-out itself does not erase another account's outbox. The application owns any deliberate data removal/export policy.
 
@@ -36,3 +36,13 @@ func configureOfflineSync(
 
 ## Topics
 - ``SQLiteSyncStore``
+
+## Local database migration
+
+The `v2-snapshot-floors` migration invalidates v1 feed cursors and unfinished snapshot
+pages once. Existing visible records remain until a new snapshot replaces them.
+Outbox IDs, payloads, original delivery client IDs and conflict/rejection issues
+remain intact. Earlier pending mutations require reconciliation with the rebuilt
+state; their unknown outcomes are not silently retried under a new identity.
+The migration does not delete another account's data. Reopening an upgraded
+database preserves its new cursors and snapshot floors.

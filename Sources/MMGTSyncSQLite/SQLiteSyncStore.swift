@@ -30,6 +30,22 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           CREATE TABLE issues (identity TEXT NOT NULL, mutation_id TEXT NOT NULL, payload BLOB NOT NULL, PRIMARY KEY(identity, mutation_id));
           """)
     }
+    migrations.registerMigration("v2-snapshot-floors") { db in
+      try db.execute(
+        sql:
+          "CREATE TABLE snapshot_floors (identity TEXT NOT NULL, scope TEXT NOT NULL, payload BLOB NOT NULL, PRIMARY KEY(identity, scope))"
+      )
+      // v1 did not retain authoritative absence after a snapshot. Rebuild feeds,
+      // keeping visible data and every pending/conflicted mutation until recovery.
+      try db.execute(sql: "DELETE FROM feeds; DELETE FROM snapshot_records")
+      for row in try Row.fetchAll(db, sql: "SELECT ordinal,payload FROM outbox") {
+        var entry: OutboxEntry = try Self.decode(row["payload"])
+        entry.needsReconciliation = true
+        try db.execute(
+          sql: "UPDATE outbox SET payload=? WHERE ordinal=?",
+          arguments: [try Self.encoded(entry), row["ordinal"] as Int64])
+      }
+    }
     try migrations.migrate(database)
     var resourceURL = fileURL
     var values = URLResourceValues()
@@ -72,7 +88,41 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     let s = try Self.key(scope)
     return try await database.read { try Self.loadFeed($0, i, s) }
   }
-  private static func saveRecord(_ db: Database, _ identity: String, _ change: SyncChange) throws {
+  private struct SnapshotFloor: Codable {
+    let scope: SyncScope
+    let watermark: String
+  }
+  private static func floors(_ db: Database, _ identity: String) throws -> [SnapshotFloor] {
+    try Data.fetchAll(
+      db, sql: "SELECT payload FROM snapshot_floors WHERE identity=?",
+      arguments: [identity]
+    ).map(Self.decode)
+  }
+  private static func superseded(
+    collection: String, workspaceID: String?, version: String, snapshotWatermark: String?,
+    floors: [SnapshotFloor]
+  ) throws -> Bool {
+    for floor in floors where floor.scope.contains(collection: collection, workspaceID: workspaceID)
+    {
+      if let snapshotWatermark {
+        if try SyncVersions.less(snapshotWatermark, than: floor.watermark) { return true }
+      } else if !(try SyncVersions.less(floor.watermark, than: version)) {
+        return true
+      }
+    }
+    return false
+  }
+  private static func saveRecord(
+    _ db: Database, _ identity: String, _ change: SyncChange, floors: [SnapshotFloor],
+    snapshotWatermark: String? = nil
+  ) throws {
+    // A completed snapshot proves absence too, including records never seen here.
+    if try superseded(
+      collection: change.collection, workspaceID: change.workspaceId,
+      version: change.version, snapshotWatermark: snapshotWatermark, floors: floors)
+    {
+      return
+    }
     if let old = try Row.fetchOne(
       db,
       sql:
@@ -106,7 +156,8 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     return try await database.write { db in
       let state = try Self.loadFeed(db, i, s)
       guard state.revision == expectedRevision, state.cursor != nil else { return false }
-      for change in page.changes { try Self.saveRecord(db, i, change) }
+      let floors = try Self.floors(db, i)
+      for change in page.changes { try Self.saveRecord(db, i, change, floors: floors) }
       try Self.saveFeed(db, i, s, .init(cursor: page.nextCursor))
       return true
     }
@@ -162,6 +213,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
             snapshot: .init(
               nextPage: page.nextPage!, watermark: page.watermark, expiresAt: page.expiresAt)))
       } else {
+        let floors = try Self.floors(db, i)
         // Other scopes may have fetched records newer than this snapshot. Preserve those.
         for row in try Row.fetchAll(
           db, sql: "SELECT collection,record_id,workspace,version FROM records WHERE identity=?",
@@ -172,7 +224,10 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           let workspace: String = row["workspace"]
           let version: String = row["version"]
           if scope.contains(collection: collection, workspaceID: workspace),
-            !(try SyncVersions.less(page.watermark, than: version))
+            !(try SyncVersions.less(page.watermark, than: version)),
+            !(try Self.superseded(
+              collection: collection, workspaceID: workspace,
+              version: version, snapshotWatermark: page.watermark, floors: floors))
           {
             try db.execute(
               sql: "DELETE FROM records WHERE identity=? AND collection=? AND record_id=?",
@@ -184,8 +239,20 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           arguments: [i, s])
         {
           let change: SyncChange = try Self.decode(data)
-          try Self.saveRecord(db, i, change)
+          try Self.saveRecord(db, i, change, floors: floors, snapshotWatermark: page.watermark)
         }
+        var retainedWatermark = page.watermark
+        if let old = floors.first(where: { $0.scope == scope }),
+          try SyncVersions.less(page.watermark, than: old.watermark)
+        {
+          retainedWatermark = old.watermark
+        }
+        try db.execute(
+          sql:
+            "INSERT INTO snapshot_floors VALUES(?,?,?) ON CONFLICT(identity,scope) DO UPDATE SET payload=excluded.payload",
+          arguments: [
+            i, s, try Self.encoded(SnapshotFloor(scope: scope, watermark: retainedWatermark)),
+          ])
         try db.execute(
           sql: "DELETE FROM snapshot_records WHERE identity=? AND scope=?", arguments: [i, s])
         try Self.saveFeed(db, i, s, .init(cursor: page.cursor))

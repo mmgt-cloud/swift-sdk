@@ -34,7 +34,9 @@ let package = Package(
     .target(
       name: "MMGTSwiftUI", dependencies: ["MMGTCore"], resources: [.copy("PrivacyInfo.xcprivacy")]),
     .testTarget(
-      name: "MMGTTests", dependencies: modules.map { .byName(name: $0) },
+      name: "MMGTTests",
+      dependencies: modules.map { .byName(name: $0) }
+        + [.product(name: "GRDB", package: "GRDB.swift")],
       resources: [.copy("Fixtures")]),
   ],
   swiftLanguageModes: [.v6]

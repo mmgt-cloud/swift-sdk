@@ -1,0 +1,24 @@
+{
+  "collections": [
+    {
+      "key": "synthetic_notes",
+      "display_name": "Synthetic notes",
+      "mode": "managed",
+      "access_scope": "user",
+      "conflict_policy": "reject_stale",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "enabled": true,
+      "created_at": "2026-09-09T12:00:00.123456789Z",
+      "updated_at": "2026-09-09T12:00:00.123456789Z"
+    }
+  ],
+  "contract_revision": "2026-09-05",
+  "server_time": "2026-09-10T08:00:00Z"
+}
