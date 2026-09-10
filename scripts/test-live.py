@@ -28,6 +28,41 @@ def read_json(path):
     return json.loads(path.read_text())
 
 
+def validate_realtime_grant(data, timestamp):
+    """Preflight an owned fixture, not signature verification or authorization.
+
+    Realtime signs base64url(JSON) + "." + base64url(HMAC-SHA256); it is not
+    a JWT. Only the server has the signing key and verifies the actual MAC.
+    """
+    def decode(part):
+        if not isinstance(part, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", part):
+            raise ValueError("Expected canonical base64url Realtime grant parts")
+        raw = base64.urlsafe_b64decode(part + "=" * (-len(part) % 4))
+        if base64.urlsafe_b64encode(raw).decode().rstrip("=") != part:
+            raise ValueError("Expected canonical base64url Realtime grant parts")
+        return raw
+
+    token = data.get("realtimeGrant")
+    if not isinstance(token, str) or len(token) > 16_384 or len(token.split(".")) != 2:
+        raise ValueError("Expected a two-part signed Realtime grant")
+    payload, signature = token.split(".")
+    if len(decode(signature)) != 32:
+        raise ValueError("Expected a SHA-256 Realtime grant signature")
+    try:
+        claims = json.loads(decode(payload))
+    except (ValueError, UnicodeError):
+        raise ValueError("Invalid Realtime grant payload") from None
+    if (not isinstance(claims, dict)
+            or claims.get("app_id") != data.get("appID")
+            or claims.get("user_id") != data.get("userID")
+            or claims.get("channels") != ["sdk-live:" + data["runID"]]
+            or claims.get("permissions") not in (["publish", "subscribe"], ["subscribe", "publish"])
+            or type(claims.get("exp")) is not int):
+        raise ValueError("Realtime grant does not describe the owned fixture scope")
+    if claims["exp"] - timestamp < 180:
+        raise ValueError("Prepare a fresh grant after build; at least 180 seconds must remain")
+
+
 def main():
     os.umask(0o077)
     parser = argparse.ArgumentParser(description=__doc__)
@@ -98,14 +133,10 @@ def main():
         for key in ("email", "password", "collection", "realtimeGrant", "aiConnectionID", "aiModel"):
             if not isinstance(data.get(key), str) or not data[key]:
                 parser.error("Required fixture configuration is missing")
-        # Expiry is a preflight only. The service verifies the signature, actor,
-        # app, audience and exact channel/rights on the real request.
-        token = data["realtimeGrant"].split(".")
-        if len(token) != 3:
-            parser.error("Expected a signed Realtime grant")
-        claims = json.loads(base64.urlsafe_b64decode(token[1] + "=" * (-len(token[1]) % 4)))
-        if claims.get("exp", 0) - datetime.datetime.now().timestamp() < 180:
-            parser.error("Prepare a fresh grant after build; at least 180 seconds must remain")
+        try:
+            validate_realtime_grant(data, datetime.datetime.now().timestamp())
+        except ValueError as error:
+            parser.error(str(error))
         if environment == "prod":
             if not args.stage_report:
                 parser.error("Production requires --stage-report for this exact SDK commit")
@@ -151,5 +182,5 @@ if __name__ == "__main__":
     try:
         sys.exit(main())
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError):
-        # JSON/JWT validation errors must not interpolate the supplied content.
+        # JSON/grant validation errors must not interpolate the supplied content.
         sys.exit("Live runner failed to read configuration, build evidence or local tools; no retry")

@@ -4,6 +4,12 @@ Authenticated channels with explicit recovery and transport acknowledgments.
 
 Create `RealtimeClient` for one application and user, then subscribe to its message sequence before connecting. Authentication is the first WebSocket frame; ready must identify the expected user. The default readiness deadline is 15 seconds and includes token acquisition.
 
+The native transport does not send a browser `Origin` header. The platform
+operator must enable `REALTIME_ALLOW_MISSING_ORIGIN=true` for native handshakes;
+this is disabled by default on the server. An HTTP 403 before ready may indicate
+that missing configuration. Do not forge a browser origin. First-frame JWT and
+channel grants remain mandatory; admitting a handshake does not authenticate it.
+
 Subscriptions retain their channel, presence setting and grant provider across reconnects. Workspace/channel authorization belongs to your domain backend; request a fresh grant when reconnecting. The SDK never embeds signing secrets.
 
 Apply an event's domain effect before calling `acknowledge`. This ACK confirms transport delivery, not that a human read a message. Delivery is at least once; use a stable domain event ID for durable effect deduplication. Event-buffer overflow throws `bufferOverflow`, requiring recovery. On `replayGap`, fetch authoritative domain state.

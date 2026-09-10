@@ -1,20 +1,57 @@
 # Implementation and acceptance
 
-Checkpoint: 2026-09-09 23:48 UTC. Development evidence, not a release or a
+Checkpoint: 2026-09-10 00:43 UTC. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
 | Area | Implementation | Local verification | Stage | Production |
 | --- | --- | --- | --- | --- |
 | Eight package products | Implemented; operation review continues | All products compile with Swift 6.2 for arm64/x86_64 Simulator | Full acceptance pending | Pending |
-| Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Discovery, bounded scene readiness and cancellation tests pass | Corrected one-passkey → browser sequence passes on the iPhone; fresh complete native scenario and candidate gates remain required | Pending |
+| Auth and native adapters | Session, Keychain, OIDC, passkeys, account operations and provider browser flow | Discovery, bounded scene readiness and cancellation tests pass | Full passkey → system-browser HTTPS callback passes at 880c682; other native scenarios and new-candidate gates remain required | Pending |
 | Billing | User endpoint client | Shared catalog/access/checkout DTO and request checks; full operation acceptance pending | Pending | Pending |
-| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Pending | Pending |
-| Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery pass | Pending | Pending |
-| AI | HTTP, WebSocket, tools, files and cancellation | Shared fixtures, one-socket tool loop, no duplicate execution and interrupted output pass | Swift fixture needs its own Codex connection | Pending |
+| Realtime | WebSocket, deadlines, reconnect, ACK/cursors and deduplication | First-frame auth, foreign-user rejection, bounded ready wait and cursor CAS pass; full fault matrix pending | Blocked by platform rejection of absent Origin; correction in progress | Pending |
+| Sync and SQLite | Durable outbox, scoped feeds, snapshot staging and conflicts | Restart/isolation, two writers, partial settlement and atomic recovery pass | Write, CAS conflict and snapshot pass in physical diagnostic; full gate pending | Pending |
+| AI | HTTP, WebSocket, tools, files and cancellation | Shared fixtures, one-socket tool loop, no duplicate execution and interrupted output pass | Own Codex connection available; native provider test not reached | Pending |
 | SwiftUI and example | Observable state, lifecycle, five service tabs and account actions | Example and eight byte-checked DocC quickstarts build with Swift 6.2 | Pending | Pending |
 | Privacy | Eight SDK manifests and app integration guidance | Actual app contains SDK, AppAuth/AppAuthCore and GRDB manifests | App disclosures require review | App disclosures require review |
 | DocC | Eight catalogs and local generator | Eight archives generated with warnings treated as errors | Not applicable | Public hosting pending |
 | Platform native Auth, Panel and ZIP | Implemented in the private platform repository | Complete 14-group gate passed at platform 9268171 | Two migrations/four rollouts, actual Panel configuration/AASA and downloaded ZIP checks passed; full native gate open | Pending |
+
+## Latest native and service evidence — 10 September
+
+SDK `880c682` passed 59 tests / 60 parameterized cases on minimum iOS 26.0 and
+on the signed physical iPhone, with zero failures or skips. Swift 6.2 compilation
+of all eight products, eight DocC archives and anonymous all-product/Auth-only
+consumers also passed. Exact local reports are retained under `.artifacts`:
+`tests-20260909T234833Z`, `device-20260909T234917Z`, `compiler-20260909T235016Z`,
+`docs-20260909T235158Z` and `public-install-b65ee2809dbd420ab89023395f454ea8`.
+
+The complete passkey → system-browser scenario passed on the physical iPhone at
+00:16 UTC: passkey creation, native login, reauthentication, HTTPS OIDC callback,
+expected identity, refresh/profile, passkey removal and logout. Report:
+`native-run-e35665db9a734910bae91e99080c2b3d/report.json`. This verifies the
+ASWebAuthenticationSession HTTPS callback, not ordinary external Universal Link
+routing, MFA, all account operations or provider linking.
+
+An isolated application now has its own Codex connection, authorized with the
+existing account, with Spark enabled explicitly. No other app's credentials were
+copied. Five-service preparation exposed a Python preflight defect: Realtime uses
+`base64url(JSON).base64url(HMAC-SHA256)`, not a three-part JWT. The correction checks
+encoding, MAC size, exact actor/app/channel/rights and expiry; only the server
+verifies the signature. Seven deterministic runner tests cover the wire contract
+and rejection boundaries and are included in the local simulator runner.
+
+A separate diagnostic of the unchanged signed `880c682` build passed real Auth,
+Sync write/CAS conflict and snapshot recovery, then stopped at Realtime handshake.
+The service rejected URLSession's absent `Origin`. Billing and AI were not reached;
+no generation was retried. Diagnostic report:
+`live-run-21f0ba9111af4490958bb35e2eca23bc/report.json` (kind
+`swift-live-diagnostic-run`, not release acceptance). The platform correction adds
+an explicit operator opt-in for native handshakes while retaining browser origin
+validation, first-frame JWT and channel grants. SDK tests now identify the failing
+Realtime phase and safe HTTP/network codes without logging URLs or credentials.
+
+These runner/test changes require a new clean SDK candidate and fresh acceptance.
+The following older sections retain historical evidence and their original scope.
 
 ## Exact local evidence
 

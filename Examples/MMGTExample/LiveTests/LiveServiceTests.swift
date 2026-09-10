@@ -126,7 +126,9 @@ private struct LiveConfiguration: Decodable, Sendable {
       let channel = "sdk-live:" + c.runID
       let messages = await realtime.messages()
       var events = messages.makeAsyncIterator()
+      phase = "realtime-connect"
       try await realtime.connect()
+      phase = "realtime-subscribe"
       try await realtime.subscribe(.init(channel: channel, grantProvider: { _ in c.realtimeGrant }))
       var subscribed = false
       while let event = try await events.next() {
@@ -139,6 +141,7 @@ private struct LiveConfiguration: Decodable, Sendable {
       guard subscribed else {
         throw LiveFailure(description: "Realtime subscription was not confirmed")
       }
+      phase = "realtime-publish"
       try await realtime.publish(
         channel: channel, eventType: "sdk.smoke", payload: ["runID": .string(c.runID)],
         grant: c.realtimeGrant)
@@ -148,6 +151,7 @@ private struct LiveConfiguration: Decodable, Sendable {
           event.payload["runID"]?.string == c.runID
         {
           eventID = event.id
+          phase = "realtime-ack"
           try await realtime.acknowledge(event)
           break
         }
@@ -214,7 +218,17 @@ private struct LiveConfiguration: Decodable, Sendable {
       // Local account cleanup must still happen; fixture/domain cleanup belongs to
       // the platform's ownership-fenced runner. No provider or mutation is replayed.
       try? await session.signOutLocally()
-      let code = (error as? APIError)?.code ?? "failed"
+      let code: String
+      if let api = error as? APIError {
+        let safeCode = api.code.range(of: "^[A-Za-z0-9_.-]{1,80}$", options: .regularExpression)
+        code = "http-\(api.status):" + (safeCode != nil ? api.code : "api-error")
+      } else if let network = error as? URLError {
+        code = "url-error-\(network.code.rawValue)"
+      } else if error is CancellationError {
+        code = "cancelled"
+      } else {
+        code = "failed"
+      }
       throw LiveFailure(
         description:
           "Live phase \(phase) failed (\(code)); inspect private evidence. No automatic retry.")

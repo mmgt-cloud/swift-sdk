@@ -14,6 +14,7 @@ if not args.destination.startswith("platform=iOS Simulator,"):
     parser.error("Use an explicit iOS Simulator destination; device acceptance runs separately")
 root = pathlib.Path(__file__).resolve().parents[1]
 subprocess.run([sys.executable, str(root / "scripts/check-snippets.py")], cwd=root, check=True)
+subprocess.run([sys.executable, str(root / "scripts/test-live-runner.py")], cwd=root, check=True)
 stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 output = root / ".artifacts" / ("tests-" + stamp)
 output.mkdir(parents=True, exist_ok=False)

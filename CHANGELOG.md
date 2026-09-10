@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Correct live-test Realtime grant preflight for the server's two-part signed
+  wire format, with seven deterministic scope/encoding/expiry regressions.
+  Report the failing Realtime phase and safe HTTP/network codes in device tests.
+
 - Wait for the originating scene to become active before OIDC or account-provider
   browser presentation after a system credential sheet. Bound the wait to ten
   seconds, honor cancellation and reject detached windows. Fence delayed OIDC
