@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import plistlib
 import re
 import subprocess
 import sys
@@ -38,6 +39,18 @@ def fingerprint(path):
             digest.update(str(item.relative_to(path)).encode() + b'\0')
             digest.update(hashlib.sha256(item.read_bytes()).digest())
     return digest.hexdigest()
+
+
+def simulator_entitlements(executable, env):
+    # Xcode embeds Simulator entitlements in Mach-O rather than the device
+    # provisioning profile. Read the actual linked section, not its input file.
+    layout = output(['xcrun', 'otool', '-l', str(executable)], env)
+    matches = re.findall(r'sectname __entitlements\s+segname __TEXT\s+addr 0x[0-9a-fA-F]+\s+'
+                         r'size (0x[0-9a-fA-F]+)\s+offset ([0-9]+)', layout)
+    if len(matches) != 1:
+        raise ValueError('Missing or ambiguous Simulator entitlement section')
+    length, offset = int(matches[0][0], 16), int(matches[0][1])
+    return plistlib.loads(executable.read_bytes()[offset:offset + length].rstrip(b'\0'))
 
 
 def validate_configuration(data):
@@ -128,8 +141,16 @@ def main():
             raise ValueError('The example may contain only public configuration')
         command = ['xcodebuild', 'build-for-testing', '-project', 'Examples/MMGTExample/MMGTExample.xcodeproj',
                    '-scheme', 'MMGTAccounts', '-destination', args.destination, '-derivedDataPath', str(derived)]
-        command += (['-allowProvisioningUpdates', 'DEVELOPMENT_TEAM=' + args.team_id,
-                     'CODE_SIGN_STYLE=Automatic'] if physical else ['CODE_SIGNING_ALLOWED=NO'])
+        if physical:
+            command += ['-allowProvisioningUpdates', 'DEVELOPMENT_TEAM=' + args.team_id,
+                        'CODE_SIGN_STYLE=Automatic']
+        else:
+            # This synthetic identity is confined to Simulator. The physical
+            # build always uses the real signing team's provisioning profile.
+            entitlement = folder / 'simulator.entitlements'
+            entitlement.write_bytes(plistlib.dumps({'application-identifier': 'MMGTTEST00.cloud.mmgt.sdkexample'}))
+            command += ['CODE_SIGNING_ALLOWED=YES', 'CODE_SIGN_IDENTITY=-',
+                        'MMGT_EXAMPLE_ENTITLEMENTS=' + str(entitlement)]
     else:
         prior = read_private(args.build_report)
         if any(prior.get(key) != value for key, value in dict(kind='swift-accounts-build', status='passed', sourceCommit=revision).items()):
@@ -176,6 +197,16 @@ def main():
                 if physical:
                     subprocess.run(['codesign', '--verify', '--strict', str(app)], check=True,
                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    signed = plistlib.loads(subprocess.check_output(
+                        ['codesign', '-d', '--entitlements', '-', str(app)], stderr=subprocess.DEVNULL))
+                    if signed.get('application-identifier') != args.team_id + '.cloud.mmgt.sdkexample':
+                        raise ValueError('Physical application identity differs from the signing team')
+                    report['applicationIdentifier'] = signed['application-identifier']
+                else:
+                    embedded = simulator_entitlements(app / 'MMGTExample', env)
+                    if embedded.get('application-identifier') != 'MMGTTEST00.cloud.mmgt.sdkexample':
+                        raise ValueError('Simulator host cannot access its own Keychain partition')
+                    report['applicationIdentifier'] = embedded['application-identifier']
                 for key, path in dict(application=app, testBundle=bundle, xctestrun=runs[0]).items():
                     report[key], report[key + 'SHA256'] = str(path), fingerprint(path)
             else:

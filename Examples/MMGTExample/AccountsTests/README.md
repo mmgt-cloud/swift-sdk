@@ -21,6 +21,14 @@ For a physical iPhone, use `platform=iOS,id=YOUR-DEVICE-ID`, supply `--team-id`,
 and optionally `--developer-dir`. The phone must be unlocked to start the host;
 the account scenario itself needs no interactive authentication.
 
+The Simulator host is signed ad hoc with a synthetic application identifier;
+the runner verifies its actual embedded entitlement section. Physical builds use
+the real signing team's identity, verified from the built app. An unsigned
+Simulator host failed real Keychain persistence with OSStatus -34018 before
+profile mutation. The scenario now probes save/load/clear using synthetic local
+tokens before any live request. This follows Apple's requirement for a Keychain
+[access-group identity](https://developer.apple.com/documentation/security/errsecmissingentitlement).
+
 The private JSON input has exactly these fields: `environment`, `appID`,
 `userID`, `runID`, `email`, `password`, `replacementPassword`, `authURL`. Store
 it with mode 0600 in `.artifacts`. The URL must be the exact selected

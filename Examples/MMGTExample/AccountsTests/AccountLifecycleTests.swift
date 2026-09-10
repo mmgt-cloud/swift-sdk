@@ -110,6 +110,15 @@ private enum FixtureTOTP {
       return token
     }
     do {
+      phase = "keychain-preflight"
+      let probe = PersistedSession(
+        identity: try AccountIdentity(configuration: config, userID: c.userID),
+        tokens: .init(accessToken: "synthetic-local-probe", refreshToken: "synthetic-local-probe"))
+      try store.save(probe)
+      try require(try store.load() == probe, "Keychain probe did not persist")
+      try store.clear()
+      try require(try store.load() == nil, "Keychain probe remained active")
+      phase = "configuration"
       let methods = try await anonymous.get2FAMethods()
       try require(
         methods.totpEnabled && methods.availableMethods.contains("totp"), "Fixture must allow TOTP")
