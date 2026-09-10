@@ -723,16 +723,19 @@
         "/2fa/generate"
       ],
       "swift": "AuthClient.generate2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -741,16 +744,19 @@
         "/2fa/verify-setup"
       ],
       "swift": "AuthClient.verify2FASetup",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -759,16 +765,19 @@
         "/2fa/enable"
       ],
       "swift": "AuthClient.enable2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -777,16 +786,19 @@
         "/2fa/disable"
       ],
       "swift": "AuthClient.disable2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -813,16 +825,19 @@
         "/2fa/recovery-codes"
       ],
       "swift": "AuthClient.generateRecoveryCodes",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -831,16 +846,19 @@
         "/2fa/email/enable"
       ],
       "swift": "AuthClient.enableEmail2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -849,16 +867,19 @@
         "/2fa/email/resend"
       ],
       "swift": "AuthClient.resendEmail2FACode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -867,16 +888,19 @@
         "/2fa/sms/enable"
       ],
       "swift": "AuthClient.enableSMS2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -885,16 +909,19 @@
         "/2fa/sms/resend"
       ],
       "swift": "AuthClient.resendSMS2FACode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -903,16 +930,19 @@
         "/2fa/backup-email/enable"
       ],
       "swift": "AuthClient.enableBackupEmail2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -921,16 +951,19 @@
         "/2fa/backup-email/disable"
       ],
       "swift": "AuthClient.disableBackupEmail2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -939,16 +972,19 @@
         "/2fa/backup-email/resend"
       ],
       "swift": "AuthClient.resendBackupEmail2FACode",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -957,16 +993,19 @@
         "/2fa/methods"
       ],
       "swift": "AuthClient.get2FAMethods",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -975,16 +1014,19 @@
         "/2fa/backup-email"
       ],
       "swift": "AuthClient.addBackupEmail",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -993,16 +1035,19 @@
         "/2fa/backup-email"
       ],
       "swift": "AuthClient.removeBackupEmail",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1011,16 +1056,19 @@
         "/2fa/backup-email/status"
       ],
       "swift": "AuthClient.getBackupEmailStatus",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1029,16 +1077,19 @@
         "/2fa/backup-email/verify"
       ],
       "swift": "AuthClient.verifyBackupEmail",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1047,16 +1098,19 @@
         "/phone"
       ],
       "swift": "AuthClient.addPhone",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1065,16 +1119,19 @@
         "/phone/verify"
       ],
       "swift": "AuthClient.verifyPhone",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1083,16 +1140,19 @@
         "/phone"
       ],
       "swift": "AuthClient.removePhone",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1101,16 +1161,19 @@
         "/phone/status"
       ],
       "swift": "AuthClient.getPhoneStatus",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1119,16 +1182,19 @@
         "/2fa/trusted-devices"
       ],
       "swift": "AuthClient.listTrustedDevices",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1137,16 +1203,19 @@
         "/2fa/trusted-devices/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.revokeTrustedDevice",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -1155,16 +1224,19 @@
         "/2fa/trusted-devices"
       ],
       "swift": "AuthClient.revokeAllTrustedDevices",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthMFAContractTests.swift#securityEndpointsMatchServerBodiesAuthenticationAndDTOs"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-mfa"
     },
     {
       "service": "auth",
@@ -2979,6 +3051,37 @@
         {
           "path": "services/sync/internal/sync/tokens.go",
           "sha256": "aca7d3b700e25ef1eaf8b3dbe803f7daf5a522d58c720f07f87a9d74d7652b7b"
+        }
+      ]
+    },
+    "auth-mfa": {
+      "platformCommit": "0999a599b902025d97de6f81770df083eafc9753",
+      "platformDirty": true,
+      "scope": "24 direct MFA/phone/backup-email/trusted-device HTTP operations: methods, authorization requirements, request fields and response DTOs. NSDK-06 corrects SMS method flags and selects persisted Email2FAEnabled via the Application ORM model; hashes identify the pending server implementation. No provider delivery or environment acceptance inferred.",
+      "files": [
+        {
+          "path": "services/auth/cmd/api/main.go",
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
+        },
+        {
+          "path": "services/auth/pkg/dto/auth.go",
+          "sha256": "115bf9e174f8150c1ddb10034e1a043633f9af156344a2f8157d578632c1282d"
+        },
+        {
+          "path": "services/auth/pkg/dto/email.go",
+          "sha256": "af9c71d2c5d2263f7e352f041a835cab5ece3727153efb854b2acb559f6fa2fe"
+        },
+        {
+          "path": "services/auth/pkg/models/application.go",
+          "sha256": "2ed8c35f770927446c1f502e3d31bbec2703e4f180a67f1954b09b37d8dd8507"
+        },
+        {
+          "path": "services/auth/internal/twofa/handler.go",
+          "sha256": "81f1dc93386888f556c4d097830e31bb9bee0e69d5a5242e24e5869b91fe7e8e"
+        },
+        {
+          "path": "services/auth/internal/twofa/service.go",
+          "sha256": "e8162302c6430a8cddae55cd811e3b5e23201260700390a9b576ed171dec8932"
         }
       ]
     }

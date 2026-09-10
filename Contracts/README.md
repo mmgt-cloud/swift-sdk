@@ -12,7 +12,7 @@ provider correctness. Native adaptations describe deliberate differences from
 browser APIs; generic transport extensions are separated from service operations.
 Internal TypeScript helper classes do not belong to the public service matrix.
 
-The test target contains 31 synthetic shared JSON fixtures under
+The test target contains 37 synthetic shared JSON fixtures under
 `Tests/MMGTTests/Fixtures/v1`. Their manifest, checksums and semantic tests run
 without the platform checkout. The platform mirrors their exact bytes and tests
 the actual Go and TypeScript DTOs/clients against them. A selected fixture is
@@ -55,3 +55,10 @@ Swift. Fault tests cover overlapping snapshots, stale responses after cancellati
 partial batches, restart and the v1 SQLite migration. NSDK-05 also corrects the
 corresponding IndexedDB ordering problem; publication and environment acceptance
 remain pending for both SDK implementations.
+
+Twenty-four MFA, phone, backup-email and trusted-device endpoint mappings now have
+explicit method/body/authentication tests. Six fixtures preserve TOTP binary data,
+recovery codes, effective method flags, unverified addresses/numbers and device
+metadata. NSDK-06 records pending server corrections to SMS availability flags
+and the ORM-backed e-mail setting lookup. These tests do not establish delivery
+of SMS/e-mail, an enrollment on a physical device or production availability.

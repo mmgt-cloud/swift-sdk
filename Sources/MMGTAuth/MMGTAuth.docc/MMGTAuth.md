@@ -146,3 +146,20 @@ session. The SDK does not refresh or retry a rejected profile change automatical
 Activity exports are capped at 10,000 rows. Prefer `exportActivityLogs` when you
 need its `truncated` metadata; `exportActivityCSV` returns UTF-8 decoded CSV text
 without response headers; Foundation consumes a leading UTF-8 BOM. Filters use `YYYY-MM-DD` dates.
+
+## MFA method and recovery contracts
+
+`get2FAMethods()` reads the application's effective policy without a user token.
+The method list and convenience flags describe application availability, not the
+current user's enrollment or proof that an SMS/e-mail provider delivered a code.
+Protected security settings require the authenticated user's settings permissions;
+login-code resend uses only its temporary login token. Backup-e-mail verification
+uses its separate verification token. An unverified address or phone remains
+unverified after decoding.
+
+TOTP setup returns a secret, an `otpauth` URL and optional standard-base64 QR
+bytes. Keep setup data and recovery codes private. Enabling a method and generating
+replacement recovery codes are explicit writes without automatic retry. The
+current recovery-code regeneration endpoint requires a TOTP code; it is not a
+generic challenge for every MFA method. Check server state after an uncertain
+response before initiating another account-security operation.
