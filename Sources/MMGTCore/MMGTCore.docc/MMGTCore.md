@@ -37,3 +37,9 @@ func configureService(baseURL: URL, appID: String) throws -> ServiceConfiguratio
 ### Application state
 - ``ResourceState``
 - ``ApplicationLifecycleParticipant``
+
+Additional headers cannot replace `Authorization`, `X-App-ID`, `Host` or cookies.
+Names must use the HTTP token alphabet. Values reject control bytes, including
+CRLF, NUL and DEL; horizontal tabs are permitted. Validation happens before
+transport. Cancellation rejects late results, but cannot promise rollback of a
+write already accepted by the server. Reconcile an uncertain write explicitly.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-7",
+  "contractVersion": "2026-09-10.native-8",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -240,6 +240,48 @@
       "file": "auth-trusted.json",
       "service": "auth",
       "sha256": "31ddf394ac2935b977f3b12c49ef6a43b410136b26e9f7f644c0be88ad79c6a0"
+    },
+    {
+      "file": "auth-config.json",
+      "service": "auth",
+      "goType": "AppLoginConfigResponse",
+      "sha256": "97b4792dc70e3fd1ea14655b2722c5cc74eaf5df5c047514a397be852bbfd003"
+    },
+    {
+      "file": "auth-passkeys.json",
+      "service": "auth",
+      "goType": "PasskeyListResponse",
+      "sha256": "c7c7f75e8274a722efa5b39505ec8ced185c7a67941620b3e675711d28b3d467"
+    },
+    {
+      "file": "auth-creation.json",
+      "service": "auth",
+      "goType": "PasskeyRegisterBeginResponse",
+      "sha256": "10da60ec756af3c7fe97376f145c641df8d20454b81930c406944a3a1dc17cd1"
+    },
+    {
+      "file": "auth-assertion.json",
+      "service": "auth",
+      "goType": "Passkey2FABeginResponse",
+      "sha256": "7429d0c0911b191f4db09201c0ba27637b2aa17397e642396fa42e65b42b28db"
+    },
+    {
+      "file": "auth-passkeylogin.json",
+      "service": "auth",
+      "goType": "PasskeyLoginBeginResponse",
+      "sha256": "ebca315b235fb5b1f8c6967bb7cbfac09dfdd1f3211fb4b88e1e1cb9c01a8673"
+    },
+    {
+      "file": "auth-merge.json",
+      "service": "auth",
+      "goType": "MergeAccountResponse",
+      "sha256": "b5950fbbc75bf8a9c0bd2146a0051e2d2d08c16fea19172f0bfe013d23f84748"
+    },
+    {
+      "file": "auth-validated.json",
+      "service": "auth",
+      "goType": "ValidateToken handler envelope",
+      "sha256": "6186558fee75b02b51f103130ccb22a5b237e91e00165f426972f91ed76931ad"
     }
   ]
 }

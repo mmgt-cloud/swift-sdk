@@ -52,51 +52,66 @@
       "typescript": "getTokens",
       "paths": [],
       "swift": "AuthSession.snapshot",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SessionTests.swift#retainedTokenProvidersCannotAdoptAnotherAccount",
+        "Tests/MMGTTests/SessionTests.swift#concurrentAccessUsesOneRefreshAndPersistsRotation"
+      ],
       "kind": "native-adaptation",
       "notes": "Session ownership; raw tokens are deliberately not UI state.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "session"
     },
     {
       "service": "auth",
       "typescript": "setTokens",
       "paths": [],
       "swift": "AuthSession.authenticate / restore",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SessionTests.swift#enrollmentCredentialsCannotBecomeAPersistedServiceSession",
+        "Tests/MMGTTests/SessionTests.swift#restoreRejectsAnotherAccount",
+        "Tests/MMGTTests/SessionTests.swift#expiredRestoreRotatesBeforeProfileAndDoesNotLoseRotationOnNetworkError",
+        "Tests/MMGTTests/KeychainStoreTests.swift#partitionsAndPublicFenceContainNoCredentials"
+      ],
       "kind": "native-adaptation",
       "notes": "The session confirms account identity before persistence; no unchecked global token setter.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "session"
     },
     {
       "service": "auth",
       "typescript": "clearTokens",
       "paths": [],
       "swift": "AuthSession.logout",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/SessionTests.swift#profileReturningAfterLogoutCannotRestoreAccount",
+        "Tests/MMGTTests/SessionTests.swift#lateRefreshCannotRestoreAccountOrKeychain",
+        "Tests/MMGTTests/KeychainStoreTests.swift#failedKeychainDeletionCannotRestoreAfterRestart"
+      ],
       "kind": "native-adaptation",
       "notes": "Cancels attached clients and invalidates durable activation before deleting credentials.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "session"
     },
     {
       "service": "auth",
@@ -105,16 +120,20 @@
         "/app-config/${encodeURIComponent(appId)}"
       ],
       "swift": "AuthClient.getAppConfig",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -520,16 +539,20 @@
         "/profile/email"
       ],
       "swift": "AuthClient.updateEmail",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -538,16 +561,20 @@
         "/profile/password"
       ],
       "swift": "AuthClient.updatePassword",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -556,16 +583,20 @@
         "/profile/set-password"
       ],
       "swift": "AuthClient.setPassword",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -574,16 +605,20 @@
         "/profile"
       ],
       "swift": "AuthClient.deleteAccount",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -592,16 +627,20 @@
         "/validate"
       ],
       "swift": "AuthClient.validateToken",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -610,16 +649,20 @@
         "/merge/confirm"
       ],
       "swift": "AuthClient.confirmMerge",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -705,16 +748,20 @@
         "/profile/social-accounts/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.unlinkSocialAccount",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -807,16 +854,20 @@
         "/2fa/login-verify"
       ],
       "swift": "AuthClient.verify2FALogin",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1245,16 +1296,20 @@
         "/passkey/register/begin"
       ],
       "swift": "AuthClient.beginPasskeyRegistration",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1263,16 +1318,20 @@
         "/passkey/register/finish"
       ],
       "swift": "AuthClient.finishPasskeyRegistration",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1298,16 +1357,20 @@
         "/2fa/passkey/begin"
       ],
       "swift": "AuthClient.beginPasskey2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1316,16 +1379,20 @@
         "/2fa/passkey/setup/begin"
       ],
       "swift": "AuthClient.beginPasskeyEnrollment",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1334,16 +1401,20 @@
         "/2fa/passkey/setup/finish"
       ],
       "swift": "AuthClient.finishPasskeyEnrollment",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1352,16 +1423,20 @@
         "/2fa/passkey/finish"
       ],
       "swift": "AuthClient.finishPasskey2FA",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1387,16 +1462,20 @@
         "/passkey/login/begin"
       ],
       "swift": "AuthClient.beginPasswordlessLogin",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1405,16 +1484,20 @@
         "/passkey/login/finish"
       ],
       "swift": "AuthClient.finishPasswordlessLogin",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1440,16 +1523,20 @@
         "/passkeys"
       ],
       "swift": "AuthClient.listPasskeys",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1458,16 +1545,20 @@
         "/passkeys/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.renamePasskey",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1476,16 +1567,20 @@
         "/passkeys/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.deletePasskey",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1516,16 +1611,20 @@
         "/sessions/${encodeURIComponent(id)}"
       ],
       "swift": "AuthClient.revokeSession",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1534,16 +1633,20 @@
         "/sessions"
       ],
       "swift": "AuthClient.revokeOtherSessions",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#accountAndPasskeyWireContract",
+        "Tests/MMGTTests/AuthAccountHTTPTests.swift#failedAccountMutationsAreNotRetried"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "auth-account"
     },
     {
       "service": "auth",
@@ -1638,17 +1741,24 @@
       "typescript": "request",
       "paths": [],
       "swift": "MMGTCore.HTTPClient",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/CoreTests.swift#errorsPreserveDetailsAndNeverRetry",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#reservedHeadersCannotOverrideIdentity",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#malformedHeaderValuesAreRejectedBeforeTransport",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#cancellationWhileAcquiringTokenCannotReachTransport",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#cancelledLateHTTPResultCannotSucceedOrRetry"
+      ],
       "kind": "transport-extension",
       "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "serverReview": "http-extension"
     },
     {
       "service": "auth",
@@ -2087,17 +2197,24 @@
       "typescript": "request",
       "paths": [],
       "swift": "MMGTCore.HTTPClient",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/CoreTests.swift#errorsPreserveDetailsAndNeverRetry",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#reservedHeadersCannotOverrideIdentity",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#malformedHeaderValuesAreRejectedBeforeTransport",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#cancellationWhileAcquiringTokenCannotReachTransport",
+        "Tests/MMGTTests/CoreHTTPContractTests.swift#cancelledLateHTTPResultCannotSucceedOrRetry"
+      ],
       "kind": "transport-extension",
       "notes": "Low-level transport is not a dedicated service operation; callers retain authorization and retry responsibility.",
       "implementation": "mapped",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "http-extension"
     },
     {
       "service": "sync",
@@ -3082,6 +3199,100 @@
         {
           "path": "services/auth/internal/twofa/service.go",
           "sha256": "e8162302c6430a8cddae55cd811e3b5e23201260700390a9b576ed171dec8932"
+        }
+      ]
+    },
+    "auth-account": {
+      "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
+      "scope": "22 account/configuration and raw WebAuthn HTTP operations: actual routes, request bodies, app/JWT requirements, response envelopes, MFA restrictions, session revocation and credential UUIDs. Seven additional synthetic fixtures include real Go WebAuthn option types. System UI, provider delivery, device and environment acceptance remain separate.",
+      "files": [
+        {
+          "path": "services/auth/cmd/api/main.go",
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
+        },
+        {
+          "path": "services/auth/pkg/dto/auth.go",
+          "sha256": "115bf9e174f8150c1ddb10034e1a043633f9af156344a2f8157d578632c1282d"
+        },
+        {
+          "path": "services/auth/pkg/dto/admin.go",
+          "sha256": "df4c6e2db403fdab9d46b540b7bdb1325859e51ea3aeb1075085592668a09c1a"
+        },
+        {
+          "path": "services/auth/pkg/dto/webauthn.go",
+          "sha256": "5d21b2efd7db545f9000f6ced1c9360c596c60b7f1295b16d706c56c7e208d4e"
+        },
+        {
+          "path": "services/auth/internal/admin/handler.go",
+          "sha256": "d77e71fd29901499357790bbd196214cdf08495de60b312ad8578b28453f10dc"
+        },
+        {
+          "path": "services/auth/internal/user/handler.go",
+          "sha256": "4c9af0fe116d6491a04df2235805f57f05402150778ab19a2544d60dbf4158c4"
+        },
+        {
+          "path": "services/auth/internal/user/service.go",
+          "sha256": "69b78ef07defd4abdace656ca50617a3bf43ba4838388da6806ff78b5e627926"
+        },
+        {
+          "path": "services/auth/internal/social/handler.go",
+          "sha256": "be8898ac1b0b2a4eccd28a5555127927deeb2a9281ffbe589c4475dd7f1c5f72"
+        },
+        {
+          "path": "services/auth/internal/social/service.go",
+          "sha256": "cc61be899a42a1ed39d89b45b79ce487801f15ce3626f884259f38020f7d839e"
+        },
+        {
+          "path": "services/auth/internal/webauthn/handler.go",
+          "sha256": "c7a38c1f9f66b6a32b0fc1ee44e321d661fc600155172b781b4fcccd7edfc959"
+        },
+        {
+          "path": "services/auth/internal/webauthn/service.go",
+          "sha256": "fa0922d72c7513d4422c4e2d137d83a0a3b95f3efd6ca2c3c04c105bcf525402"
+        },
+        {
+          "path": "services/auth/internal/webauthn/enrollment.go",
+          "sha256": "72b90d0de395e8986a6a40f958586821c00f58cfe62e389ae520d8647f327629"
+        },
+        {
+          "path": "services/auth/internal/session/handler.go",
+          "sha256": "eaef31c84fb9afc1551ef7d7a93d93e4ca25782c65633e7ed8d3f3270de485fc"
+        }
+      ]
+    },
+    "session": {
+      "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
+      "scope": "Native adaptations of token access, activation and clearing: one AuthSession owner, profile-confirmed identity, generation-bound token providers, durable Keychain activation fence and shared refresh. Explicit existing synthetic concurrency/fault tests; not new physical or environment acceptance.",
+      "files": [
+        {
+          "path": "services/auth/internal/session/service.go",
+          "sha256": "e2ff244a2e311984f760717b5914d4579a75a265dd22412dfa71f062af5cebed"
+        },
+        {
+          "path": "services/auth/internal/user/handler.go",
+          "sha256": "4c9af0fe116d6491a04df2235805f57f05402150778ab19a2544d60dbf4158c4"
+        },
+        {
+          "path": "services/auth/internal/middleware/auth.go",
+          "sha256": "64465f3399053b48e846b59df4f9fd59628de02117777abad17f26d6750bbba8"
+        }
+      ]
+    },
+    "http-extension": {
+      "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
+      "scope": "Native HTTP transport adaptations for Auth and Billing generic request extensions. Runtime routes remain defined by each service. Reserved/control header validation, cancellation and explicit errors/no retry have synthetic transport tests. No live transport or provider acceptance inferred.",
+      "files": [
+        {
+          "path": "services/auth/cmd/api/main.go",
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
+        },
+        {
+          "path": "services/billing/internal/billing/handler.go",
+          "sha256": "983073b095535fa6509eb3e88eb8b44876feffc0a80eccf9cd75b01d8fa73ae4"
+        },
+        {
+          "path": "services/billing/internal/billing/app_handlers.go",
+          "sha256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2"
         }
       ]
     }

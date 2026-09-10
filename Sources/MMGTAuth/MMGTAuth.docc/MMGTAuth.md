@@ -163,3 +163,32 @@ replacement recovery codes are explicit writes without automatic retry. The
 current recovery-code regeneration endpoint requires a TOTP code; it is not a
 generic challenge for every MFA method. Check server state after an uncertain
 response before initiating another account-security operation.
+
+## Account changes and passkey endpoint contracts
+
+`getAppConfig` reads only this client's application. Configuration flags describe
+application settings, not successful mail/SMS delivery or a user's enrollment.
+`updateEmail` starts confirmation at the new address; the old address remains
+active until that confirmation. Prefer the reauthentication-proof flow for
+accounts using providers or passkeys. Confirming an email change or changing a
+password invalidates server sessions: clear local state and sign in again.
+`setPassword` adds the first password to an account without one and returns a
+conflict if one already exists.
+
+Deletion requires explicit confirmation and the application's `user:delete`
+permission. Password accounts supply their current password; social-only
+accounts can omit it. `revokeSession` cannot revoke the current session; use
+logout for that session. `revokeOtherSessions` keeps the current session.
+
+Passkey registration, MFA enrollment and authentication are separate ceremonies.
+Begin responses contain an `options.publicKey` envelope; passwordless login also
+returns a `session_id` to supply unchanged to finish. Management IDs are server
+credential UUIDs, distinct from the binary WebAuthn credential ID. Registering a
+credential does not by itself enable MFA. Raw finish operations can return
+restricted enrollment instead of a full session. No mutation is automatically
+retried, including when the server may have accepted it before connectivity failed.
+
+Password-only `confirmMerge` cannot bypass required or enrolled MFA. Complete
+the existing account's authentication and use the authenticated linking flow
+when instructed by the server. Native provider login uses the hosted OIDC flow
+for this account reconciliation.

@@ -1,0 +1,23 @@
+{
+  "options": {
+    "publicKey": {
+      "challenge": "AAECA_7_",
+      "rpId": "login.example.invalid",
+      "timeout": 300000,
+      "userVerification": "required",
+      "allowCredentials": [
+        {
+          "type": "public-key",
+          "id": "AQID_w",
+          "transports": [
+            "internal"
+          ]
+        }
+      ],
+      "hints": [
+        "client-device",
+        "security-key"
+      ]
+    }
+  }
+}

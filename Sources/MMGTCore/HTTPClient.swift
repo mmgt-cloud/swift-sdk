@@ -126,7 +126,12 @@ public struct HTTPClient: Sendable {
     if data != nil { request.setValue(contentType, forHTTPHeaderField: "Content-Type") }
     for (key, value) in headers {
       guard !["authorization", "x-app-id", "host", "cookie"].contains(key.lowercased()),
-        !key.contains("\r"), !key.contains("\n"), !value.contains("\r"), !value.contains("\n")
+        !key.isEmpty,
+        key.utf8.allSatisfy({
+          (65...90).contains($0) || (97...122).contains($0) || (48...57).contains($0)
+            || "!#$%&'*+-.^_`|~".utf8.contains($0)
+        }),
+        value.utf8.allSatisfy({ $0 == 9 || ($0 >= 32 && $0 != 127) })
       else {
         throw MMGTError.invalidConfiguration("A reserved or invalid HTTP header was supplied")
       }

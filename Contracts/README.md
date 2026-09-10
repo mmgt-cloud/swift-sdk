@@ -12,7 +12,7 @@ provider correctness. Native adaptations describe deliberate differences from
 browser APIs; generic transport extensions are separated from service operations.
 Internal TypeScript helper classes do not belong to the public service matrix.
 
-The test target contains 37 synthetic shared JSON fixtures under
+The test target contains 44 synthetic shared JSON fixtures under
 `Tests/MMGTTests/Fixtures/v1`. Their manifest, checksums and semantic tests run
 without the platform checkout. The platform mirrors their exact bytes and tests
 the actual Go and TypeScript DTOs/clients against them. A selected fixture is
@@ -62,3 +62,11 @@ recovery codes, effective method flags, unverified addresses/numbers and device
 metadata. NSDK-06 records pending server corrections to SMS availability flags
 and the ORM-backed e-mail setting lookup. These tests do not establish delivery
 of SMS/e-mail, an enrollment on a physical device or production availability.
+
+Twenty-two account/configuration and raw passkey endpoints now have explicit
+route, body, identity and response tests. Seven new fixtures cover configuration,
+validation, merge, nonempty credentials and the full nested WebAuthn options.
+Session adaptations have generation, refresh, persistence and Keychain fault
+evidence. Generic HTTP extensions are tested separately from service operations;
+NSDK-07 rejects CRLF/control bytes before transport. System authentication UI
+and real provider effects still require their own acceptance.

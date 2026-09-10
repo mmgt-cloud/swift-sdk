@@ -28,6 +28,7 @@ class EvidenceTests(unittest.TestCase):
         path.write_text(json.dumps(matrix))
 
     def test_default_check_needs_no_private_checkout_and_keeps_pending_visible(self):
+        self.edit_matrix(lambda matrix: matrix['operations'][0].update(serverVerified=False))
         result = module.verify(self.root)
         self.assertGreater(result['pendingServerReview'], 0)
         self.assertEqual(result['operations'], result['serverReviewed'] + result['pendingServerReview'])
@@ -46,7 +47,7 @@ class EvidenceTests(unittest.TestCase):
             module.verify(self.root)
 
     def test_claiming_review_without_sources_or_tests_is_rejected(self):
-        self.edit_matrix(lambda matrix: matrix['operations'][0].update(serverVerified=True))
+        self.edit_matrix(lambda matrix: matrix['operations'][0].update(serverVerified=True, tests=[], serverReview='missing-review'))
         with self.assertRaisesRegex(ValueError, 'lacks server and test evidence'):
             module.verify(self.root)
 

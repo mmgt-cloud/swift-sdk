@@ -1,0 +1,41 @@
+{
+  "options": {
+    "publicKey": {
+      "rp": {
+        "id": "login.example.invalid",
+        "name": "Synthetic app"
+      },
+      "user": {
+        "id": "AQID_w",
+        "name": "synthetic@example.invalid",
+        "displayName": "Synthetic user"
+      },
+      "challenge": "AAECA_7_",
+      "pubKeyCredParams": [
+        {
+          "type": "public-key",
+          "alg": -7
+        }
+      ],
+      "timeout": 300000,
+      "authenticatorSelection": {
+        "residentKey": "preferred",
+        "userVerification": "preferred"
+      },
+      "attestation": "none",
+      "excludeCredentials": [
+        {
+          "type": "public-key",
+          "id": "AQID_w",
+          "transports": [
+            "internal"
+          ]
+        }
+      ],
+      "hints": [
+        "client-device",
+        "security-key"
+      ]
+    }
+  }
+}
