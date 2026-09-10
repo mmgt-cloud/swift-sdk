@@ -1,0 +1,21 @@
+{
+  "offers": [
+    {
+      "id": "synthetic-offer",
+      "key": "synthetic",
+      "name": "Synthetic plan",
+      "description": "Contract fixture",
+      "plan_type": "workspace",
+      "billing_model": "subscription",
+      "interval": "month",
+      "currency": "usd",
+      "unit_amount_cents": 999,
+      "base_seat_count": 5,
+      "extra_seat_amount_cents": 125,
+      "contact_url": "https://billing.example.invalid/contact",
+      "metadata": {
+        "feature": "synthetic"
+      }
+    }
+  ]
+}

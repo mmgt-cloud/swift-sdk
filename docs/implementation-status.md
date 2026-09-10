@@ -90,7 +90,7 @@ Auth-only app without linking GRDB/SQLite. Report:
 This proves revision installation, not a versioned release or hosted DocC.
 
 Five server DTO suites, five TypeScript client suites (84 tests), and six Swift
-shared-fixture tests use the same 11 synthetic JSON files. Entries in
+shared-fixture tests use the same 17 synthetic JSON files. Entries in
 `Contracts/platform.json` without operation verification remain open.
 
 ## First actual native attempt and discovery correction

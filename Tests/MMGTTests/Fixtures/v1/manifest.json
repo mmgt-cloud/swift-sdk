@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-09.native-1",
+  "contractVersion": "2026-09-10.native-2",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -80,6 +80,48 @@
       "goType": "ackConfirmedMessage",
       "swiftType": "RealtimeMessage",
       "sha256": "7af8c081dc247e2aaf62e406f85cc530a6d807fddd444683a984e5742fecd869"
+    },
+    {
+      "file": "billing-catalog.json",
+      "service": "billing",
+      "goType": "offers envelope",
+      "swiftType": "BillingCatalogResponse",
+      "sha256": "a204008d3479a498a1c9b97767d1d235fce2a7b961b4b38944316d31adf967e8"
+    },
+    {
+      "file": "billing-fullaccess.json",
+      "service": "billing",
+      "goType": "accessResponse",
+      "swiftType": "BillingAccessResponse",
+      "sha256": "7067554ce99dcd4cd0eb002494052ba21ddac76f543d832289272a23415e7b02"
+    },
+    {
+      "file": "billing-workspace.json",
+      "service": "billing",
+      "goType": "workspace envelope",
+      "swiftType": "WorkspaceResponse",
+      "sha256": "c0eb97602f48bd16e9991ff01eb599703870b6ffb09425891b7e889b5cf0f21e"
+    },
+    {
+      "file": "billing-members.json",
+      "service": "billing",
+      "goType": "members envelope",
+      "swiftType": "WorkspaceMembersResponse",
+      "sha256": "db450b0e725a693c6d11d7c8b5ee3a919ca08feb40231bcf36458e0c41d52c62"
+    },
+    {
+      "file": "billing-invites.json",
+      "service": "billing",
+      "goType": "invites envelope",
+      "swiftType": "WorkspaceInvitesResponse",
+      "sha256": "97fc41a53b749bf6ed38d2780e5f3318cdc3c3c3781d05f7427264a04699f855"
+    },
+    {
+      "file": "billing-createdinvites.json",
+      "service": "billing",
+      "goType": "createInvitesResponse",
+      "swiftType": "CreateInvitesResponse",
+      "sha256": "93f8b8bed03eb2972b4c6d316a57fa63cec6b3583c351f995dbe20b60b7cc860"
     }
   ]
 }

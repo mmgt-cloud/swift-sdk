@@ -1518,8 +1518,11 @@
         "/catalog"
       ],
       "swift": "BillingClient.getCatalog",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1527,7 +1530,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1536,8 +1540,11 @@
         "/access"
       ],
       "swift": "BillingClient.getAccess",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1545,7 +1552,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1554,8 +1562,11 @@
         "/plan"
       ],
       "swift": "BillingClient.getPlan",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1563,7 +1574,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1572,8 +1584,11 @@
         "/checkout/personal"
       ],
       "swift": "BillingClient.startPersonalCheckout",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1581,7 +1596,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1590,8 +1606,11 @@
         "/checkout/workspace"
       ],
       "swift": "BillingClient.startWorkspaceCheckout",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1599,7 +1618,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1608,8 +1628,11 @@
         "/checkout/addon"
       ],
       "swift": "BillingClient.startOneTimeCheckout",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1617,7 +1640,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1626,8 +1650,11 @@
         "/subscription/change"
       ],
       "swift": "BillingClient.changeSubscription",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1635,7 +1662,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1644,8 +1672,11 @@
         "/portal"
       ],
       "swift": "BillingClient.createPortalSession",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1653,7 +1684,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1662,8 +1694,11 @@
         "/workspaces"
       ],
       "swift": "BillingClient.listWorkspaces",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1671,7 +1706,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1680,8 +1716,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}"
       ],
       "swift": "BillingClient.getWorkspace",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1689,7 +1728,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1698,8 +1738,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/members"
       ],
       "swift": "BillingClient.listMembers",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1707,7 +1750,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1716,8 +1760,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/members/${encodeURIComponent(memberUserId)}"
       ],
       "swift": "BillingClient.removeMember",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1725,7 +1772,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1734,8 +1782,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/seats"
       ],
       "swift": "BillingClient.addSeats",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1743,7 +1794,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1752,8 +1804,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/invites"
       ],
       "swift": "BillingClient.listInvites",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1761,7 +1816,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1770,8 +1826,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/invites"
       ],
       "swift": "BillingClient.createInvites",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1779,7 +1838,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1788,8 +1848,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/invites/${encodeURIComponent(inviteId)}"
       ],
       "swift": "BillingClient.cancelInvite",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1797,7 +1860,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1806,8 +1870,11 @@
         "/workspaces/${encodeURIComponent(workspaceId)}/invites/${encodeURIComponent(inviteId)}/resend"
       ],
       "swift": "BillingClient.resendInvite",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "client-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1815,7 +1882,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -1824,8 +1892,11 @@
         "/invites/accept"
       ],
       "swift": "BillingClient.acceptInvite",
-      "serverVerified": false,
-      "tests": [],
+      "serverVerified": true,
+      "tests": [
+        "Tests/MMGTTests/BillingContractTests.swift#actualEndpointContract",
+        "Tests/MMGTTests/SharedWireContractTests.swift#billingRetainsNestedAccessWorkspaceAndInviteFields"
+      ],
       "kind": "service-operation",
       "implementation": "mapped",
       "acceptance": {
@@ -1833,7 +1904,8 @@
         "stage": "pending",
         "production": "pending",
         "device": "not-applicable"
-      }
+      },
+      "serverReview": "billing"
     },
     {
       "service": "billing",
@@ -2561,5 +2633,33 @@
       }
     }
   ],
-  "platformDirty": false
+  "platformDirty": false,
+  "serverReviews": {
+    "billing": {
+      "platformCommit": "dab810d9aa872306488a660a5fcf349b95d7cd79",
+      "scope": "Public app routes, method/authentication boundary, request fields and response DTOs; provider/environment effects remain separately pending. Server implementation files unchanged in the acceptance worktree.",
+      "files": [
+        {
+          "path": "services/billing/internal/billing/handler.go",
+          "sha256": "983073b095535fa6509eb3e88eb8b44876feffc0a80eccf9cd75b01d8fa73ae4"
+        },
+        {
+          "path": "services/billing/internal/billing/app_handlers.go",
+          "sha256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2"
+        },
+        {
+          "path": "services/billing/internal/billing/workspace_handlers.go",
+          "sha256": "2590f2a1cbc234a50419e1810084119eb0da8b4c58c8d8bef39be9b93050ca27"
+        },
+        {
+          "path": "services/billing/internal/billing/dto.go",
+          "sha256": "582b2814d8213b2ebea380be2b5935fd676baf3eda1217930b9242b78992bed9"
+        },
+        {
+          "path": "services/billing/internal/billing/models.go",
+          "sha256": "feb9ad06efa207dedf110a621007a92d9c778223f4228bd82471bc7feb582b14"
+        }
+      ]
+    }
+  }
 }

@@ -99,6 +99,29 @@ import Testing
     #expect(!access.hasPaidAccess && access.entitlements.isEmpty)
     #expect(access.subscription == nil && access.workspaceMemberships.isEmpty)
   }
+  @Test func billingRetainsNestedAccessWorkspaceAndInviteFields() throws {
+    let catalog = try roundTrip("billing-catalog", as: BillingCatalogResponse.self)
+    #expect(catalog.offers.first?.unitAmountCents == 999)
+    #expect(catalog.offers.first?.extraSeatAmountCents == 125)
+    let access = try roundTrip("billing-fullaccess", as: BillingAccessResponse.self)
+    #expect(access.hasPaidAccess && access.subscription?.cancelAtPeriodEnd == false)
+    #expect(access.personalSubscription?.scope == "personal")
+    #expect(access.workspace == access.workspaceMemberships.first)
+    #expect(access.workspace?.availableSeats == 6)
+    #expect(access.entitlements.first?.createdAt == "2026-09-09T12:00:00.123456789Z")
+    let workspace = try roundTrip("billing-workspace", as: WorkspaceResponse.self)
+    #expect(workspace.workspace.id == access.workspace?.id && workspace.role == "owner")
+    #expect(workspace.workspace.extraSeats == 3)
+    let members = try roundTrip("billing-members", as: WorkspaceMembersResponse.self)
+    #expect(members.members.first?.userId == access.userId)
+    let invites = try roundTrip("billing-invites", as: WorkspaceInvitesResponse.self)
+    #expect(invites.invites.first?.emailDeliveryStatus == nil)
+    let created = try roundTrip("billing-createdinvites", as: CreateInvitesResponse.self)
+    #expect(created.invites.first?.emailDeliveryStatus == "queued")
+    #expect(created.invites.first?.id == invites.invites.first?.id)
+    #expect(
+      created.invites.first?.acceptUrl == "https://app.example.invalid/invite?token=synthetic-only")
+  }
   @Test func aiResponseAndErrorKeepTheirActualSemantics() throws {
     let response = try roundTrip("ai-response", as: AIResponse.self)
     #expect(response.status == "requires_action")
