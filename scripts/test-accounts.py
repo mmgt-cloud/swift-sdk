@@ -198,7 +198,7 @@ def main():
                     subprocess.run(['codesign', '--verify', '--strict', str(app)], check=True,
                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     signed = plistlib.loads(subprocess.check_output(
-                        ['codesign', '-d', '--entitlements', '-', str(app)], stderr=subprocess.DEVNULL))
+                        ['codesign', '-d', '--entitlements', '-', '--xml', str(app)], stderr=subprocess.DEVNULL))
                     if signed.get('application-identifier') != args.team_id + '.cloud.mmgt.sdkexample':
                         raise ValueError('Physical application identity differs from the signing team')
                     report['applicationIdentifier'] = signed['application-identifier']
