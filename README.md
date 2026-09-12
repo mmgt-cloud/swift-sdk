@@ -108,3 +108,10 @@ outbox view and durable account adoption. See the `Local data without an account
 DocC article and compiled SQLite quickstart. The original SyncLocalStore remains
 source compatible. This implementation has local simulator evidence; it has not
 yet passed the combined web/Swift, stage, production or guest device release gates.
+
+The local DocC gate requires a diagnostics file and zero warnings/errors for each
+of the eight MMGT products. Dependency documentation diagnostics are retained
+separately in the report. Xcode 27 currently reports an unresolved anchor in
+GRDB 7.11.1's own documentation; this is not a suppressed MMGT documentation
+warning, and vendor sources are unchanged. Public hosting still requires its
+separate publication receipt.
