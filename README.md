@@ -69,6 +69,9 @@ The runner writes logs and result bundles under the ignored `.artifacts/`
 directory. Contract provenance and the operation mapping are in
 [`Contracts/platform.json`](Contracts/platform.json). Entries without service
 verification or test evidence are not considered accepted.
+The [guest contract review](Contracts/GUEST-REVIEW.md) explains the current source
+mapping and retained historical evidence. Source review does not imply a passed
+device, provider or environment gate.
 
 Use `python3 scripts/check-compiler.py --swiftc /absolute/path/to/swiftc` to
 compile all eight products with a specific compiler. This is source compatibility

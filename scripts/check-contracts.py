@@ -24,6 +24,18 @@ def local_file(root, value):
 
 def verify(root, platform=None):
     matrix = json.loads((root / 'Contracts/platform.json').read_text())
+    refresh = matrix.get('reviewRefresh')
+    if refresh:
+        previous = local_file(root, refresh['archive']).read_bytes()
+        if hashlib.sha256(previous).hexdigest() != refresh['archiveSHA256']:
+            raise ValueError('Archived contract review checksum mismatch')
+        old = json.loads(previous)
+        old_sources = old['files'] + [file for review in old.get('serverReviews', {}).values() for file in review['files']]
+        known = {(entry['path'], entry['sha256']) for entry in old_sources}
+        for change in refresh['changedFiles']:
+            if (change['path'], change['previousSHA256']) not in known:
+                raise ValueError('Changed contract source has no archived baseline')
+        local_file(root, matrix['guestCandidate']['review'])
     reviews = matrix.get('serverReviews', {})
     identities = set()
     verified = 0
@@ -43,7 +55,7 @@ def verify(root, platform=None):
                 raise ValueError('Verified operation lacks server and test evidence')
             verified += 1
     if platform is not None:
-        for entry in matrix['files'] + [file for review in reviews.values() for file in review['files']]:
+        for entry in matrix['files'] + [file for review in reviews.values() for file in review['files']] + matrix.get('guestCandidate', {}).get('files', []):
             actual = hashlib.sha256(local_file(platform, entry['path']).read_bytes()).hexdigest()
             if actual != entry['sha256']:
                 raise ValueError('Platform contract changed: ' + entry['path'])

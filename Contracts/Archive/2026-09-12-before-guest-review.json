@@ -1,7 +1,7 @@
 {
   "version": 2,
   "scope": "Operation mappings describe implementation, not completed environment or provider acceptance. Tests are explicit evidence references, not inferred from code generation.",
-  "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
+  "platformCommit": "21e69a02856719b1605892dd1c7497be113ce657",
   "files": [
     {
       "path": "packages/auth-client/src/types.ts",
@@ -13,14 +13,14 @@
     },
     {
       "path": "packages/sync-client/src/types.ts",
-      "sha256": "df0329c6d09bf53cef8b2ec4c699c0676402f9a3201a2ef8958f6c4243b5829d",
+      "sha256": "2cb88677df7756f4f21cde7e78195077c84ac8a4cb92bf572d7fd39db2bf580f",
       "sourceBaseCommit": "d96053644e7a3432a9f12e84af80c6dc61de14f8",
       "sourceDirty": true,
       "note": "NSDK-05 documents snapshot floor ordering for custom stores; no wire DTO change."
     },
     {
       "path": "packages/ai-client/src/types.ts",
-      "sha256": "57a65937d077e591ae95313caab9a2d2bdca7532417fff8b8b575ee5549b1c33"
+      "sha256": "a50b5970ad2ee8c2bd437a092a3d93d067d67f9c1246f35288a76cb2555f4fc3"
     },
     {
       "path": "packages/auth-client/src/client.ts",
@@ -35,7 +35,7 @@
     },
     {
       "path": "packages/sync-client/src/client.ts",
-      "sha256": "9ea06207f72d321336bde2f002216d9e22436253e7fc9a79fd0457769ac4ef23"
+      "sha256": "66a74cb84720bafe5e8d9925910a17f7219b5bdc085496faa0c860bfbeadb06b"
     },
     {
       "path": "packages/realtime-client/src/client.ts",
@@ -43,7 +43,7 @@
     },
     {
       "path": "packages/ai-client/src/client.ts",
-      "sha256": "85e4aea8cf784b266726f6f9d60abb229fbec23a0603c4fa7c4852b2f5d422c4"
+      "sha256": "a1a5e6c77d43fd3e7a90243b86e538fe6316b2c3b8e3793516d1aa62d8683048"
     }
   ],
   "operations": [
@@ -3026,7 +3026,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -3048,7 +3048,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -3069,7 +3069,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -3092,7 +3092,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -3112,7 +3112,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "ai",
@@ -3137,7 +3137,7 @@
         "production": "pending",
         "device": "not-applicable"
       },
-      "serverReview": "guest-ai"
+      "serverReview": "ai"
     },
     {
       "service": "auth",
@@ -3147,63 +3147,60 @@
         "POST /auth/guest/sessions/renew"
       ],
       "swift": "GuestSession.accessToken()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#coalescesRequestsAndPersistsTheRenewalSecretBeforeFirstNetworkCall"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
       "typescript": "GuestSession.summary",
       "paths": [],
       "swift": "GuestSession.summary()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#offlineConstructionAndSummaryDoNotContactAuth"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
       "typescript": "GuestSession.subscribe",
       "paths": [],
       "swift": "GuestSession.snapshots()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#snapshotSequencePublishesAccessAndFinishesOnCloseWithoutNetworkRetry"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3212,379 +3209,350 @@
         "POST /auth/guest/sessions/revoke"
       ],
       "swift": "GuestSession.revoke()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#failedRevocationRetainsARecoverableMarkerAcrossRestart"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
       "typescript": "GuestSession.startNewSession",
       "paths": [],
       "swift": "GuestSession.startNewSession()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#quotaDoesNotRetryOrResetAndExpiredSessionNeedsExplicitReset"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
       "typescript": "GuestSession.close",
       "paths": [],
       "swift": "GuestSession.close()",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/GuestSessionTests.swift#closeFencesLateResponsesEvenWhenTransportIgnoresCancellation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "guest-auth"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.snapshot",
       "paths": [],
       "swift": "LocalReplica.snapshot",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.get",
       "paths": [],
       "swift": "LocalReplica.get",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.list",
       "paths": [],
       "swift": "LocalReplica.list",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.transaction",
       "paths": [],
       "swift": "LocalReplica.transaction",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#callbackFailureAndRealSQLFailureRollbackAllRecordsAndJournal",
         "Tests/MMGTTests/ReplicaDeliveryTests.swift#RealSQLiteFullRollsBackJournalAndQueue"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.upsert",
       "paths": [],
       "swift": "LocalReplica.upsert",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.delete",
       "paths": [],
       "swift": "LocalReplica.delete",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.changes",
       "paths": [],
       "swift": "LocalReplica.changes",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#concurrentConnectionsUseCASAndObservationSeesExternalCommits"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.connect",
-      "paths": [
-        "GET /sync/app/:appId/bootstrap"
-      ],
+      "paths": [],
       "swift": "LocalReplica.connect",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#GuestCannotConnectAndOrdinaryBootstrapMustConfirmExactAccount"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.synchronize",
-      "paths": [
-        "GET /sync/app/:appId/bootstrap",
-        "POST /sync/app/:appId/pull",
-        "POST /sync/app/:appId/push",
-        "POST /sync/app/:appId/snapshot"
-      ],
+      "paths": [],
       "swift": "LocalReplica.synchronize",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaDeliveryTests.swift#PartialRecordChainReturnsHasMoreUntilNextConfirmedCAS",
         "Tests/MMGTTests/ReplicaDeliveryTests.swift#GuestImportThenLostPushAndRestartConvergesOnAnotherDevice"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.resolveIssue",
       "paths": [],
       "swift": "LocalReplica.resolveIssue",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#RejectionKeepsMaterializedEditsAndExplicitResolutionReplacesWholeChain"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.prepareImport",
-      "paths": [
-        "GET /sync/app/:appId/bootstrap",
-        "POST /sync/app/:appId/snapshot"
-      ],
+      "paths": [],
       "swift": "LocalReplica.prepareImport",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#ImportFreshSnapshotDoesNotPushExistingQueueAndConsentIsMandatory"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.approveImport",
-      "paths": [
-        "GET /sync/app/:appId/bootstrap"
-      ],
+      "paths": [],
       "swift": "LocalReplica.approveImport",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#AtomicImportRetainsOnlyCopyAndOneAccountAcrossRestartAndPartialCommit",
         "Tests/MMGTTests/ReplicaTests.swift#ImportDependencyCycleAndSQLFailureRollbackSourceTargetAndPlan"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.importProgress",
       "paths": [],
       "swift": "LocalReplica.importProgress",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaTests.swift#AtomicImportRetainsOnlyCopyAndOneAccountAcrossRestartAndPartialCommit"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
       "typescript": "LocalReplica.close",
       "paths": [],
       "swift": "LocalReplica.close",
-      "serverVerified": true,
+      "serverVerified": false,
       "tests": [
         "Tests/MMGTTests/ReplicaDeliveryTests.swift#LogoutWhileBootstrapIgnoresCancellationCannotAttachNewSession"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
-      "notes": "Source and synthetic contract review completed for the guest candidate; physical, provider and environment acceptance remain separate and pending.",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
         "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
       },
-      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json",
-      "serverReview": "local-replica"
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     }
   ],
   "platformDirty": false,
   "serverReviews": {
     "billing": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "dab810d9aa872306488a660a5fcf349b95d7cd79",
+      "scope": "Public app routes, method/authentication boundary, request fields and response DTOs; provider/environment effects remain separately pending. Server implementation files unchanged in the acceptance worktree.",
       "files": [
         {
           "path": "services/billing/internal/billing/handler.go",
@@ -3592,11 +3560,11 @@
         },
         {
           "path": "services/billing/internal/billing/app_handlers.go",
-          "sha256": "72690403fe7a41d2a935b1ab47d61b20658ffc223239709c7e3a306e7a194bb6"
+          "sha256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2"
         },
         {
           "path": "services/billing/internal/billing/workspace_handlers.go",
-          "sha256": "6167812602978579c47cd53324b0ee6a1c1876e5ca157eae6b859427b2586692"
+          "sha256": "2590f2a1cbc234a50419e1810084119eb0da8b4c58c8d8bef39be9b93050ca27"
         },
         {
           "path": "services/billing/internal/billing/dto.go",
@@ -3606,17 +3574,15 @@
           "path": "services/billing/internal/billing/models.go",
           "sha256": "feb9ad06efa207dedf110a621007a92d9c778223f4228bd82471bc7feb582b14"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "auth-profile": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "a4e2a240f57fc4dc5576725c2991769db3de36ce",
+      "scope": "Profile GET/PUT, linked-provider reads, session listing and activity list/detail/types/JSON+CSV export: registered routes, JWT/RBAC boundaries, request fields, response DTOs and export cap. Provider login and environment effects remain separate.",
       "files": [
         {
           "path": "services/auth/cmd/api/main.go",
-          "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
         },
         {
           "path": "services/auth/pkg/dto/auth.go",
@@ -3650,41 +3616,38 @@
           "path": "services/auth/internal/log/query_service.go",
           "sha256": "1128e494dddca5cc6ffdea696f0eac2842960bf06924532a3d88a62c515d1ee3"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "ai": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "platformDirty": false,
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "8b58aeddfe270766fe904e94e086873fac17ee3d",
+      "platformDirty": true,
+      "scope": "Public authenticated catalog/generation/file routes and DTOs; first-frame WebSocket auth; single start with tool_result continuation after server state is ready, terminal/cancellation ordering. Checksums include the uncommitted NSDK-03 server correction. Provider/device/environment effects remain pending.",
       "files": [
         {
           "path": "services/ai/internal/api/handler.go",
-          "sha256": "117efe26b6972edd637953fda8307e2b1129b0d8b3fadb12159fd48b4792274d"
+          "sha256": "d05d94a0f051fb1faa66418b75abf3b0c971f2e2cf15cce1b05cdf1c4e54688b"
         },
         {
           "path": "services/ai/internal/core/types.go",
-          "sha256": "c308d9167275112b80852468cf54ccdcf51265d337e9c4039bbbc3c57799f82e"
+          "sha256": "ca0be46aeef8b9663478c7ea56b8d218ec01e595bbaff040ee647921f07eae85"
         },
         {
           "path": "services/ai/internal/core/service.go",
-          "sha256": "62150de78b8e4106e46582e1aefae56b0b757be20d5e601b00a335fc903e1287"
+          "sha256": "dd8b127d72d8930148009a799d5c5e57d73a74488c304aee798eb33cbab8b020"
         },
         {
           "path": "services/ai/internal/authclient/client.go",
-          "sha256": "82f924a822773d569e4cc8836198a22aab6efc2d0673cdc100592f1b4e0a30cd"
+          "sha256": "3ccf60a96360821aa55b5b06fd1365d872cf18903fb5d1ddf98ce7c330e7c34b"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json"
+      ]
     },
     "auth-entry": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "df8dc0d77d944812d2df523dd140842ed9354f3a",
+      "scope": "Sixteen public entry operations: password/OTP registration and login, refresh/logout, reset and verification mail, magic link; actual methods, app binding, request DTOs, primary MFA/enrollment and expired-password/error response shapes. Email delivery, token storage/session concurrency, provider/device and environment acceptance remain separate. Server implementation files are unchanged.",
       "files": [
         {
           "path": "services/auth/cmd/api/main.go",
-          "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
         },
         {
           "path": "services/auth/pkg/dto/auth.go",
@@ -3698,25 +3661,23 @@
           "path": "services/auth/internal/user/login_response.go",
           "sha256": "00c12d38ba200550d2211c5b55b1a60ace63d7c6b1e2b1de638804de7bf5a427"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "sync": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "d96053644e7a3432a9f12e84af80c6dc61de14f8",
+      "scope": "Actual app-bound JWT routes and grant checks; user/workspace bootstrap visibility, per-request scoped grants, immutable ownership/CAS, partial idempotent mutations, opaque cursor/snapshot DTOs and fixed watermarks. Native lifecycle/local-store adaptations have explicit synthetic tests. Environment, live retention and physical acceptance remain separate. Server implementation unchanged in this review.",
       "files": [
         {
           "path": "services/sync/internal/sync/handler.go",
-          "sha256": "c940be19ac3bc76b3b21f1d7a8ec01e8599fe0919dfd175bcd6da61201467036"
+          "sha256": "e5799513b975b18a7701edd7ed5573b32b9747ab04a3c996a0375e822be1136b"
         },
         {
           "path": "services/sync/internal/sync/dto.go",
-          "sha256": "9659f92bd9279cf0edbe0b0616b5d4fa4f65c83a0d378563263dd9d46883b8e6"
+          "sha256": "e425c8dab83182024f8751cef31737b2b741b21300f553c798fc79b0bee6ffc6"
         },
         {
           "path": "services/sync/internal/sync/service.go",
-          "sha256": "7984d65905bc3ea3a92a2ec1168b3f4339cc68445412c28923d53c1968d251b6"
+          "sha256": "12b401c7f69a11385ddce850e8f2dcdd1e844aef225c40afd34043bb86a280c0"
         },
         {
           "path": "services/sync/internal/sync/repository.go",
@@ -3730,18 +3691,16 @@
           "path": "services/sync/internal/sync/tokens.go",
           "sha256": "aca7d3b700e25ef1eaf8b3dbe803f7daf5a522d58c720f07f87a9d74d7652b7b"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "auth-mfa": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "platformDirty": false,
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "0999a599b902025d97de6f81770df083eafc9753",
+      "platformDirty": true,
+      "scope": "24 direct MFA/phone/backup-email/trusted-device HTTP operations: methods, authorization requirements, request fields and response DTOs. NSDK-06 corrects SMS method flags and selects persisted Email2FAEnabled via the Application ORM model; hashes identify the pending server implementation. No provider delivery or environment acceptance inferred.",
       "files": [
         {
           "path": "services/auth/cmd/api/main.go",
-          "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
         },
         {
           "path": "services/auth/pkg/dto/auth.go",
@@ -3763,16 +3722,15 @@
           "path": "services/auth/internal/twofa/service.go",
           "sha256": "e8162302c6430a8cddae55cd811e3b5e23201260700390a9b576ed171dec8932"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json"
+      ]
     },
     "auth-account": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
+      "scope": "22 account/configuration and raw WebAuthn HTTP operations: actual routes, request bodies, app/JWT requirements, response envelopes, MFA restrictions, session revocation and credential UUIDs. Seven additional synthetic fixtures include real Go WebAuthn option types. System UI, provider delivery, device and environment acceptance remain separate.",
       "files": [
         {
           "path": "services/auth/cmd/api/main.go",
-          "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
         },
         {
           "path": "services/auth/pkg/dto/auth.go",
@@ -3822,9 +3780,7 @@
           "path": "services/auth/internal/session/handler.go",
           "sha256": "eaef31c84fb9afc1551ef7d7a93d93e4ca25782c65633e7ed8d3f3270de485fc"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "session": {
       "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
@@ -3845,12 +3801,12 @@
       ]
     },
     "http-extension": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "scope": "Revalidated current registered routes, request/response DTOs and authentication boundaries for this domain. Current deltas are documented in Contracts/GUEST-REVIEW.md; the original review scope and hashes are retained in the archive. This is source/contract review, not provider, device or environment acceptance.",
+      "platformCommit": "675ebdc6153f61f4f2f0f1ad44b3867ac47c2711",
+      "scope": "Native HTTP transport adaptations for Auth and Billing generic request extensions. Runtime routes remain defined by each service. Reserved/control header validation, cancellation and explicit errors/no retry have synthetic transport tests. No live transport or provider acceptance inferred.",
       "files": [
         {
           "path": "services/auth/cmd/api/main.go",
-          "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
+          "sha256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8"
         },
         {
           "path": "services/billing/internal/billing/handler.go",
@@ -3858,11 +3814,9 @@
         },
         {
           "path": "services/billing/internal/billing/app_handlers.go",
-          "sha256": "72690403fe7a41d2a935b1ab47d61b20658ffc223239709c7e3a306e7a194bb6"
+          "sha256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2"
         }
-      ],
-      "previousReviewArchive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-      "platformDirty": false
+      ]
     },
     "native-auth": {
       "platformCommit": "78c9d96e6d845f23c9ab9b90a993ec5567510bd3",
@@ -3955,138 +3909,16 @@
           "sha256": "ba051fc6640da9ce774411a661920f4b6ddc7d0222d278a2d6a5493024e0ab94"
         }
       ]
-    },
-    "guest-auth": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "platformDirty": false,
-      "scope": "Reviewed guest candidate contract and explicit local fault/concurrency tests. See Contracts/GUEST-REVIEW.md. Provider, physical and environment acceptance remain pending.",
-      "files": [
-        {
-          "path": "services/auth/internal/guest/handler.go",
-          "sha256": "3fcc26d7128b5b06a0da245e00d8d8327ce8a893c4d265490f22aec0e1a6b593"
-        },
-        {
-          "path": "services/auth/internal/guest/service.go",
-          "sha256": "7397fba183614f4ca1f1f96039cc48ace26d12bd4549125399e74e72c56aa485"
-        },
-        {
-          "path": "services/auth/internal/guest/policy.go",
-          "sha256": "2d180dfe8a01a498340f2f95a5557d65226fdb64af2310b260bf3fd854dc793a"
-        },
-        {
-          "path": "services/auth/internal/guest/handler_test.go",
-          "sha256": "0afcc72a2df126a47fc9fa1f522b13c831158897d59d017acbb53a677c15bc39"
-        },
-        {
-          "path": "services/auth/internal/guest/service_test.go",
-          "sha256": "151de1a0216b57d5fc3a08772322dcd737916058f9c25dd78eea7a44346290d0"
-        },
-        {
-          "path": "packages/auth-client/src/guest.ts",
-          "sha256": "74b08b20a26ae217fb9d35bc3669deaac48c5b0d1f34f21b845eb3e2273c85d9"
-        },
-        {
-          "path": "packages/auth-client/src/guest-storage.ts",
-          "sha256": "de34585f98a90b589ad071bfcac964fb20be7d681418b700d9a2b5286b515a5c"
-        },
-        {
-          "path": "packages/auth-client/src/guest.test.ts",
-          "sha256": "ef6403693fb1441472693b87394336ee20087b3684c25f8b76a38b06ea4f1477"
-        }
-      ]
-    },
-    "local-replica": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "platformDirty": false,
-      "scope": "Reviewed guest candidate contract and explicit local fault/concurrency tests. See Contracts/GUEST-REVIEW.md. Provider, physical and environment acceptance remain pending.",
-      "files": [
-        {
-          "path": "packages/sync-client/src/replica.ts",
-          "sha256": "9ab64d3c3988905d185860f3b00b8e7195e959c3be4796595613563d3ee38b09"
-        },
-        {
-          "path": "packages/sync-client/src/replica-types.ts",
-          "sha256": "b81e42e8861f70743368bd1b6564909254592f68632fe3374158f90874230813"
-        },
-        {
-          "path": "packages/sync-client/src/replica-state.ts",
-          "sha256": "8ffd53c238c238fc5c521103c3efa131aef99948f02ea04c59da9204f51aec07"
-        },
-        {
-          "path": "packages/sync-client/src/indexeddb-replica.ts",
-          "sha256": "2b1dba6b0382fb86782c64b23e26557c5ad9f9c44ab09ccbf4933bc804e5a54a"
-        },
-        {
-          "path": "packages/sync-client/src/replica.test.ts",
-          "sha256": "dbf7df37eb3fed964aa764e33ba5328434ad2eb3cc32170f6eca5793b0dc8b6d"
-        },
-        {
-          "path": "packages/sync-client/src/client.ts",
-          "sha256": "9ea06207f72d321336bde2f002216d9e22436253e7fc9a79fd0457769ac4ef23"
-        },
-        {
-          "path": "services/sync/internal/sync/handler.go",
-          "sha256": "c940be19ac3bc76b3b21f1d7a8ec01e8599fe0919dfd175bcd6da61201467036"
-        },
-        {
-          "path": "services/sync/internal/sync/dto.go",
-          "sha256": "9659f92bd9279cf0edbe0b0616b5d4fa4f65c83a0d378563263dd9d46883b8e6"
-        },
-        {
-          "path": "services/sync/internal/sync/service.go",
-          "sha256": "7984d65905bc3ea3a92a2ec1168b3f4339cc68445412c28923d53c1968d251b6"
-        }
-      ]
-    },
-    "guest-ai": {
-      "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-      "platformDirty": false,
-      "scope": "Reviewed guest candidate contract and explicit local fault/concurrency tests. See Contracts/GUEST-REVIEW.md. Provider, physical and environment acceptance remain pending.",
-      "files": [
-        {
-          "path": "services/ai/internal/core/guest.go",
-          "sha256": "836751ca21511570d9548a5572f6984f7d16c413b05b17cd951c37add8fc0756"
-        },
-        {
-          "path": "services/ai/internal/core/guest_test.go",
-          "sha256": "ba51df877f60e2487dbc0288894de6520b89c4a33fd765b2d4c61a223e28062d"
-        },
-        {
-          "path": "services/ai/internal/api/handler.go",
-          "sha256": "117efe26b6972edd637953fda8307e2b1129b0d8b3fadb12159fd48b4792274d"
-        },
-        {
-          "path": "services/ai/internal/api/guest_test.go",
-          "sha256": "503ae2d3e9d1c2373b2d5b28b8a15f6ca2e4b9335860e93f06dc4246613d78b5"
-        },
-        {
-          "path": "services/ai/internal/authclient/client.go",
-          "sha256": "82f924a822773d569e4cc8836198a22aab6efc2d0673cdc100592f1b4e0a30cd"
-        },
-        {
-          "path": "services/ai/internal/core/service.go",
-          "sha256": "62150de78b8e4106e46582e1aefae56b0b757be20d5e601b00a335fc903e1287"
-        },
-        {
-          "path": "packages/ai-client/src/client.ts",
-          "sha256": "85e4aea8cf784b266726f6f9d60abb229fbec23a0603c4fa7c4852b2f5d422c4"
-        },
-        {
-          "path": "packages/ai-client/src/types.ts",
-          "sha256": "57a65937d077e591ae95313caab9a2d2bdca7532417fff8b8b575ee5549b1c33"
-        }
-      ]
     }
   },
   "guestCandidate": {
-    "platformCommit": "3d5a4cf1d7e8f4435d26ad28a7e49b223b79c80c",
-    "dirty": false,
-    "review": "Contracts/GUEST-REVIEW.md",
-    "note": "163 operation mappings reviewed against current sources; this is not environment or physical acceptance. Historical reviews remain archived.",
+    "platformBaseline": "eea6e4f58ed5b2e17e76036e69fe8c8d99794bae",
+    "dirty": true,
+    "note": "New guest/local APIs extend the original 143-operation review. Original source reviews remain historical; the final candidate requires refreshed drift and acceptance checks.",
     "files": [
       {
         "path": "packages/auth-client/src/guest.ts",
-        "sha256": "74b08b20a26ae217fb9d35bc3669deaac48c5b0d1f34f21b845eb3e2273c85d9"
+        "sha256": "7fd79b1165e9f8eecd80697376a87a26b2265ee8027b397d41d9b002c86b90fa"
       },
       {
         "path": "packages/auth-client/src/guest-storage.ts",
@@ -4099,83 +3931,6 @@
       {
         "path": "packages/sync-client/src/replica-types.ts",
         "sha256": "b81e42e8861f70743368bd1b6564909254592f68632fe3374158f90874230813"
-      }
-    ]
-  },
-  "reviewRefresh": {
-    "date": "2026-09-12",
-    "archive": "Contracts/Archive/2026-09-12-before-guest-review.json",
-    "archiveSHA256": "449c9febf353e96177b59fe144add42f3ad2a8cf7e21df19125582d9fcfd8929",
-    "changedFiles": [
-      {
-        "path": "packages/sync-client/src/types.ts",
-        "previousSHA256": "2cb88677df7756f4f21cde7e78195077c84ac8a4cb92bf572d7fd39db2bf580f",
-        "sha256": "df0329c6d09bf53cef8b2ec4c699c0676402f9a3201a2ef8958f6c4243b5829d"
-      },
-      {
-        "path": "packages/ai-client/src/types.ts",
-        "previousSHA256": "a50b5970ad2ee8c2bd437a092a3d93d067d67f9c1246f35288a76cb2555f4fc3",
-        "sha256": "57a65937d077e591ae95313caab9a2d2bdca7532417fff8b8b575ee5549b1c33"
-      },
-      {
-        "path": "packages/sync-client/src/client.ts",
-        "previousSHA256": "66a74cb84720bafe5e8d9925910a17f7219b5bdc085496faa0c860bfbeadb06b",
-        "sha256": "9ea06207f72d321336bde2f002216d9e22436253e7fc9a79fd0457769ac4ef23"
-      },
-      {
-        "path": "packages/ai-client/src/client.ts",
-        "previousSHA256": "a1a5e6c77d43fd3e7a90243b86e538fe6316b2c3b8e3793516d1aa62d8683048",
-        "sha256": "85e4aea8cf784b266726f6f9d60abb229fbec23a0603c4fa7c4852b2f5d422c4"
-      },
-      {
-        "path": "services/billing/internal/billing/app_handlers.go",
-        "previousSHA256": "4d37a73caebb53983dbd4d9db7208b854b999fa7d2fe243feed75a50c3f4d2c2",
-        "sha256": "72690403fe7a41d2a935b1ab47d61b20658ffc223239709c7e3a306e7a194bb6"
-      },
-      {
-        "path": "services/billing/internal/billing/workspace_handlers.go",
-        "previousSHA256": "2590f2a1cbc234a50419e1810084119eb0da8b4c58c8d8bef39be9b93050ca27",
-        "sha256": "6167812602978579c47cd53324b0ee6a1c1876e5ca157eae6b859427b2586692"
-      },
-      {
-        "path": "services/auth/cmd/api/main.go",
-        "previousSHA256": "a0249ce820921bdb0d0b4028ad9279bf1617de7c6f596975e41c2881c521d4f8",
-        "sha256": "251e5a527105e27f2c923da903d11c45f9b5d0fe188d58127d7ab03e72b2b036"
-      },
-      {
-        "path": "services/ai/internal/api/handler.go",
-        "previousSHA256": "d05d94a0f051fb1faa66418b75abf3b0c971f2e2cf15cce1b05cdf1c4e54688b",
-        "sha256": "117efe26b6972edd637953fda8307e2b1129b0d8b3fadb12159fd48b4792274d"
-      },
-      {
-        "path": "services/ai/internal/core/types.go",
-        "previousSHA256": "ca0be46aeef8b9663478c7ea56b8d218ec01e595bbaff040ee647921f07eae85",
-        "sha256": "c308d9167275112b80852468cf54ccdcf51265d337e9c4039bbbc3c57799f82e"
-      },
-      {
-        "path": "services/ai/internal/core/service.go",
-        "previousSHA256": "dd8b127d72d8930148009a799d5c5e57d73a74488c304aee798eb33cbab8b020",
-        "sha256": "62150de78b8e4106e46582e1aefae56b0b757be20d5e601b00a335fc903e1287"
-      },
-      {
-        "path": "services/ai/internal/authclient/client.go",
-        "previousSHA256": "3ccf60a96360821aa55b5b06fd1365d872cf18903fb5d1ddf98ce7c330e7c34b",
-        "sha256": "82f924a822773d569e4cc8836198a22aab6efc2d0673cdc100592f1b4e0a30cd"
-      },
-      {
-        "path": "services/sync/internal/sync/handler.go",
-        "previousSHA256": "e5799513b975b18a7701edd7ed5573b32b9747ab04a3c996a0375e822be1136b",
-        "sha256": "c940be19ac3bc76b3b21f1d7a8ec01e8599fe0919dfd175bcd6da61201467036"
-      },
-      {
-        "path": "services/sync/internal/sync/dto.go",
-        "previousSHA256": "e425c8dab83182024f8751cef31737b2b741b21300f553c798fc79b0bee6ffc6",
-        "sha256": "9659f92bd9279cf0edbe0b0616b5d4fa4f65c83a0d378563263dd9d46883b8e6"
-      },
-      {
-        "path": "services/sync/internal/sync/service.go",
-        "previousSHA256": "12b401c7f69a11385ddce850e8f2dcdd1e844aef225c40afd34043bb86a280c0",
-        "sha256": "7984d65905bc3ea3a92a2ec1168b3f4339cc68445412c28923d53c1968d251b6"
       }
     ]
   }

@@ -55,6 +55,18 @@ class EvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'inside its repository'):
             module.local_file(self.root, '../outside')
 
+    def test_archived_review_and_previous_hash_cannot_be_rewritten_silently(self):
+        matrix = json.loads((self.root / 'Contracts/platform.json').read_text())
+        archive = self.root / matrix['reviewRefresh']['archive']
+        original = archive.read_bytes()
+        archive.write_bytes(original + b'\n')
+        with self.assertRaisesRegex(ValueError, 'Archived contract review checksum'):
+            module.verify(self.root)
+        archive.write_bytes(original)
+        self.edit_matrix(lambda m: m['reviewRefresh']['changedFiles'][0].update(previousSHA256='0' * 64))
+        with self.assertRaisesRegex(ValueError, 'no archived baseline'):
+            module.verify(self.root)
+
 
 if __name__ == '__main__':
     unittest.main()
