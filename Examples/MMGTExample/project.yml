@@ -14,6 +14,37 @@ packages:
     url: https://github.com/groue/GRDB.swift.git
     exactVersion: 7.11.1
 targets:
+  MMGTOfflineHost:
+    type: application
+    platform: iOS
+    sources: [OfflineHost]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cloud.mmgt.sdkoffline
+        SWIFT_VERSION: '6.0'
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: '1,2'
+  MMGTOfflineTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [OfflineTests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cloud.mmgt.sdkoffline.tests
+        SWIFT_VERSION: '6.0'
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/MMGTOfflineHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MMGTOfflineHost
+        BUNDLE_LOADER: $(TEST_HOST)
+    dependencies:
+      - target: MMGTOfflineHost
+      - package: MMGT
+        products: [MMGTCore, MMGTAuth, MMGTSync, MMGTSyncSQLite]
   MMGTAccountsTests:
     type: bundle.unit-test
     platform: iOS
@@ -136,6 +167,13 @@ targets:
       - package: MMGT
         products: [MMGTCore, MMGTAuth, MMGTBilling, MMGTRealtime, MMGTSync, MMGTSyncSQLite, MMGTAI, MMGTSwiftUI]
 schemes:
+  MMGTOffline:
+    build:
+      targets:
+        MMGTOfflineHost: all
+        MMGTOfflineTests: [test]
+    test:
+      targets: [MMGTOfflineTests]
   MMGTGuest:
     build:
       targets:

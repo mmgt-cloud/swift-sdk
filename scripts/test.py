@@ -18,6 +18,7 @@ subprocess.run([sys.executable, str(root / "scripts/test-contract-evidence.py")]
 subprocess.run([sys.executable, str(root / "scripts/check-snippets.py")], cwd=root, check=True)
 subprocess.run([sys.executable, str(root / "scripts/test-live-runner.py")], cwd=root, check=True)
 subprocess.run([sys.executable, str(root / "scripts/test-guest-runner.py")], cwd=root, check=True)
+subprocess.run([sys.executable, str(root / "scripts/test-offline-runner.py")], cwd=root, check=True)
 subprocess.run([sys.executable, str(root / "scripts/test-account-runner.py")], cwd=root, check=True)
 stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 output = root / ".artifacts" / ("tests-" + stamp)

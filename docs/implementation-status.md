@@ -1,5 +1,24 @@
 # Implementation and acceptance
 
+Current scope: 2026-09-13, guest AI and local data. The eight products contain
+163 source-reviewed operations and 59 synthetic fixtures; see
+[the contract review](../Contracts/GUEST-REVIEW.md). GuestSession, LocalReplica,
+SQLite import and the personal SwiftUI example are implemented. No stable tag
+is published, and the new complete stage and production acceptance remain pending.
+
+Clean SDK `7bb31d8` passed 158 package tests plus the real hosted Keychain test
+and seven personal-example tests on iOS 27 and minimum iOS 26.0. The same commit
+passed Swift 6.2 compilation of all eight products for both simulator architectures
+and generated eight DocC archives. Reports are `.artifacts/tests-20260912T211924Z`,
+`tests-20260912T212531Z`, `compiler-20260912T212530Z` and `docs-20260912T212922Z`.
+These are local results; historical device receipts below do not cover the new
+guest feature. The physical guest product build was blocked by an unavailable
+iPhone. The separate [disconnected-device test](../Examples/MMGTExample/OfflineTests/README.md)
+now compiles locally and still requires actual physical execution, alongside
+guest AI, web/Swift import, complete native Auth and the final platform gates.
+
+## Historical checkpoint — 10 September
+
 Checkpoint: 2026-09-10, local contract review. Development evidence, not a release or a
 statement of stage/production readiness. No version tag is available.
 
@@ -16,7 +35,7 @@ statement of stage/production readiness. No version tag is available.
 | DocC | Eight catalogs and local generator | Eight archives generated with warnings treated as errors | Not applicable | Public hosting pending |
 | Platform native Auth, Panel and ZIP | Implemented in the private platform repository | Complete 14-group gate passed at platform 9268171 | Two migrations/four rollouts, actual Panel configuration/AASA and downloaded ZIP checks passed; full native gate open | Pending |
 
-## Current local contract scope
+## Historical local contract scope — 10 September
 
 The matrix now reviews all 143 npm-to-server-to-Swift mappings with explicit test
 references and 55 shared synthetic fixtures. This is a local source/wire review;
@@ -24,7 +43,7 @@ all new device, full stage and production gates remain open. NSDK-01–09 correc
 and pending npm Auth/Sync publication must be included in a new release candidate.
 Historical reports below retain their original commits and narrower scopes.
 
-## Current five-service and contract evidence
+## Historical five-service and contract evidence — 10 September
 
 Exact SDK `ab0dc0735b8846078aecf1d736d159c1196babac` passed the complete
 five-service scenario on the signed physical iPhone at 02:21:55 UTC on stage:
