@@ -26,13 +26,17 @@ command = ["xcodebuild", "test", "-scheme", "MMGT-Package", "-destination", args
            "-resultBundlePath", str(output / "tests.xcresult"), "CODE_SIGNING_ALLOWED=NO"]
 with (output / "xcodebuild.log").open("w") as log:
     result = subprocess.run(command, cwd=root, stdout=log, stderr=subprocess.STDOUT)
+keychain = None
+if result.returncode == 0:
+    keychain = subprocess.run([sys.executable, str(root / "scripts/test-keychain.py"), "--destination", args.destination], cwd=root)
+exit_code = result.returncode or (keychain.returncode if keychain else 0)
 revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True)
 status = subprocess.run(["git", "status", "--porcelain"], cwd=root, capture_output=True, text=True, check=True)
 report = {"schemaVersion": 1, "startedAt": stamp, "destination": args.destination,
           "sourceCommit": revision.stdout.strip() if revision.returncode == 0 else None,
-          "dirty": bool(status.stdout), "exitCode": result.returncode,
-          "status": "passed" if result.returncode == 0 else "failed",
+          "dirty": bool(status.stdout), "exitCode": exit_code, "unitExitCode": result.returncode, "keychainExitCode": keychain.returncode if keychain else None,
+          "status": "passed" if exit_code == 0 else "failed",
           "scope": "local simulator tests; not a release gate or device/environment acceptance"}
 (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
 print(json.dumps({"status": report["status"], "report": str(output / "report.json")}))
-sys.exit(result.returncode)
+sys.exit(exit_code)

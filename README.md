@@ -86,3 +86,18 @@ quickstarts identical to compiled example sources.
 ## License
 
 [MIT](LICENSE). Dependencies retain their respective licenses.
+
+## Guest/offline development candidate
+
+The current branch adds technical AI GuestSession access separately from ordinary
+AuthSession. Construction remains offline, Keychain persists an independent
+renewal credential, and the AI token provider starts online access only when used.
+See [Guest AI](Sources/MMGTAuth/MMGTAuth.docc/GuestAI.md). LocalReplica/SQLite and
+full example integration are still being implemented; no stable release containing
+this feature is claimed. The contract matrix marks new operations separately from
+the 143 historical reviews.
+
+The local `scripts/test.py --destination 'platform=iOS Simulator,id=…'` runner now
+also runs `scripts/test-keychain.py` in an application host. Its one real Keychain
+CAS test must execute without failures or skips. Physical iPhone, minimum iOS 26,
+Swift 6.2 and actual environment/provider acceptance remain separate gates.

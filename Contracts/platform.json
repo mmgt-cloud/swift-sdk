@@ -3138,6 +3138,363 @@
         "device": "not-applicable"
       },
       "serverReview": "ai"
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.getAccessToken",
+      "paths": [
+        "POST /auth/guest/sessions",
+        "POST /auth/guest/sessions/renew"
+      ],
+      "swift": "GuestSession.accessToken()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#coalescesRequestsAndPersistsTheRenewalSecretBeforeFirstNetworkCall"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.summary",
+      "paths": [],
+      "swift": "GuestSession.summary()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#offlineConstructionAndSummaryDoNotContactAuth"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.subscribe",
+      "paths": [],
+      "swift": "GuestSession.snapshots()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#offlineConstructionAndSummaryDoNotContactAuth"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.revoke",
+      "paths": [
+        "POST /auth/guest/sessions/revoke"
+      ],
+      "swift": "GuestSession.revoke()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#failedRevocationRetainsARecoverableMarkerAcrossRestart"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.startNewSession",
+      "paths": [],
+      "swift": "GuestSession.startNewSession()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#quotaDoesNotRetryOrResetAndExpiredSessionNeedsExplicitReset"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "auth",
+      "typescript": "GuestSession.close",
+      "paths": [],
+      "swift": "GuestSession.close()",
+      "serverVerified": false,
+      "tests": [
+        "Tests/MMGTTests/GuestSessionTests.swift#closeFencesLateResponsesEvenWhenTransportIgnoresCancellation"
+      ],
+      "kind": "native-adaptation",
+      "implementation": "mapped",
+      "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.snapshot",
+      "paths": [],
+      "swift": "LocalReplica.snapshot",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.get",
+      "paths": [],
+      "swift": "LocalReplica.get",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.list",
+      "paths": [],
+      "swift": "LocalReplica.list",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.transaction",
+      "paths": [],
+      "swift": "LocalReplica.transaction",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.upsert",
+      "paths": [],
+      "swift": "LocalReplica.upsert",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.delete",
+      "paths": [],
+      "swift": "LocalReplica.delete",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.changes",
+      "paths": [],
+      "swift": "LocalReplica.changes",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.connect",
+      "paths": [],
+      "swift": "LocalReplica.connect",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.synchronize",
+      "paths": [],
+      "swift": "LocalReplica.synchronize",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.resolveIssue",
+      "paths": [],
+      "swift": "LocalReplica.resolveIssue",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.prepareImport",
+      "paths": [],
+      "swift": "LocalReplica.prepareImport",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.approveImport",
+      "paths": [],
+      "swift": "LocalReplica.approveImport",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.importProgress",
+      "paths": [],
+      "swift": "LocalReplica.importProgress",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
+    },
+    {
+      "service": "sync",
+      "typescript": "LocalReplica.close",
+      "paths": [],
+      "swift": "LocalReplica.close",
+      "serverVerified": false,
+      "tests": [],
+      "kind": "native-adaptation",
+      "implementation": "pending",
+      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "acceptance": {
+        "local": "pending",
+        "stage": "pending",
+        "production": "pending",
+        "device": "pending"
+      }
     }
   ],
   "platformDirty": false,
@@ -3502,5 +3859,28 @@
         }
       ]
     }
+  },
+  "guestCandidate": {
+    "platformBaseline": "eea6e4f58ed5b2e17e76036e69fe8c8d99794bae",
+    "dirty": true,
+    "note": "New guest/local APIs extend the original 143-operation review. Original source reviews remain historical; the final candidate requires refreshed drift and acceptance checks.",
+    "files": [
+      {
+        "path": "packages/auth-client/src/guest.ts",
+        "sha256": "7fd79b1165e9f8eecd80697376a87a26b2265ee8027b397d41d9b002c86b90fa"
+      },
+      {
+        "path": "packages/auth-client/src/guest-storage.ts",
+        "sha256": "de34585f98a90b589ad071bfcac964fb20be7d681418b700d9a2b5286b515a5c"
+      },
+      {
+        "path": "packages/sync-client/src/replica.ts",
+        "sha256": "9ab64d3c3988905d185860f3b00b8e7195e959c3be4796595613563d3ee38b09"
+      },
+      {
+        "path": "packages/sync-client/src/replica-types.ts",
+        "sha256": "b81e42e8861f70743368bd1b6564909254592f68632fe3374158f90874230813"
+      }
+    ]
   }
 }

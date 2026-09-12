@@ -329,15 +329,24 @@ public struct SyncSnapshotResponse: Codable, Sendable, Equatable {
 }
 
 public struct SyncBootstrapResponse: Codable, Sendable, Equatable {
+  public var appID: String?
+  public var userID: String?
   public var collections: [SyncCollection]
   public var contractRevision: String
   public var serverTime: String
-  public init(collections: [SyncCollection], contractRevision: String, serverTime: String) {
+  public init(
+    collections: [SyncCollection], contractRevision: String, serverTime: String,
+    appID: String? = nil, userID: String? = nil
+  ) {
+    self.appID = appID
+    self.userID = userID
     self.collections = collections
     self.contractRevision = contractRevision
     self.serverTime = serverTime
   }
   enum CodingKeys: String, CodingKey {
+    case appID = "app_id"
+    case userID = "user_id"
     case collections = "collections"
     case contractRevision = "contract_revision"
     case serverTime = "server_time"

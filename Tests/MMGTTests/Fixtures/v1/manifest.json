@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-10.native-9",
+  "contractVersion": "2026-09-12.guest-2",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -209,7 +209,7 @@
       "service": "sync",
       "goType": "bootstrapResponse",
       "swiftType": "SyncBootstrapResponse",
-      "sha256": "b0b410bdb9e9aefa44e12674feb51bf3893c1d8ca8e20d8f9d497c196064f010"
+      "sha256": "3c43f772fe6995f7fbcd5e9866920529f53bae1a15e14e6a04da61b00f8e2fb7"
     },
     {
       "file": "auth-totp.json",
@@ -359,6 +359,27 @@
       "goType": "errorMessage map",
       "swiftType": "RealtimeMessage",
       "sha256": "c735f695429f88fc7a54439d9f608751af17e39aff8018dd0ffa654cf602e30f"
+    },
+    {
+      "file": "auth-guestsession.json",
+      "service": "auth",
+      "goType": "Credentials",
+      "swiftType": "GuestCredentials",
+      "sha256": "0481e3161378d21660d09a9da3a72fb3f742d134872d66a8abc54e80f477947b"
+    },
+    {
+      "file": "auth-guestpolicy.json",
+      "service": "auth",
+      "goType": "PolicyState",
+      "swiftType": "JSONValue",
+      "sha256": "d9824168914efd0bde0567113cf0b132cce38f69e0e00c93053105b3ad913a3a"
+    },
+    {
+      "file": "ai-guestauthorization.json",
+      "service": "ai",
+      "goType": "GuestAuthorization",
+      "swiftType": "JSONValue",
+      "sha256": "3b57287f6295654824b443bb6657e489a45bef7513aa13490cb25546a390604d"
     }
   ]
 }

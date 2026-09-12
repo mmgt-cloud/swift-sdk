@@ -86,3 +86,13 @@ browser client's last-ACK timestamp or persist each received event automatically
 A delayed completed-connect cancellation cannot stop reconnect (NSDK-09).
 Grant refresh, lifecycle, observer cancellation, restart and replay-gap tests are
 local evidence; actual network/device and environment fault acceptance remain open.
+
+## Guest and local-replica candidate (2026-09-12)
+
+The original 143-operation review is historical. The matrix now includes separate
+pending mappings for GuestSession and LocalReplica; earlier results do not cover
+these additions. There are 58 synthetic fixtures, including guest credentials,
+policy, AI authorization and the bound Sync bootstrap identity. Their public
+source remains this repository. The private platform mirrors exactly these bytes.
+GuestSession implementation uses separate Keychain credentials; SQLite replica
+and example integration are still in progress. No new stable release is claimed.
