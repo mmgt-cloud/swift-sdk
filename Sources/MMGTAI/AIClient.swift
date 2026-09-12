@@ -183,7 +183,10 @@ public actor AIClient: ApplicationLifecycleParticipant {
       } catch { await socket.close() }
     }
   }
-  public func runTools(_ input: AIResponseRequest, tools: AIToolRegistry, maxIterations: Int = 8)
+  public func runTools(
+    _ input: AIResponseRequest, tools: AIToolRegistry, maxIterations: Int = 8,
+    onEvent: (@Sendable (AIStreamEvent) async throws -> Void)? = nil
+  )
     async throws -> AIResponse
   {
     try validate(input)
@@ -207,7 +210,7 @@ public actor AIClient: ApplicationLifecycleParticipant {
         var iterations = 0
         while true {
           try check(expected)
-          let response = try await terminalResponse(socket, expected: expected)
+          let response = try await terminalResponse(socket, expected: expected, onEvent: onEvent)
           if response.status == "completed" {
             await socket.close()
             return response
@@ -271,13 +274,21 @@ public actor AIClient: ApplicationLifecycleParticipant {
       Task { await socket.close() }
     }
   }
-  private func terminalResponse(_ socket: any WebSocketConnection, expected: UUID) async throws
+  private func terminalResponse(
+    _ socket: any WebSocketConnection, expected: UUID,
+    onEvent: (@Sendable (AIStreamEvent) async throws -> Void)?
+  ) async throws
     -> AIResponse
   {
     while true {
       let wire = try await socket.receive()
       try check(expected)
-      switch try AIStreamEvent(wire: wire) {
+      let event = try AIStreamEvent(wire: wire)
+      if wire["type"]?.string != "heartbeat" {
+        try await onEvent?(event)
+        try check(expected)
+      }
+      switch event {
       case .completed(let value), .requiresAction(let value): return value
       case .failed(let value): throw APIError(status: 0, code: value.code, message: value.message)
       default: continue

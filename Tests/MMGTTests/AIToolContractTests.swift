@@ -30,7 +30,8 @@ import Testing
     let socket = TestSocket([["type": "authenticated"], try action([call]), try complete()])
     let sdk = try client(socket)
     let result = try await sdk.runTools(
-      request(), tools: ["lookup": { _, _ in ["enabled": false, "empty": .null] }], maxIterations: 1)
+      request(), tools: ["lookup": { _, _ in ["enabled": false, "empty": .null] }], maxIterations: 1
+    )
     #expect(result.status == "completed")
     let sent = await socket.sent
     #expect(sent.map { $0["type"]?.string } == ["authenticate", "start", "tool_result"])
@@ -42,6 +43,45 @@ import Testing
     let golden: JSONValue = try SharedWireContractTests().decode("ai-toolresult")
     #expect(golden == sent[2])
     #expect(await socket.isClosed)
+  }
+
+  @Test func observableToolLoopDeliversDeltasBeforeEffectsAndRetainsSingleStart() async throws {
+    let socket = TestSocket([
+      ["type": "authenticated"], ["type": "output.text.delta", "delta": "Working"],
+      try action([call]), try complete(),
+    ])
+    let observed = Mutex<[AIStreamEvent]>([])
+    let sdk = try client(socket)
+    let result = try await sdk.runTools(
+      request(),
+      tools: [
+        "lookup": { _, _ in
+          #expect(observed.withLock { $0.first } == .textDelta("Working"))
+          return .null
+        }
+      ], onEvent: { event in observed.withLock { $0.append(event) } })
+    #expect(result.status == "completed")
+    #expect(observed.withLock { $0.count } == 3)
+    #expect(await socket.sent.filter { $0["type"]?.string == "start" }.count == 1)
+  }
+  @Test func eventObserverFailureStopsBeforeToolAndDoesNotRetry() async throws {
+    let socket = TestSocket([["type": "authenticated"], try action([call])])
+    let executions = Mutex(0)
+    let sdk = try client(socket)
+    await #expect(throws: MMGTError.self) {
+      _ = try await sdk.runTools(
+        request(),
+        tools: [
+          "lookup": { _, _ in
+            executions.withLock { $0 += 1 }
+            return .null
+          }
+        ],
+        onEvent: { _ in throw MMGTError.sessionChanged })
+    }
+    #expect(executions.withLock { $0 } == 0)
+    #expect(await socket.isClosed)
+    #expect(await socket.sent.filter { $0["type"]?.string == "start" }.count == 1)
   }
 
   @Test func iterationLimitStopsBeforeAnotherToolSideEffect() async throws {

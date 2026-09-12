@@ -44,3 +44,9 @@ func generateReply(client: AIClient, connectionID: String, model: String, prompt
 - ``AIResponseRequest``
 - ``AIStreamEvent``
 - ``AIToolRegistry``
+
+`runTools(..., onEvent:)` can forward text deltas and normalized model events to
+application state while using the same WebSocket for the tool loop. The async
+observer runs before tool effects; throwing or changing the session cancels the
+run. The caller retains partial text as incomplete if the stream is interrupted.
+No observer failure starts another generation or re-executes a consumed tool ID.
