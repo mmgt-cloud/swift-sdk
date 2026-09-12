@@ -98,12 +98,12 @@ def main():
         if args.developer_dir:
             env["DEVELOPER_DIR"] = str(args.developer_dir.expanduser().resolve(strict=True))
         developer = env.get("DEVELOPER_DIR") or output("xcode-select", "-p")
-        report.update(destination=args.destination, developerDirectory=developer,
+        report.update(destination=args.destination, buildDestination="generic/platform=iOS" if device else args.destination, developerDirectory=developer,
                       xcode=output("xcodebuild", "-version", env=env),
                       derivedData=str(ROOT / ".artifacts" / ("GuestDeviceDerivedData" if device else "GuestDerivedData")))
         subprocess.run([sys.executable, "scripts/example.py"], cwd=ROOT, env=env, check=True)
         command += ["build-for-testing", "-project", "Examples/MMGTExample/MMGTExample.xcodeproj",
-                    "-scheme", "MMGTGuest", "-destination", args.destination,
+                    "-scheme", "MMGTGuest", "-destination", report["buildDestination"],
                     "-derivedDataPath", report["derivedData"]]
         if device:
             command += ["-allowProvisioningUpdates", "DEVELOPMENT_TEAM=" + args.team_id, "CODE_SIGN_STYLE=Automatic"]

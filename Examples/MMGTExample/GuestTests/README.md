@@ -16,7 +16,9 @@ The fixture grants confirmation for exactly one synthetic note; this does not
 provide a general application confirmation policy.
 
 Build with `python3 scripts/test-guest.py build --destination <explicit-device>`
-and `--team-id <team>` for a physical device. The runner uses ad-hoc signing for
+and `--team-id <team>` for a physical device. Use the actual device ID for the
+later run. Physical compilation uses a generic iOS destination, so the phone
+need not be connected until execution. The runner uses ad-hoc signing for
 the simulator's real Keychain. Run with `python3 scripts/test-guest.py run
 --build-report <report> --configuration <private-json>`; production also requires
 `--stage-report <successful-sdk-report>`. Configuration must be mode 600 under
