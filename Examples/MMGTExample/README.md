@@ -119,3 +119,8 @@ with synthetic transport and real SQLite. It requires six executed tests, no ski
 and writes a separate report. The ordinary package suite and real hosted Keychain
 check remain separate required checks. iPhone, providers, two-device synchronization,
 minimum OS/compiler and stage/prod acceptance are additional gates.
+
+Guest public-service and web/Swift interoperability acceptance has an explicit
+[MMGTGuest test scheme](GuestTests/README.md), separate from synthetic unit tests.
+It records each provider attempt durably and requires a fresh owned fixture after
+an uncertain outcome. Compiling that target does not claim environment acceptance.

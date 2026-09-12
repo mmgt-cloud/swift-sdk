@@ -48,6 +48,23 @@ targets:
       - target: MMGTExample
       - package: MMGT
         products: [MMGTCore, MMGTAuth]
+  MMGTGuestTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [GuestTests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cloud.mmgt.sdkexample.guesttests
+        SWIFT_VERSION: '6.0'
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/MMGTExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MMGTExample
+        BUNDLE_LOADER: $(TEST_HOST)
+    dependencies:
+      - target: MMGTExample
+      - package: MMGT
+        products: [MMGTCore, MMGTAuth, MMGTSync, MMGTSyncSQLite, MMGTAI]
   MMGTLiveTests:
     type: bundle.unit-test
     platform: iOS
@@ -119,6 +136,13 @@ targets:
       - package: MMGT
         products: [MMGTCore, MMGTAuth, MMGTBilling, MMGTRealtime, MMGTSync, MMGTSyncSQLite, MMGTAI, MMGTSwiftUI]
 schemes:
+  MMGTGuest:
+    build:
+      targets:
+        MMGTExample: all
+        MMGTGuestTests: [test]
+    test:
+      targets: [MMGTGuestTests]
   MMGTAccounts:
     build:
       targets:
