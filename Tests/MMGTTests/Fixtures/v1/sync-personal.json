@@ -1,0 +1,180 @@
+[
+  {
+    "key": "personal_lists",
+    "display_name": "Personal Lists",
+    "mode": "managed",
+    "access_scope": "user",
+    "conflict_policy": "reject_stale",
+    "enabled": true,
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  {
+    "key": "personal_tasks",
+    "display_name": "Personal Tasks",
+    "mode": "managed",
+    "access_scope": "user",
+    "conflict_policy": "reject_stale",
+    "enabled": true,
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "listId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "completed",
+        "listId",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  {
+    "key": "personal_notes",
+    "display_name": "Personal Notes",
+    "mode": "managed",
+    "access_scope": "user",
+    "conflict_policy": "reject_stale",
+    "enabled": true,
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "listId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "body",
+        "listId",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  {
+    "key": "personal_chat_messages",
+    "display_name": "Personal Chat Messages",
+    "mode": "managed",
+    "access_scope": "user",
+    "conflict_policy": "reject_stale",
+    "enabled": true,
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 40000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed",
+            "interrupted"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "conversationId",
+        "role",
+        "text",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  }
+]

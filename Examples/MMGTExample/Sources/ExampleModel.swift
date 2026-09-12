@@ -12,6 +12,7 @@ import UIKit
 @MainActor @Observable final class ExampleModel {
   let config: ExampleConfiguration
   let auth: AuthState
+  let personal: PersonalSpaceModel
   let authorizer = OIDCAuthorizer()
   let accountAuthorizer = NativeAccountAuthorizer()
   struct AccountDetails: Sendable {
@@ -34,7 +35,11 @@ import UIKit
   private var account: AccountIdentity?
   init(config: ExampleConfiguration) throws {
     self.config = config
-    auth = AuthState(session: AuthSession(configuration: try config.service(config.authURL)))
+    let configuration = try config.service(config.authURL)
+    let saved = KeychainSessionStore(configuration: configuration)
+    let session = AuthSession(configuration: configuration, store: saved)
+    auth = AuthState(session: session)
+    personal = PersonalSpaceModel(config: config, session: session, savedSession: saved)
   }
   var window: UIWindow? {
     UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap(\.windows)
@@ -61,6 +66,7 @@ import UIKit
     accountDetails = nil
     accountMessage = nil
     guard let identity else { return }
+    try await personal.bindAccount(identity)
     let session = auth.session
     let source = await session.tokenProvider
     let store = try SQLiteSyncStore(

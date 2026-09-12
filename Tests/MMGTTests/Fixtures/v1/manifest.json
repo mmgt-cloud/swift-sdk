@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "2026-09-12.guest-2",
+  "contractVersion": "2026-09-12.guest-personal-3",
   "source": "https://github.com/mmgt-cloud/swift-sdk",
   "synthetic": true,
   "fixtures": [
@@ -380,6 +380,13 @@
       "goType": "GuestAuthorization",
       "swiftType": "JSONValue",
       "sha256": "3b57287f6295654824b443bb6657e489a45bef7513aa13490cb25546a390604d"
+    },
+    {
+      "file": "sync-personal.json",
+      "service": "sync",
+      "goType": "[]syncclient.CollectionInput",
+      "swiftType": "JSONValue",
+      "sha256": "7a055258fdd7d80f379d98efe0d0456b0a34db1aef144b84b44fc5208f35ac85"
     }
   ]
 }

@@ -39,7 +39,11 @@ func openPersonalReplica(
     identity: .init(configuration: configuration, principal: .guest(profileID)),
     collections: ["personal_notes"], store: store)
   try await guest.upsert(
-    collection: "personal_notes", id: "welcome", data: ["text": "Available offline"])
+    collection: "personal_notes", id: "welcome",
+    data: [
+      "title": "Welcome", "body": "Available offline", "listId": .null,
+      "createdAt": "2026-09-12T00:00:00Z", "updatedAt": "2026-09-12T00:00:00Z",
+    ])
   return guest
 }
 

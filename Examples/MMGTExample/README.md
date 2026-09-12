@@ -73,3 +73,49 @@ The separate [account acceptance target](AccountsTests/README.md) exercises
 sessions, TOTP, recovery codes, password changes and deletion against a disposable
 real Auth account. It requires an explicit private fixture and records each
 attempt before making requests; it never runs in the ordinary package suite.
+
+## Personal space: offline guest → AI → account
+
+The first tab opens personal lists, tasks, notes and chat history without making a
+network request. The sample configuration is sufficient for local CRUD. A public
+profile identifier is persisted atomically before opening the SQLite replica. The
+profile index contains no credentials; guest AI credentials use the SDK Keychain,
+without iCloud. The database and retained guest copy are durable application data.
+Deleting the application/container removes the only local copy of unsynchronized work.
+The sample does not support app extensions sharing its profile-index file; use a
+coordinated profile repository before adding another process.
+
+The UI and assistant use `PersonalDomain` and the same `LocalReplica` transactions.
+Deleting a personal list detaches its tasks and notes in that transaction. The four
+collections must be provisioned using [the shared schema fixture](../../Tests/MMGTTests/Fixtures/v1/sync-personal.json)
+before enabling account Sync. These schemas are distinct from the older Sync-tab
+`notes` demonstration and from web Demo's authenticated SQL collaboration data.
+
+The first explicit catalog/upload request starts the technical guest AI session.
+The app owner must enable guest AI in Panel with exact models and positive limits.
+The user selects a connection/model and confirms each mutating tool. Tool results
+can disclose local data to the provider; AI is online even when Sync is disabled.
+File-picker uploads are temporary, expire after an hour, and are never saved as
+permanent IDs in the local chat collections. Cancellation preserves partial text as
+incomplete and never repeats generation or a tool automatically.
+
+On an offline restart, a previously authenticated identity can reopen its local data
+only while its local Keychain activation fence remains valid. That identity is not
+an online Auth session: account AI/Sync wait for successful Auth restoration or full
+login, including MFA. Logout clears the Auth fence and closes the current profile;
+a previous account's outbox remains isolated, and an adopted guest backup is never
+presented as a fresh guest account. Late UI callbacks and assistant tools are fenced
+to the profile they started with.
+
+A confirmed account receives a fresh snapshot. Empty accounts may adopt automatically;
+existing data requires an import summary and explicit collision decisions. Background
+sync pauses while the summary awaits consent. A change from another local writer
+makes it stale; use **Review guest data** again. List dependencies and stable mutation
+IDs survive restart. Guest source data stays retained after the atomic local transfer.
+A rejected or conflicted mutation stays visible for explicit reconciliation.
+
+`scripts/test.py` now also runs `scripts/test-personal.py` in the compiled example host,
+with synthetic transport and real SQLite. It requires six executed tests, no skips,
+and writes a separate report. The ordinary package suite and real hosted Keychain
+check remain separate required checks. iPhone, providers, two-device synchronization,
+minimum OS/compiler and stage/prod acceptance are additional gates.

@@ -34,6 +34,9 @@ struct ExampleView: View {
   var body: some View {
     NavigationStack {
       TabView {
+        Tab("My space", systemImage: "square.and.pencil") {
+          PersonalSpaceView(model: model.personal).id(model.personal.viewID)
+        }
         Tab("Account", systemImage: "person") { account }
         if model.auth.snapshot?.identity != nil {
           Tab("Sync", systemImage: "arrow.triangle.2.circlepath") { sync }
@@ -50,8 +53,12 @@ struct ExampleView: View {
       }
     }
     .mmgtLifecycle(model.auth.session)
+    .mmgtLifecycle(model.personal)
     .task { await model.auth.observe() }
-    .task { if model.config.isConfigured { await model.action { try await model.auth.restore() } } }
+    .task {
+      await model.personal.perform { try await model.personal.restoreLocal() }
+      if model.config.isConfigured { await model.action { try await model.auth.restore() } }
+    }
     .task(id: model.auth.snapshot?.identity) {
       await model.action { try await model.connectAccount(model.auth.snapshot?.identity) }
     }
