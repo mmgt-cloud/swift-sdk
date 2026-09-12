@@ -73,6 +73,12 @@ verification or test evidence are not considered accepted.
 Use `python3 scripts/check-compiler.py --swiftc /absolute/path/to/swiftc` to
 compile all eight products with a specific compiler. This is source compatibility
 against the selected Xcode SDK; it does not replace tests on the minimum runtime.
+The explicit `--build-system swiftpm --sdk /absolute/path/to/iPhoneSimulator.sdk`
+mode uses the compiler's adjacent SwiftPM driver and checks each product for
+both arm64 and x86_64 with an iOS 26.0 deployment target. It records the actual
+SDK, compiler, lockfile and per-architecture results. This supports a source
+check when an installed Xcode cannot resolve its simulator build destinations;
+it does not turn an unsuccessful Xcode or device test into a passing result.
 The [SwiftUI example](Examples/MMGTExample/README.md) needs only public application
 configuration. Shared synthetic wire fixtures are bundled with the test target.
 
