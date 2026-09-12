@@ -26,6 +26,15 @@ func signInWithPassword(session: AuthSession, email: String, password: String) a
     try await client.login(input: .init(email: email, password: password))
   }
 }
+
+func guestAITransport(auth: ServiceConfiguration, ai: ServiceConfiguration, localProfileID: String)
+  async throws -> (GuestSession, AIClient)
+{
+  let guest = try GuestSession(configuration: auth, profileID: localProfileID)
+  let client = AIClient(configuration: ai, tokenProvider: await guest.tokenProvider)
+  // Creating these objects does not create an Auth user or contact the network.
+  return (guest, client)
+}
 // end-snippet
 
 // snippet: MMGTBilling
@@ -89,6 +98,32 @@ func configureOfflineSync(
   )
   await session.attach(client)
   return client
+}
+
+func openPersonalReplica(
+  configuration: ServiceConfiguration, profileID: String, store: SQLiteSyncStore
+) async throws -> LocalReplica {
+  let guest = try LocalReplica(
+    identity: .init(configuration: configuration, principal: .guest(profileID)),
+    collections: ["personal_notes"], store: store)
+  try await guest.upsert(
+    collection: "personal_notes", id: "welcome", data: ["text": "Available offline"])
+  return guest
+}
+
+func preparePersonalAccountImport(
+  guest: LocalReplica, configuration: ServiceConfiguration,
+  userID: String, session: AuthSession, sharedStore: SQLiteSyncStore
+) async throws -> (LocalReplica, ReplicaImportPlan) {
+  let account = try LocalReplica(
+    identity: .init(configuration: configuration, principal: .user(userID)),
+    collections: ["personal_notes"], store: sharedStore)
+  await session.attach(account)
+  try await account.connect(tokenProvider: await session.tokenProvider)
+  let plan = try await guest.prepareImport(to: account)
+  // The guest must have been opened using this same sharedStore instance.
+  // Display existing-data/collision decisions before approveImport, then explicitly synchronize.
+  return (account, plan)
 }
 // end-snippet
 

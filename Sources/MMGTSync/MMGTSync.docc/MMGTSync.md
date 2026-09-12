@@ -1,6 +1,8 @@
 # ``MMGTSync``
 
-Scoped synchronization with durable mutation identity and explicit recovery.
+Local domain data and scoped synchronization with durable mutation identity and explicit recovery.
+
+Use `LocalReplica` for account-free CRUD, local transactions, observation and durable guest-to-account adoption. See <doc:LocalData>. Existing `SyncClient.write` is an outbox operation, not a complete domain store.
 
 Create `SyncClient` with an application URL, user identity, token provider and local store. Use the optional SQLite module or implement `SyncLocalStore` with the documented atomic operations.
 
@@ -33,6 +35,10 @@ func createOfflineNote(client: SyncClient, recordID: String, text: String) async
 <!-- end-compiled-quickstart -->
 
 ## Topics
+- <doc:LocalData>
+- ``LocalReplica``
+- ``ReplicaLocalStore``
+- ``ReplicaIdentity``
 - ``SyncClient``
 - ``SyncScope``
 - ``SyncMutation``

@@ -96,3 +96,11 @@ policy, AI authorization and the bound Sync bootstrap identity. Their public
 source remains this repository. The private platform mirrors exactly these bytes.
 GuestSession implementation uses separate Keychain credentials; SQLite replica
 and example integration are still in progress. No new stable release is claimed.
+
+The guest candidate now maps all 14 LocalReplica operations to the Swift actor and
+SQLite v3, with explicit local tests. The simulator report
+`.artifacts/tests-20260912T191024Z/report.json` passed 156 tests in 33 suites and the
+required real hosted Keychain companion. The additions cover real `SQLITE_FULL`,
+frozen v2 migration, atomic import rollback, CAS chains, lost push responses,
+second-device recovery and session fences. These are synthetic local contract
+checks; the 20 new mappings retain pending server/environment/device review.

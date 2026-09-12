@@ -75,6 +75,21 @@ private final class FaultGuestStore: GuestSessionStore, Sendable {
     #expect(disk.load(partition: sdk.partition) == nil)
     await sdk.close()
   }
+  @Test func snapshotSequencePublishesAccessAndFinishesOnCloseWithoutNetworkRetry() async throws {
+    let network = ControlledTransport()
+    let disk = MemoryGuestSessionStore()
+    let sdk = try session(store: disk, transport: network)
+    var iterator = try await sdk.snapshots().makeAsyncIterator()
+    #expect(await iterator.next()?.status == .local)
+    let request = Task { try await sdk.accessToken() }
+    await network.waitForRequest(0)
+    try await reply(network, 0, credentials())
+    _ = try await request.value
+    #expect(await iterator.next()?.status == .active)
+    await sdk.close()
+    #expect(await iterator.next() == nil)
+    #expect(await network.requests.count == 1)
+  }
   @Test func coalescesRequestsAndPersistsTheRenewalSecretBeforeFirstNetworkCall() async throws {
     let transport = ControlledTransport()
     let disk = MemoryGuestSessionStore()

@@ -76,4 +76,50 @@ import Testing
     #expect(try await reopened.feed(identity: identity, scope: scope) == state)
     #expect(try await reopened.issues(identity: identity) == [issue])
   }
+  @Test func v2UpgradePreservesSafeFeedsAndOriginalAttemptedWireWithoutGuestAssignment()
+    async throws
+  {
+    let helper = SyncStoreTests()
+    let file = SyncStoreTests().path()
+    defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+    let config = try helper.configuration()
+    let identity = try AccountIdentity(configuration: config, userID: "user-a")
+    let scope = try SyncScope(collections: ["notes"])
+    let i = try key(identity)
+    let scopeKey = try key(scope)
+    let original = helper.entry(attempted: true)
+    let feed = SyncFeedState(revision: "v2-safe", cursor: "opaque-v2")
+    try FileManager.default.createDirectory(
+      at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+    let old = try DatabaseQueue(path: file.path)
+    try await old.write { db in
+      try db.execute(
+        sql: """
+          CREATE TABLE grdb_migrations(identifier TEXT NOT NULL PRIMARY KEY);
+          INSERT INTO grdb_migrations VALUES('v1'),('v2-snapshot-floors');
+          CREATE TABLE feeds(identity TEXT NOT NULL,scope TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(identity,scope));
+          CREATE TABLE records(identity TEXT NOT NULL,collection TEXT NOT NULL,record_id TEXT NOT NULL,workspace TEXT NOT NULL,version TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(identity,collection,record_id));
+          CREATE TABLE snapshot_records(identity TEXT NOT NULL,scope TEXT NOT NULL,collection TEXT NOT NULL,record_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(identity,scope,collection,record_id));
+          CREATE TABLE outbox(ordinal INTEGER PRIMARY KEY AUTOINCREMENT,identity TEXT NOT NULL,mutation_id TEXT NOT NULL,payload BLOB NOT NULL,UNIQUE(identity,mutation_id));
+          CREATE TABLE issues(identity TEXT NOT NULL,mutation_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(identity,mutation_id));
+          CREATE TABLE snapshot_floors(identity TEXT NOT NULL,scope TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(identity,scope));
+          """)
+      try db.execute(
+        sql: "INSERT INTO feeds VALUES(?,?,?)", arguments: [i, scopeKey, try bytes(feed)])
+      try db.execute(
+        sql: "INSERT INTO outbox(identity,mutation_id,payload) VALUES(?,?,?)",
+        arguments: [i, original.mutation.mutationId, try bytes(original)])
+    }
+    let store = try SQLiteSyncStore(fileURL: file)
+    let state = try await store.replicaSnapshot(
+      identity: .init(configuration: config, principal: .user("user-a")))
+    #expect(state.metadata.journal.first?.entry == original && state.outbox == [original])
+    #expect(try await store.feed(identity: identity, scope: scope) == feed)
+    #expect(
+      try await store.replicaSnapshot(
+        identity: .init(configuration: config, principal: .guest("user-a"))
+      ).records.isEmpty)
+    #expect(try await SQLiteSyncStore(fileURL: file).outbox(identity: identity) == [original])
+  }
+
 }

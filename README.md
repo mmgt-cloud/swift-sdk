@@ -101,3 +101,10 @@ The local `scripts/test.py --destination 'platform=iOS Simulator,id=…'` runner
 also runs `scripts/test-keychain.py` in an application host. Its one real Keychain
 CAS test must execute without failures or skips. Physical iPhone, minimum iOS 26,
 Swift 6.2 and actual environment/provider acceptance remain separate gates.
+
+The guest candidate also includes `LocalReplica` in MMGTSync and SQLite v3 in
+MMGTSyncSQLite: account-free local CRUD/transactions, observation, a materialized
+outbox view and durable account adoption. See the `Local data without an account`
+DocC article and compiled SQLite quickstart. The original SyncLocalStore remains
+source compatible. This implementation has local simulator evidence; it has not
+yet passed the combined web/Swift, stage, production or guest device release gates.

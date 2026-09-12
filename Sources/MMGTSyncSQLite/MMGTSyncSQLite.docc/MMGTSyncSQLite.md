@@ -31,6 +31,32 @@ func configureOfflineSync(
   await session.attach(client)
   return client
 }
+
+func openPersonalReplica(
+  configuration: ServiceConfiguration, profileID: String, store: SQLiteSyncStore
+) async throws -> LocalReplica {
+  let guest = try LocalReplica(
+    identity: .init(configuration: configuration, principal: .guest(profileID)),
+    collections: ["personal_notes"], store: store)
+  try await guest.upsert(
+    collection: "personal_notes", id: "welcome", data: ["text": "Available offline"])
+  return guest
+}
+
+func preparePersonalAccountImport(
+  guest: LocalReplica, configuration: ServiceConfiguration,
+  userID: String, session: AuthSession, sharedStore: SQLiteSyncStore
+) async throws -> (LocalReplica, ReplicaImportPlan) {
+  let account = try LocalReplica(
+    identity: .init(configuration: configuration, principal: .user(userID)),
+    collections: ["personal_notes"], store: sharedStore)
+  await session.attach(account)
+  try await account.connect(tokenProvider: await session.tokenProvider)
+  let plan = try await guest.prepareImport(to: account)
+  // The guest must have been opened using this same sharedStore instance.
+  // Display existing-data/collision decisions before approveImport, then explicitly synchronize.
+  return (account, plan)
+}
 ```
 <!-- end-compiled-quickstart -->
 
@@ -46,3 +72,5 @@ remain intact. Earlier pending mutations require reconciliation with the rebuilt
 state; their unknown outcomes are not silently retried under a new identity.
 The migration does not delete another account's data. Reopening an upgraded
 database preserves its new cursors and snapshot floors.
+
+The additive `v3-local-replica` migration creates the guest/user replica metadata and durable import journal. It preserves v2 feed cursors, all records and existing attempted wire payloads. `ReplicaLocalStore` is optional: custom implementations of the original `SyncLocalStore` continue to compile unchanged. Local guest partitions have an explicit discriminator and never reuse a fake user ID. Local writes, queue settlement, snapshots and import revisions share SQLite transactions.

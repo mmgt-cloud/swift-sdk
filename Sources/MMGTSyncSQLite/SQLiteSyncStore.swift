@@ -5,8 +5,8 @@ import MMGTCore
 import MMGTSync
 
 /// A WAL database with transactionally fenced feeds, staged snapshots and a durable per-account outbox.
-public final class SQLiteSyncStore: SyncLocalStore, Sendable {
-  private let database: DatabaseQueue
+public final class SQLiteSyncStore: ReplicaLocalStore, Sendable {
+  let database: DatabaseQueue
   public init(fileURL: URL) throws {
     guard fileURL.isFileURL else {
       throw MMGTError.invalidConfiguration("SQLite requires a local file URL")
@@ -46,24 +46,31 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           arguments: [try Self.encoded(entry), row["ordinal"] as Int64])
       }
     }
+    migrations.registerMigration("v3-local-replica") { db in
+      try db.execute(
+        sql: """
+          CREATE TABLE replica_metadata (identity TEXT PRIMARY KEY NOT NULL, payload BLOB NOT NULL);
+          CREATE TABLE replica_imports (id TEXT PRIMARY KEY NOT NULL, source TEXT NOT NULL, payload BLOB NOT NULL);
+          """)
+    }
     try migrations.migrate(database)
     var resourceURL = fileURL
     var values = URLResourceValues()
     values.isExcludedFromBackup = true
     try resourceURL.setResourceValues(values)
   }
-  private static func encoded<T: Encodable>(_ value: T) throws -> Data {
+  static func encoded<T: Encodable>(_ value: T) throws -> Data {
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.sortedKeys]
     return try encoder.encode(value)
   }
-  private static func key<T: Encodable>(_ value: T) throws -> String {
+  static func key<T: Encodable>(_ value: T) throws -> String {
     SHA256.hash(data: try encoded(value)).map { String(format: "%02x", $0) }.joined()
   }
-  private static func decode<T: Decodable>(_ data: Data) throws -> T {
+  static func decode<T: Decodable>(_ data: Data) throws -> T {
     try JSONDecoder().decode(T.self, from: data)
   }
-  private static func loadFeed(_ db: Database, _ identity: String, _ scope: String) throws
+  static func loadFeed(_ db: Database, _ identity: String, _ scope: String) throws
     -> SyncFeedState
   {
     guard
@@ -73,11 +80,12 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     else { return .init() }
     return try decode(data)
   }
-  private static func saveFeed(
+  static func saveFeed(
     _ db: Database, _ identity: String, _ scope: String, _ state: SyncFeedState
   ) throws {
     var state = state
     state.revision = UUID().uuidString
+    try touchReplica(db, identity)
     try db.execute(
       sql:
         "INSERT INTO feeds VALUES(?,?,?) ON CONFLICT(identity,scope) DO UPDATE SET payload=excluded.payload",
@@ -88,17 +96,17 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     let s = try Self.key(scope)
     return try await database.read { try Self.loadFeed($0, i, s) }
   }
-  private struct SnapshotFloor: Codable {
+  struct SnapshotFloor: Codable {
     let scope: SyncScope
     let watermark: String
   }
-  private static func floors(_ db: Database, _ identity: String) throws -> [SnapshotFloor] {
+  static func floors(_ db: Database, _ identity: String) throws -> [SnapshotFloor] {
     try Data.fetchAll(
       db, sql: "SELECT payload FROM snapshot_floors WHERE identity=?",
       arguments: [identity]
     ).map(Self.decode)
   }
-  private static func superseded(
+  static func superseded(
     collection: String, workspaceID: String?, version: String, snapshotWatermark: String?,
     floors: [SnapshotFloor]
   ) throws -> Bool {
@@ -112,7 +120,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     }
     return false
   }
-  private static func saveRecord(
+  static func saveRecord(
     _ db: Database, _ identity: String, _ change: SyncChange, floors: [SnapshotFloor],
     snapshotWatermark: String? = nil
   ) throws {
@@ -288,7 +296,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
       return true
     }
   }
-  private static func insertEntry(_ db: Database, _ identity: String, _ entry: OutboxEntry) throws {
+  static func insertEntry(_ db: Database, _ identity: String, _ entry: OutboxEntry) throws {
     let m = entry.mutation
     guard !m.mutationId.isEmpty, !m.collection.isEmpty, !m.recordId.isEmpty,
       !entry.deliveryClientID.isEmpty, ["upsert", "delete"].contains(m.op)
@@ -316,7 +324,10 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
   }
   public func addOutbox(identity: AccountIdentity, entries: [OutboxEntry]) async throws {
     let i = try Self.key(identity)
-    try await database.write { db in for entry in entries { try Self.insertEntry(db, i, entry) } }
+    try await database.write { db in
+      for entry in entries { try Self.insertEntry(db, i, entry) }
+      try Self.touchReplica(db, i)
+    }
   }
   public func outbox(identity: AccountIdentity) async throws -> [OutboxEntry] {
     let i = try Self.key(identity)
@@ -336,6 +347,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
         if old.mutation.collection == entry.mutation.collection,
           old.mutation.recordId == entry.mutation.recordId
         {
+          try Self.requireUnmanaged(db, i, old.mutation.mutationId)
           guard !old.attempted else { throw SyncStoreError.mutationAlreadyAttempted }
           try db.execute(
             sql: "DELETE FROM outbox WHERE identity=? AND mutation_id=?",
@@ -343,6 +355,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
         }
       }
       try Self.insertEntry(db, i, entry)
+      try Self.touchReplica(db, i)
     }
   }
   public func preparePush(identity: AccountIdentity, mutationIDs: [String]) async throws
@@ -359,12 +372,14 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
         else { continue }
         var entry: OutboxEntry = try Self.decode(data)
         guard !entry.needsReconciliation else { continue }
+        guard try Self.prepareReplicaEntry(db, i, entry: &entry) else { continue }
         entry.attempted = true
         try db.execute(
           sql: "UPDATE outbox SET payload=? WHERE identity=? AND mutation_id=?",
           arguments: [try Self.encoded(entry), i, id])
         result.append(entry)
       }
+      try Self.touchReplica(db, i)
       return result
     }
   }
@@ -398,6 +413,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
         guard existing.mutation == entry.mutation,
           existing.deliveryClientID == entry.deliveryClientID
         else { throw SyncStoreError.mutationIDReused }
+        try Self.settleReplicaEntry(db, i, entry: existing, result: result)
         if result.status != "applied" {
           try db.execute(
             sql: "INSERT INTO issues VALUES(?,?,?) ON CONFLICT(identity,mutation_id) DO NOTHING",
@@ -409,15 +425,18 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           sql: "DELETE FROM outbox WHERE identity=? AND mutation_id=?",
           arguments: [i, result.mutationId])
       }
+      try Self.touchReplica(db, i)
     }
   }
   public func removeOutbox(identity: AccountIdentity, mutationIDs: [String]) async throws {
     let i = try Self.key(identity)
     try await database.write { db in
       for id in mutationIDs {
+        try Self.requireUnmanaged(db, i, id)
         try db.execute(
           sql: "DELETE FROM outbox WHERE identity=? AND mutation_id=?", arguments: [i, id])
       }
+      try Self.touchReplica(db, i)
     }
   }
   public func issues(identity: AccountIdentity) async throws -> [SyncIssue] {
@@ -432,9 +451,11 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
     let i = try Self.key(identity)
     try await database.write { db in
       for id in mutationIDs {
+        try Self.requireUnmanaged(db, i, id)
         try db.execute(
           sql: "DELETE FROM issues WHERE identity=? AND mutation_id=?", arguments: [i, id])
       }
+      try Self.touchReplica(db, i)
     }
   }
   public func resolveIssue(identity: AccountIdentity, mutationID: String, replacement: OutboxEntry)
@@ -450,6 +471,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
           db, sql: "SELECT payload FROM issues WHERE identity=? AND mutation_id=?",
           arguments: [i, mutationID])
       else { throw SyncStoreError.issueNotFound }
+      try Self.requireUnmanaged(db, i, mutationID)
       let issue: SyncIssue = try Self.decode(data)
       guard issue.entry.mutation.collection == replacement.mutation.collection,
         issue.entry.mutation.recordId == replacement.mutation.recordId,
@@ -458,6 +480,7 @@ public final class SQLiteSyncStore: SyncLocalStore, Sendable {
       try Self.insertEntry(db, i, replacement)
       try db.execute(
         sql: "DELETE FROM issues WHERE identity=? AND mutation_id=?", arguments: [i, mutationID])
+      try Self.touchReplica(db, i)
     }
   }
   public func records(identity: AccountIdentity, collection: String) async throws -> [SyncRecord] {

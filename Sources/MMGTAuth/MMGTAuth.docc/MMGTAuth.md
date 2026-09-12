@@ -112,7 +112,9 @@ as password login or claim device trust was applied.
 ## Compiled quickstart
 
 ```swift
+import MMGTCore
 import MMGTAuth
+import MMGTAI
 
 func signInWithPassword(session: AuthSession, email: String, password: String) async throws
   -> LoginResult
@@ -120,6 +122,15 @@ func signInWithPassword(session: AuthSession, email: String, password: String) a
   try await session.authenticate { client in
     try await client.login(input: .init(email: email, password: password))
   }
+}
+
+func guestAITransport(auth: ServiceConfiguration, ai: ServiceConfiguration, localProfileID: String)
+  async throws -> (GuestSession, AIClient)
+{
+  let guest = try GuestSession(configuration: auth, profileID: localProfileID)
+  let client = AIClient(configuration: ai, tokenProvider: await guest.tokenProvider)
+  // Creating these objects does not create an Auth user or contact the network.
+  return (guest, client)
 }
 ```
 <!-- end-compiled-quickstart -->

@@ -64,7 +64,7 @@ public actor SyncClient: ApplicationLifecycleParticipant {
     let http = http
     let grantProvider = grantProvider
     let task = Task {
-      var headers: [String: String] = [:]
+      var headers: [String: String] = ["X-Sync-User-ID": self.identity.userID]
       if !scope.workspaceIDs.isEmpty {
         guard let grant = try await grantProvider?(scope), !grant.isEmpty else {
           throw MMGTError.unauthenticated
@@ -207,7 +207,26 @@ public actor SyncClient: ApplicationLifecycleParticipant {
     else { throw SyncStoreError.staleFeed }
     return try await sync(scope: scope, maxPages: maxPages, limit: limit)
   }
-  public func sync(scope: SyncScope = try! SyncScope(), maxPages: Int = 100, limit: Int = 500)
+  /// A fresh authoritative view for import planning, preserving pending delivery and issues.
+  public func refreshSnapshot(
+    scope: SyncScope = try! SyncScope(), maxPages: Int = 100, limit: Int = 500
+  )
+    async throws -> SyncRunResult
+  {
+    try check()
+    let store = try localStore()
+    let state = try await store.feed(identity: identity, scope: scope)
+    guard
+      try await store.resetFeed(
+        identity: identity, scope: scope,
+        expectedRevision: state.revision, reconcile: false)
+    else { throw SyncStoreError.staleFeed }
+    return try await sync(scope: scope, maxPages: maxPages, limit: limit, pullOnly: true)
+  }
+  public func sync(
+    scope: SyncScope = try! SyncScope(), maxPages: Int = 100, limit: Int = 500,
+    pullOnly: Bool = false
+  )
     async throws -> SyncRunResult
   {
     try check()
@@ -218,7 +237,8 @@ public actor SyncClient: ApplicationLifecycleParticipant {
     let id = UUID()
     let expected = generation
     let task = Task {
-      try await self.run(scope: scope, maxPages: maxPages, limit: limit, expected: expected)
+      try await self.run(
+        scope: scope, maxPages: maxPages, limit: limit, expected: expected, pullOnly: pullOnly)
     }
     runTask = (id, task)
     defer { if runTask?.id == id { runTask = nil } }
@@ -284,7 +304,8 @@ public actor SyncClient: ApplicationLifecycleParticipant {
     result.hasMore = true
     return false
   }
-  private func run(scope: SyncScope, maxPages: Int, limit: Int, expected: UUID) async throws
+  private func run(scope: SyncScope, maxPages: Int, limit: Int, expected: UUID, pullOnly: Bool)
+    async throws
     -> SyncRunResult
   {
     var result = SyncRunResult()
@@ -295,6 +316,7 @@ public actor SyncClient: ApplicationLifecycleParticipant {
         scope: scope, maxPages: maxPages, limit: limit, expected: expected, pages: &pages,
         result: &result)
     else { return result }
+    if pullOnly { return result }
     let pending = try await store.outbox(identity: identity).filter {
       scope.contains(collection: $0.mutation.collection, workspaceID: $0.mutation.workspaceId)
     }

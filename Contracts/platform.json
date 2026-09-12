@@ -3155,11 +3155,12 @@
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3174,11 +3175,12 @@
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3187,17 +3189,18 @@
       "swift": "GuestSession.snapshots()",
       "serverVerified": false,
       "tests": [
-        "Tests/MMGTTests/GuestSessionTests.swift#offlineConstructionAndSummaryDoNotContactAuth"
+        "Tests/MMGTTests/GuestSessionTests.swift#snapshotSequencePublishesAccessAndFinishesOnCloseWithoutNetworkRetry"
       ],
       "kind": "native-adaptation",
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3214,11 +3217,12 @@
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3233,11 +3237,12 @@
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "auth",
@@ -3252,11 +3257,12 @@
       "implementation": "mapped",
       "notes": "New guest candidate. Shared fixtures and local working-tree checks do not establish device or deployed acceptance.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3264,16 +3270,19 @@
       "paths": [],
       "swift": "LocalReplica.snapshot",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3281,16 +3290,19 @@
       "paths": [],
       "swift": "LocalReplica.get",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3298,16 +3310,19 @@
       "paths": [],
       "swift": "LocalReplica.list",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3315,16 +3330,20 @@
       "paths": [],
       "swift": "LocalReplica.transaction",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#callbackFailureAndRealSQLFailureRollbackAllRecordsAndJournal",
+        "Tests/MMGTTests/ReplicaDeliveryTests.swift#RealSQLiteFullRollsBackJournalAndQueue"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3332,16 +3351,19 @@
       "paths": [],
       "swift": "LocalReplica.upsert",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3349,16 +3371,19 @@
       "paths": [],
       "swift": "LocalReplica.delete",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#offlineCRUDTransactionsRestartAndExplicitIdentityIsolation"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3366,16 +3391,19 @@
       "paths": [],
       "swift": "LocalReplica.changes",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#concurrentConnectionsUseCASAndObservationSeesExternalCommits"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3383,16 +3411,19 @@
       "paths": [],
       "swift": "LocalReplica.connect",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#GuestCannotConnectAndOrdinaryBootstrapMustConfirmExactAccount"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3400,16 +3431,20 @@
       "paths": [],
       "swift": "LocalReplica.synchronize",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaDeliveryTests.swift#PartialRecordChainReturnsHasMoreUntilNextConfirmedCAS",
+        "Tests/MMGTTests/ReplicaDeliveryTests.swift#GuestImportThenLostPushAndRestartConvergesOnAnotherDevice"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3417,16 +3452,19 @@
       "paths": [],
       "swift": "LocalReplica.resolveIssue",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#RejectionKeepsMaterializedEditsAndExplicitResolutionReplacesWholeChain"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3434,16 +3472,19 @@
       "paths": [],
       "swift": "LocalReplica.prepareImport",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#ImportFreshSnapshotDoesNotPushExistingQueueAndConsentIsMandatory"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3451,16 +3492,20 @@
       "paths": [],
       "swift": "LocalReplica.approveImport",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#AtomicImportRetainsOnlyCopyAndOneAccountAcrossRestartAndPartialCommit",
+        "Tests/MMGTTests/ReplicaTests.swift#ImportDependencyCycleAndSQLFailureRollbackSourceTargetAndPlan"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3468,16 +3513,19 @@
       "paths": [],
       "swift": "LocalReplica.importProgress",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaTests.swift#AtomicImportRetainsOnlyCopyAndOneAccountAcrossRestartAndPartialCommit"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     },
     {
       "service": "sync",
@@ -3485,16 +3533,19 @@
       "paths": [],
       "swift": "LocalReplica.close",
       "serverVerified": false,
-      "tests": [],
+      "tests": [
+        "Tests/MMGTTests/ReplicaDeliveryTests.swift#LogoutWhileBootstrapIgnoresCancellationCannotAttachNewSession"
+      ],
       "kind": "native-adaptation",
-      "implementation": "pending",
-      "notes": "TypeScript working candidate exists; Swift LocalReplica/SQLite implementation and parity are pending.",
+      "implementation": "mapped",
+      "notes": "Swift actor and SQLite v3 implemented; simulator candidate tests passed. Public web/Swift interoperability and full release acceptance remain pending.",
       "acceptance": {
-        "local": "pending",
+        "local": "passed",
         "stage": "pending",
         "production": "pending",
         "device": "pending"
-      }
+      },
+      "localEvidence": ".artifacts/tests-20260912T191024Z/report.json"
     }
   ],
   "platformDirty": false,

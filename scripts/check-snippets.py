@@ -14,7 +14,7 @@ snippets = re.findall(r"// snippet: (MMGT\w+)\n(.*?)// end-snippet", source, re.
 assert len(snippets) == 8 and len({x[0] for x in snippets}) == 8
 imports = {
     "MMGTCore": ["Foundation", "MMGTCore"],
-    "MMGTAuth": ["MMGTAuth"],
+    "MMGTAuth": ["MMGTCore", "MMGTAuth", "MMGTAI"],
     "MMGTBilling": ["MMGTCore", "MMGTAuth", "MMGTBilling"],
     "MMGTRealtime": ["MMGTRealtime"],
     "MMGTSync": ["Foundation", "MMGTSync"],
