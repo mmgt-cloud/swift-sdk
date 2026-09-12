@@ -184,6 +184,35 @@ import Testing
     #expect(model.isGuest && model.rows.isEmpty)
     await model.activityChanged(.background)
   }
+  @Test func oversizedFinalOrStreamCannotBeTruncatedIntoACompletedReply() async throws {
+    for terminal in [true, false] {
+      let directory = try folder()
+      defer { try? FileManager.default.removeItem(at: directory) }
+      let oversized = String(repeating: "😀", count: 20_001)
+      var response = WebSocketTests().response()
+      response.text = oversized
+      let ending: JSONValue =
+        terminal
+        ? ["type": "response.completed", "response": try .encoding(response)]
+        : ["type": "output.text.delta", "delta": .string(oversized)]
+      let socket = TestSocket([
+        ["type": "authenticated"], ["type": "output.text.delta", "delta": "Saved prefix"], ending,
+      ])
+      let (model, _) = try model(directory, socket: socket)
+      try await model.restoreLocal()
+      try await model.loadModels()
+      model.ask("Synthetic oversized response", model: try #require(model.models.first))
+      try await wait { !model.runningAI }
+      let messages = try await #require(model.domain).replica.list(
+        collection: "personal_chat_messages")
+      let reply = try #require(messages.first { $0.data?["role"] == "assistant" })
+      #expect(reply.data?["status"] == "interrupted")
+      #expect(reply.data?["text"] == "Saved prefix")
+      #expect(model.error != nil)
+      #expect(await socket.sent.filter { $0["type"] == "start" }.count == 1)
+      await model.activityChanged(.background)
+    }
+  }
   @Test func streamingToolNeedsConfirmationAndCancellationPersistsAnIncompleteReply() async throws {
     let directory = try folder()
     defer { try? FileManager.default.removeItem(at: directory) }

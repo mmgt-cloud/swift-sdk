@@ -397,7 +397,10 @@ import UniformTypeIdentifiers
             }), maxIterations: 8,
           onEvent: { [weak self] event in try await self?.receive(event, expected: expected) })
         try check(expected)
-        let final = String((result.text ?? streamingText).prefix(40_000))
+        let final = result.text ?? streamingText
+        guard final.utf16.count <= 40_000 else {
+          throw MMGTError.invalidResponse("The reply exceeds the local history size limit")
+        }
         try await current.replica.upsert(
           collection: "personal_chat_messages", id: replyID,
           data: Self.chatEntry(role: "assistant", text: final, status: "completed", date: now))

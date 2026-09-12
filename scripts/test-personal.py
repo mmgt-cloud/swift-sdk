@@ -35,7 +35,7 @@ if exit_code == 0:
     summary = json.loads(subprocess.check_output(['xcrun', 'xcresulttool', 'get', 'test-results', 'summary',
                                                  '--path', str(folder / 'tests.xcresult'), '--compact'], text=True))
     counts = {key: summary.get(key) for key in ('totalTestCount', 'passedTests', 'failedTests', 'skippedTests')}
-    if counts != dict(totalTestCount=6, passedTests=6, failedTests=0, skippedTests=0):
+    if counts != dict(totalTestCount=7, passedTests=7, failedTests=0, skippedTests=0):
         exit_code = 1
 report = dict(schemaVersion=1, testCounts=counts, startedAt=stamp, destination=args.destination,
               sourceCommit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
