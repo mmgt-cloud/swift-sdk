@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Verify explicit snapshot recovery of equal-version server payloads after restart,
+  preserving outbox and rejecting older overlapping feeds. Document recovery from
+  the server null-field materialization defect; SQLite already supports the repair.
+
 - Accept a trailing empty fragment on native account callbacks returned by the
   system browser. Continue rejecting fragment data, wrong targets or state,
   duplicate/extra query parameters and malformed codes.

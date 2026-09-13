@@ -6,6 +6,60 @@ import MMGTSyncSQLite
 import Testing
 
 @Suite(.timeLimit(.minutes(1))) struct SyncSnapshotOrderingTests {
+  @Test func correctedSnapshotRepairsEqualVersionAfterRestartAndPreservesOutbox() async throws {
+    let helpers = SyncStoreTests()
+    let file = helpers.path()
+    defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+    let identity = try AccountIdentity(configuration: helpers.configuration(), userID: "user-a")
+    let notes = try SyncScope(collections: ["notes"])
+    let all = try SyncScope()
+    let store = try SQLiteSyncStore(fileURL: file)
+    let old = helpers.change("2")
+    let corrected = SyncChange(
+      sequence: "2", collection: "notes", recordId: "note-a", op: "upsert", version: "2",
+      data: ["text": "server", "listId": .null, "nested": ["value": .null]],
+      userId: "user-a", createdAt: old.createdAt)
+    try await helpers.seed(store, identity, notes, [old], watermark: "3")
+    try await store.addOutbox(identity: identity, entries: [helpers.entry()])
+    let pending = try await store.outbox(identity: identity)
+    let before = try await store.feed(identity: identity, scope: notes)
+    #expect(
+      try await store.resetFeed(
+        identity: identity, scope: notes, expectedRevision: before.revision, reconcile: false))
+    let start = try await store.feed(identity: identity, scope: notes)
+    #expect(
+      try await store.commitSnapshotPage(
+        identity: identity, scope: notes, expectedRevision: start.revision,
+        page: .init(
+          records: [corrected], watermark: "3", nextPage: "last", hasMore: true,
+          expiresAt: "2030-01-01T00:00:00Z")))
+    #expect(
+      try await store.record(identity: identity, collection: "notes", id: "note-a")?.data
+        == old.data)
+    let restarted = try SQLiteSyncStore(fileURL: file)
+    let progress = try await restarted.feed(identity: identity, scope: notes)
+    #expect(
+      try await restarted.commitSnapshotPage(
+        identity: identity, scope: notes, expectedRevision: progress.revision,
+        page: .init(
+          records: [], watermark: "3", cursor: "repaired", hasMore: false,
+          expiresAt: "2030-01-01T00:00:00Z")))
+    #expect(
+      try await restarted.record(identity: identity, collection: "notes", id: "note-a")?.data
+        == corrected.data)
+    #expect(try await restarted.outbox(identity: identity) == pending)
+    try await helpers.seed(restarted, identity, all, [old], watermark: "2")
+    let late = try await restarted.feed(identity: identity, scope: all)
+    #expect(
+      try await restarted.commitPage(
+        identity: identity, scope: all, expectedRevision: late.revision,
+        page: .init(changes: [old], nextCursor: "late-pull", hasMore: false)))
+    #expect(
+      try await restarted.record(identity: identity, collection: "notes", id: "note-a")?.data
+        == corrected.data)
+    #expect(try await restarted.outbox(identity: identity) == pending)
+  }
+
   @Test func failedSnapshotCommitRollsBackRecordsFloorAndCursorTogether() async throws {
     let helpers = SyncStoreTests()
     let file = SyncStoreTests().path()

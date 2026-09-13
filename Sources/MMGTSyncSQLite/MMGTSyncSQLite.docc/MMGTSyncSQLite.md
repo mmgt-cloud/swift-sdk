@@ -8,6 +8,15 @@ The database keeps account/environment partitions, scoped cursors, records, stag
 
 Concurrent store instances compare feed revisions before committing. Completed snapshots retain a scope watermark that fences older overlapping pulls and snapshots, including records that were never present locally. The floor, records and final cursor commit atomically. Record versions cannot move backwards. Mutations move atomically between pending and issue state; resolving an attempted mutation creates a new mutation identity.
 
+Explicit `SyncClient.refreshSnapshot` can also repair previously cached server-derived
+payloads at the same record version. For example, older server snapshots omitted
+explicit JSON null fields. After the server correction, close older clients and
+refresh the original authenticated account/scope. Snapshot replacement preserves
+pending work and the import journal; reconcile existing intentions against the
+restored state. It does not execute AI or repeat account adoption. Older snapshot
+watermarks still cannot replace newer state. Do not erase the local database or
+the retained guest partition as a cache repair.
+
 The database file is excluded from device backup. Deleting the app or the file loses its unsent local changes. Sign-out itself does not erase another account's outbox. The application owns any deliberate data removal/export policy.
 
 <!-- compiled-quickstart -->
