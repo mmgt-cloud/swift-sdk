@@ -9,8 +9,16 @@ retry, partial mutations, socket retirement and recovery. SDK tests run without
 private-repository access or provider credentials. Live stage and production
 acceptance uses dedicated test accounts and separate, ignored configuration.
 
-Run the local test, compiler, example and DocC commands in the README. For a
-physical device, generate the example project and use its application-hosted
+Since 2026-09-14, targeted verification is the default for changes and fixes,
+both locally and on stage and production. Select the relevant test, compiler,
+example or DocC commands from the README and include regressions for affected
+consumers. Run the full platform test matrix only when explicitly requested or
+agreed; a new commit or fix does not automatically require it. Verify a deployed
+fix on stage before promoting it and repeat the relevant smoke on production.
+Record the tested commit, environment, scope and results; previous full-matrix
+results remain dated evidence, not a fresh run for the new change.
+
+For a physical device, generate the example project and use its application-hosted
 `MMGTDeviceTests` target. Plain SPM tool-hosted tests cannot run on an iPhone.
 Select your own signing team, registered Bundle ID and explicit device destination.
 The separate [live-service suite](Examples/MMGTExample/LiveTests/README.md) uses

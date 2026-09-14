@@ -1,6 +1,6 @@
 # ``MMGTAuth``
 
-[Guest AI sessions](GuestAI) are a separate development-candidate capability; they do not create a user account.
+[Guest AI sessions](GuestAI) are separate from user-account sessions and do not create a user account.
 
 Public entry operations are scoped to the configured application. Registration
 returns a message, not a session. Email-code and magic-link verification can
