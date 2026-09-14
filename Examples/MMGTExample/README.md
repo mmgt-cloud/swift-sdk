@@ -27,8 +27,10 @@ xcodebuild build \
 
 For native browser sign-in and passkeys, choose your signing team and registered
 Bundle ID in Xcode. Add the `webcredentials:` and `applinks:` Associated Domains
-for the exact RP/callback host, and obtain operator approval for the matching
-Team ID/Bundle ID/callback registration. Downloading SDK source alone does not
+for the exact RP/callback host, and save the matching Team ID/Bundle ID/callback
+registration in Panel after step-up. Owner-managed platform registration activates
+valid saves without global administrator approval; older platform versions may
+still require an operator to activate pending registrations. Downloading SDK source alone does not
 establish domain trust. Passkeys and Universal Links require device acceptance.
 
 The example saves notes to a durable outbox before network transmission. The
@@ -67,7 +69,7 @@ The separate [native acceptance target](NativeTests/README.md) verifies actual
 passkeys and the system-browser HTTPS callback on a signed iPhone. Its runner
 sets `MMGT_EXAMPLE_ENTITLEMENTS` for the example host only and checks the signed
 domains. Ordinary builds leave that setting empty. Native acceptance requires
-explicit fixture ownership, operator-reviewed AASA and interaction on the phone.
+explicit fixture ownership, active registration published in AASA and interaction on the phone.
 
 The separate [account acceptance target](AccountsTests/README.md) exercises
 sessions, TOTP, recovery codes, password changes and deletion against a disposable

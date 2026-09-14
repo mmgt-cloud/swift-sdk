@@ -8,8 +8,11 @@ simulator execution cannot qualify.
 Use a fresh disposable account with no passkeys in one application. Register the
 public OIDC client in Panel with the signing Team ID, Bundle ID
 `cloud.mmgt.sdkexample`, existing RP domain and exact `/native/…` HTTPS callback.
-The operator must approve that registration. Test stage before production. Do not
-change the RP ID of existing accounts or grant an unreviewed app shared-domain trust.
+Save with the application owner's step-up confirmation. Owner-managed platform
+registration requires no global administrator approval; verify the client is
+active and AASA contains the signed identity and exact callback. Older platform
+versions may still need operator activation for a pending registration. Test
+stage before production. Do not change the RP ID of existing accounts.
 
 Build from a clean SDK checkout before creating any authentication fixture:
 
