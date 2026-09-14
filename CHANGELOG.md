@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Add an offline guest profile and `LocalReplica` with transactional CRUD,
+  collection observation and a durable local journal. Guest data remains separate
+  from account data and never starts network synchronization.
+- Add `GuestSession` for lazy, opt-in AI access, isolated Keychain credentials,
+  renewal recovery and revocation. Guest credentials cannot authenticate to Sync,
+  Billing or Realtime; the application must handle current server policy limits.
+- Add resumable guest-to-account import with a persisted preview, explicit consent
+  for existing account data, stable record/mutation IDs and application-controlled
+  collision/dependency resolution. SQLite migration preserves pending mutations
+  and conflicts; account changes fence delayed network and tool results.
+- Extend the SwiftUI example with personal lists, tasks and notes, an assistant
+  using the same local operations as the UI, and web/Swift interoperability.
+  The integrating application still owns tool validation, confirmation and chat
+  history. AI requires a network connection and transmits supplied prompts,
+  tool results and temporary attachments to the configured service/provider.
+
 - Verify explicit snapshot recovery of equal-version server payloads after restart,
   preserving outbox and rejecting older overlapping feeds. Document recovery from
   the server null-field materialization defect; SQLite already supports the repair.
@@ -25,7 +41,8 @@
   `start`; count tool rounds independently of the final generation. Validate
   complete call lists before effects, retain per-run deduplication and reject
   late results after cancellation/account changes. Add HTTP/file and shared
-  wire-contract tests. The corresponding server state correction requires rollout.
+  wire-contract tests. The corresponding server state correction is included in
+  the compatible platform candidate documented in the acceptance status.
 
 
 - Correct live-test Realtime grant preflight for the server's two-part signed
@@ -59,7 +76,8 @@
 - SwiftUI example, synthetic cross-language fixtures, DocC, privacy manifests and
   local simulator, compiler, documentation and application-hosted device runners.
 
-No tag or stable release is published. Native Auth needs the corresponding
-platform migration and environment/device acceptance. Existing experimental
-Keychain entries without an activation fence require sign-in again. Token exchange
-and account-operation failures must follow the documented reconciliation rules.
+No stable tag is published yet; production acceptance remains in progress as
+described in [the implementation status](docs/implementation-status.md). Existing
+experimental Keychain entries without an activation fence require sign-in again.
+Token exchange and account-operation failures must follow the documented
+reconciliation rules.

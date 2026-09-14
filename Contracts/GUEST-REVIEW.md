@@ -81,7 +81,7 @@ updated by the Email attempt. Their Go integration tests cover both behaviors.
 Ordinary Auth, native OIDC/passkey and Realtime boundaries retain their existing
 contracts; adding guest routes does not authorize guests to enter those flows.
 
-## Executed local evidence and pending release
+## Historical implementation evidence — 12 September
 
 The platform Go normal/race and type/build tests passed before the documentation
 inventory stopped the implementation quality attempt at `09bcaff`. That is a
@@ -95,3 +95,14 @@ eight products on arm64 and x86_64 using the explicit installed iOS 26.5 SDK via
 SwiftPM. These source/minimum-runtime checks remain distinct. Final clean-commit
 receipts, the physical iPhone, public services, actual ZIPs and publication are
 still required before stable release.
+
+## Current acceptance
+
+The preceding implementation evidence retains its original date and candidate;
+it does not describe the final release status. The accepted runtime candidate
+`1881f3b` adds the explicit equal-version snapshot recovery regression, bringing
+the package suite to 159 tests. It also passed the hosted Keychain and seven
+personal-example tests on iOS 26.0 and 27, all eight products with Swift 6.2, and
+167 package/Keychain/personal tests on the physical iPhone. Full stage acceptance
+passed; production acceptance and stable publication are tracked separately in
+[implementation and acceptance](../docs/implementation-status.md).

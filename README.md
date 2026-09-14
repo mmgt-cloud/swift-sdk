@@ -19,10 +19,10 @@ stage/production acceptance. See [implementation status](docs/implementation-sta
 | Product | Purpose |
 | --- | --- |
 | `MMGTCore` | HTTP/WebSocket transports, configuration, JSON and lifecycle protocols |
-| `MMGTAuth` | User endpoints, session ownership, Keychain and native authentication |
+| `MMGTAuth` | User endpoints, session ownership, Keychain, native authentication and separate AI guest sessions |
 | `MMGTBilling` | Existing Stripe-based platform billing API |
 | `MMGTRealtime` | Authenticated WebSocket channels and confirmed replay cursors |
-| `MMGTSync` | Scoped feeds, mutations, recovery and local store protocol |
+| `MMGTSync` | Offline local replicas, recoverable account import, scoped feeds and mutations |
 | `MMGTSyncSQLite` | Transactional SQLite persistence using GRDB |
 | `MMGTAI` | Explicit model/connection selection, responses, streams and tools |
 | `MMGTSwiftUI` | Application lifecycle integration, without packaged screens |
@@ -98,25 +98,36 @@ quickstarts identical to compiled example sources.
 
 ## Guest/offline development candidate
 
-The current branch adds technical AI GuestSession access separately from ordinary
-AuthSession. Construction remains offline, Keychain persists an independent
-renewal credential, and the AI token provider starts online access only when used.
-See [Guest AI](Sources/MMGTAuth/MMGTAuth.docc/GuestAI.md). LocalReplica/SQLite and
-full example integration are still being implemented; no stable release containing
-this feature is claimed. The contract matrix marks new operations separately from
-the 143 historical reviews.
+`LocalReplica` provides local CRUD, multi-record transactions and collection
+observation without an account, token or bootstrap request. Its SQLite journal
+survives process restarts. Data is partitioned by environment, application and
+an explicit guest or account identity. The SwiftUI personal workspace uses these
+same operations from both its interface and its example AI tools.
+
+Technical AI `GuestSession` access is separate from ordinary `AuthSession`.
+Construction remains offline, Keychain persists an independent renewal credential,
+and the AI token provider starts online access only when used. Guest AI must be
+explicitly enabled with positive limits and selected models in Panel. AI requires
+internet and sends supplied prompts, tool results and attachments to the selected
+service/provider even while data synchronization is disabled. See
+[Guest AI](Sources/MMGTAuth/MMGTAuth.docc/GuestAI.md).
+
+After complete account authentication, prepare and approve a durable import.
+Existing account data requires consent; collisions and collection dependencies
+remain application decisions. Import retains the guest copy and original delivery
+IDs, and can resume after a restart. Logging out keeps the old account's queue
+separate from guest data. See [local data and import](Sources/MMGTSync/MMGTSync.docc/LocalData.md)
+and the compiled SQLite quickstart. The original `SyncLocalStore` interface
+remains source compatible; local replicas use its extended protocol.
 
 The local `scripts/test.py --destination 'platform=iOS Simulator,id=…'` runner now
 also runs `scripts/test-keychain.py` in an application host. Its one real Keychain
 CAS test must execute without failures or skips. Physical iPhone, minimum iOS 26,
 Swift 6.2 and actual environment/provider acceptance remain separate gates.
 
-The guest candidate also includes `LocalReplica` in MMGTSync and SQLite v3 in
-MMGTSyncSQLite: account-free local CRUD/transactions, observation, a materialized
-outbox view and durable account adoption. See the `Local data without an account`
-DocC article and compiled SQLite quickstart. The original SyncLocalStore remains
-source compatible. This implementation has local simulator evidence; it has not
-yet passed the combined web/Swift, stage, production or guest device release gates.
+The contract matrix distinguishes the guest operations from the 143 historical
+reviews. Current release acceptance is tracked in the implementation-status
+document; source implementation alone does not establish an environment gate.
 
 The local DocC gate requires a diagnostics file and zero warnings/errors for each
 of the eight MMGT products. Dependency documentation diagnostics are retained

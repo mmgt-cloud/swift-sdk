@@ -1,8 +1,5 @@
 # Technical guest sessions
 
-Development candidate: GuestSession is implemented, with local iOS 27 checks.
-Physical-device and stage/prod acceptance and publication remain pending.
-
 A local guest profile is application data. It starts offline and is independent
 of the technical session used to call AI. ``GuestSession`` never creates an
 ordinary Auth user, membership or role. It cannot open Sync, Billing or Realtime.

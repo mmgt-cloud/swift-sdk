@@ -115,7 +115,7 @@ IDs survive restart. Guest source data stays retained after the atomic local tra
 A rejected or conflicted mutation stays visible for explicit reconciliation.
 
 `scripts/test.py` now also runs `scripts/test-personal.py` in the compiled example host,
-with synthetic transport and real SQLite. It requires six executed tests, no skips,
+with synthetic transport and real SQLite. It requires seven executed tests, no skips,
 and writes a separate report. The ordinary package suite and real hosted Keychain
 check remain separate required checks. iPhone, providers, two-device synchronization,
 minimum OS/compiler and stage/prod acceptance are additional gates.
