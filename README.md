@@ -3,9 +3,10 @@
 Native Swift clients for MMGT Cloud Auth, Billing, Realtime, Sync and AI. Actors own sessions and connections;
 observable state models integrate with SwiftUI without supplying screens.
 
-**Under development. No stable release has been published.** The first stable
-release requires the completed native authorization flow, device testing and
-stage/production acceptance. See [implementation status](docs/implementation-status.md).
+Version 1.0.0 provides all five service clients, native authentication and
+offline guest data with controlled AI access. The accepted runtime and its local,
+device, stage and production evidence are described in
+[implementation status](docs/implementation-status.md).
 
 ## Requirements
 
@@ -32,9 +33,21 @@ application uses. AppAuth 3.x and GRDB 7.x are package dependencies; their types
 are not exposed by the MMGT interfaces. SPM may resolve dependencies even when
 their products are not linked into your application.
 
-There is no stable installation version yet. During development, open this
-checkout in Xcode or add it as a local package dependency. Release instructions
-will name an immutable version only after that version has been published.
+Add the public repository in Xcode under **File → Add Package Dependencies**,
+or use this Swift Package Manager dependency:
+
+```swift
+.package(
+    url: "https://github.com/mmgt-cloud/swift-sdk.git",
+    from: "1.0.0"
+)
+```
+
+Installation requires no GitHub token or access to the private platform repository.
+Tags are immutable; compatible fixes receive a new version.
+[Swift Package Index](https://swiftpackageindex.com/mmgt-cloud/swift-sdk) provides
+package discovery and versioned DocC hosting. Indexing has a separate acceptance
+check; direct Git installation does not depend on index availability.
 
 ## Security boundaries
 
@@ -96,7 +109,7 @@ quickstarts identical to compiled example sources.
 
 [MIT](LICENSE). Dependencies retain their respective licenses.
 
-## Guest/offline development candidate
+## Guest AI and offline data
 
 `LocalReplica` provides local CRUD, multi-record transactions and collection
 observation without an account, token or bootstrap request. Its SQLite journal

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.0 — 2026-09-14
 
 - Add an offline guest profile and `LocalReplica` with transactional CRUD,
   collection observation and a durable local journal. Guest data remains separate
@@ -76,8 +76,8 @@
 - SwiftUI example, synthetic cross-language fixtures, DocC, privacy manifests and
   local simulator, compiler, documentation and application-hosted device runners.
 
-No stable tag is published yet; production acceptance remains in progress as
-described in [the implementation status](docs/implementation-status.md). Existing
+The first stable release preserves the runtime accepted on stage and production,
+as described in [the implementation status](docs/implementation-status.md). Existing
 experimental Keychain entries without an activation fence require sign-in again.
 Token exchange and account-operation failures must follow the documented
 reconciliation rules.

@@ -103,6 +103,6 @@ it does not describe the final release status. The accepted runtime candidate
 `1881f3b` adds the explicit equal-version snapshot recovery regression, bringing
 the package suite to 159 tests. It also passed the hosted Keychain and seven
 personal-example tests on iOS 26.0 and 27, all eight products with Swift 6.2, and
-167 package/Keychain/personal tests on the physical iPhone. Full stage acceptance
-passed; production acceptance and stable publication are tracked separately in
+167 package/Keychain/personal tests on the physical iPhone. Full stage and production runtime acceptance
+passed; distribution and documentation checks remain distinct in
 [implementation and acceptance](../docs/implementation-status.md).

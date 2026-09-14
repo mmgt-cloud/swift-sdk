@@ -6,10 +6,12 @@ Updated 2026-09-14. The tested runtime candidate is
 163 reviewed operations are implemented. The matrix and 59 synthetic fixtures
 are described in [the contract review](../Contracts/GUEST-REVIEW.md).
 
-The complete stage gate passed on 2026-09-13 at 22:24 UTC. Production rollout
-completed at 22:51 UTC using the same backend image digests. Production acceptance
-is in progress; a successful rollout alone does not close it. No stable tag,
-GitHub Release or hosted release documentation has been published yet.
+The complete stage gate passed at `2026-09-13T22:24:13.358024+00:00` (57 checks); the complete
+production gate passed at `2026-09-14T03:08:42.493205+00:00` (58 checks). Production promoted the same
+backend image digests and its separately built frontend. Version 1.0.0 adds final
+documentation to the accepted SDK runtime; code, tests, fixtures, scripts, package
+manifest and lockfile retain the same Git objects. Distribution checks use the
+actual immutable release tag and are separate from these runtime measurements.
 
 | Scope | Evidence for the runtime candidate |
 | --- | --- |
@@ -17,8 +19,8 @@ GitHub Release or hosted release documentation has been published yet.
 | Minimum compiler | All eight products compiled with Swift 6.2 for arm64 and x86_64 Simulator; this is separate from the minimum-runtime test |
 | Physical iPhone | 167 package, Keychain and personal-example tests passed on iOS 27; live authentication and provider results are separate |
 | Stage | Complete 57-check platform/native/guest gate passed, including provider ceremonies, guest AI and web/Swift import, cleanup and 30 minutes of observation |
-| Production | Rollout, five live services, guest AI and web/Swift import, native passkeys, Google/Apple linking and reauthentication, OIDC/MFA, Universal Links, account lifecycle, AI files/tools/cancellation, Stripe TEST inbox, network isolation, SMTP receipt and the iOS ZIP passed; native email/Billing and final recovery/operational acceptance remain in progress |
-| Distribution | Anonymous installation of the exact development revision and eight local DocC archives passed; a stable tag and public hosted DocC remain pending |
+| Production | Rollout, five live services, guest AI and web/Swift import, native passkeys, Google/Apple linking and reauthentication, OIDC/MFA, Universal Links, account lifecycle, AI files/tools/cancellation, Stripe TEST inbox, network isolation, SMTP receipt and the iOS ZIP passed; the eleven-message native email lifecycle and Stripe TEST personal/workspace/add-on checkout scenarios also passed. Natural offsite application recovery on the healthy cluster, retention, owned cleanup and at least 30 continuous minutes of operational observation also passed |
+| Distribution | The immutable 1.0.0 public tag identifies the documentation release. Fresh DocC, anonymous versioned AllProducts/AuthOnly consumers and public hosting are independent distribution checks; they do not relabel the runtime tests |
 
 The approved simulator offline acceptance is sufficient for release. The separate
 optional physical offline scenario also passed on stage with the device radios
